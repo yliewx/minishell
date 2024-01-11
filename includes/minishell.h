@@ -34,7 +34,10 @@
 */
 typedef struct s_command
 {
-	char	**command; //char* or char**?
+	char	*token;
+	char	*command;
+	char	*flags;
+	char	*arg;
 	int	input_fd;
 	int	output_fd;
 	struct s_command	*next;
