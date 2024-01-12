@@ -24,9 +24,20 @@ int	main(int argc, char **argv, char **envp)
 	array_dup(&data, envp);
 	//testing
 	data.command_list = malloc(sizeof(t_command));
-	data.command_list->command = malloc(2 * sizeof(char));
-	data.command_list->command[0] = readline("Test command: ");
-	data.command_list->command[1] = readline("Test option: ");
+	data.command_list->data = &data;
+	data.command_list->command = readline("Test command: ");
+	data.command_list->flags = readline("Test flags: ");
+	if (ft_strlen(data.command_list->flags) == 0)
+	{
+		free(data.command_list->flags);
+		data.command_list->flags = NULL;
+	}
+	data.command_list->arg = readline("Test arg: ");
+	if (ft_strlen(data.command_list->arg) == 0)
+	{
+		free(data.command_list->arg);
+		data.command_list->arg = NULL;
+	}
 	if (data.command_list->command)
 	{
 		if (!check_builtin(&data, data.command_list))

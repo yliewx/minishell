@@ -14,7 +14,7 @@
 
 int	ft_exit(t_data *data, t_command *current)
 {
-	if (data->new_envp)
-		printf("command is %s\n", current->command[0]);
+	if (data)
+		printf("command is %s\n", current->command);
 	return (1);
 }

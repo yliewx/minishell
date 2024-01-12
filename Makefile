@@ -13,12 +13,14 @@ INC = -I ./includes -lreadline
 # minishell targets
 BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	ft_export.c ft_pwd.c ft_unset.c builtin_utils.c
+EXP = expander.c
 INIT = main.c
 UTILS = array_dup.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
+EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
-SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(UTILS_SRCS)
+SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS)
 
 # colours
 GREEN = \033[0;32m

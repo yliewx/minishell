@@ -12,9 +12,15 @@
 
 #include "minishell.h"
 
-int	ft_env(t_data *data, t_command *current)
+int	ft_env(t_data *data)
 {
-	if (data->new_envp)
-		printf("command is %s\n", current->command[0]);
+	int	i;
+
+	i = 0;
+	while (data->envp[i])
+	{
+		printf("%s\n", data->envp[i]);
+		i++;
+	}
 	return (1);
 }

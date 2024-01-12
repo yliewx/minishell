@@ -25,6 +25,13 @@
 # include <termios.h>
 # include <curses.h>
 
+/*text colour*/
+
+# define BROWN "\033[1;33m"
+# define RED "\033[1;31m"
+# define GREEN "\033[1;32m"
+# define RESET "\033[0m"
+
 // command table struct
 /* nodes for linked list
 - input/output fds
@@ -47,19 +54,22 @@ typedef struct s_command
 typedef struct s_data
 {
 	t_command	*command_list;
-	char	**new_envp;
+	char	**envp;
 }	t_data;
 
 /*builtins*/
 int	check_builtin(t_data *data, t_command *current);
-int	ft_echo(t_data *data, t_command *current);
+int	ft_echo(t_command *current);
 int	ft_cd(t_data *data, t_command *current);
 int	ft_pwd(t_data *data, t_command *current);
 int	ft_export(t_data *data, t_command *current);
 int	ft_unset(t_data *data, t_command *current);
-int	ft_env(t_data *data, t_command *current);
+int	ft_env(t_data *data);
 int	ft_exit(t_data *data, t_command *current);
 void	update_env(t_data *data, char *var, char *value);
+
+/*expander*/
+void	check_expand_variables(t_command *current, char *arg);
 
 /*utils*/
 void	array_dup(t_data *data, char **envp);

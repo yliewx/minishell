@@ -1,22 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   exit_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 17:30:05 by yliew             #+#    #+#             */
-/*   Updated: 2024/01/11 17:31:35 by yliew            ###   ########.fr       */
+/*   Created: 2023/10/07 18:05:30 by yliew             #+#    #+#             */
+/*   Updated: 2023/10/16 14:51:35 by yliew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+/*COPIED FROM PIPEX - TO BE UPDATED*/
 
-int	ft_echo(t_command *current)
+#include "pipex_bonus.h"
+
+void	perror_exit(char *message, int exit_code)
 {
-	printf("%s", current->arg);
-	if (current->flags && ft_strncmp(current->flags, "-n", 3) == 0)
-		return (1);
-	printf("\n");
-	return (1);
+	perror(message);
+	exit(exit_code);
+}
+
+void	check_exit_status(int child_exit_code)
+{
+	int	status;
+
+	if (WIFEXITED(child_exit_code))
+	{
+		status = WEXITSTATUS(child_exit_code);
+		if (status != 0)
+			exit(status);
+	}
+}
+
+void	close_pipes(int pipe1, int pipe2)
+{
+	close(pipe1);
+	close(pipe2);
 }

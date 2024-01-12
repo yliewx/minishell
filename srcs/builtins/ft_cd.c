@@ -16,7 +16,7 @@ int	ft_cd(t_data *data, t_command *current)
 {
 	char	*new_pwd;
 
-	printf("command is %s\n", current->command[0]);
+	printf("command is %s\n", current->command);
 	new_pwd = malloc(100 * sizeof(char));
 	chdir("/home/yliew");
 	getcwd(new_pwd, 100);

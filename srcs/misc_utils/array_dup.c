@@ -20,18 +20,12 @@ void	array_dup(t_data *data, char **envp)
 	size = 0;
 	while (envp[size])
 		size++;
-	data->new_envp = malloc((size + 1) * sizeof(char*));
+	data->envp = malloc((size + 1) * sizeof(char*));
 	i = 0;
 	while (i < size)
 	{
-		data->new_envp[i] = ft_strdup(envp[i]);
+		data->envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	data->new_envp[i] = NULL;
+	data->envp[i] = NULL;
 }
-	/*int	i = 0;
-	while (data.new_envp[i])
-	{
-		printf("%s\n", data.new_envp[i]);
-		i++;
-	}*/
