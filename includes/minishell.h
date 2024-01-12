@@ -51,10 +51,18 @@ typedef struct s_command
 	struct s_data		*data;
 }	t_command;
 
+typedef struct s_history
+{
+	char				*input;
+	struct s_history	*next;
+	struct	s_data		*data;
+}	t_history;
+
 typedef struct s_data
 {
 	t_command	*command_list;
-	char	**envp;
+	t_history	*history_list;
+	char		**envp;
 }	t_data;
 
 /*builtins*/
