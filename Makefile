@@ -21,7 +21,7 @@ BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
-LEXER_SRCS = $(addprefix srcs/lexer/, $(UTILS))
+LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS)
 
 # colours
