@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // Lexer main
-int	main(int argc, char **argv, char **envp)
+/*int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
@@ -27,4 +27,4 @@ int	main(int argc, char **argv, char **envp)
 	data.history_list = malloc(sizeof(t_history));
 	data.history_list->input = readline("Minishell:~$ ");
 	return (0);
-}
+}*/

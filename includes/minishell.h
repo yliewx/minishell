@@ -42,9 +42,10 @@
 typedef struct s_command
 {
 	char	*token;
-	char	*command;
+	char	**argv;
+	/*char	*command;
 	char	*flags;
-	char	*arg;
+	char	*arg;*/
 	int	input_fd;
 	int	output_fd;
 	struct s_command	*next;
@@ -63,23 +64,38 @@ typedef struct s_data
 	t_command	*command_list;
 	t_history	*history_list;
 	char		**envp;
+	int		envp_size;
 }	t_data;
+
+enum e_errortype
+{
+	EXPORT_OPTION,
+	EXPORT_IDENTIFIER,
+};
 
 /*builtins*/
 int	check_builtin(t_data *data, t_command *current);
 int	ft_echo(t_command *current);
-int	ft_cd(t_data *data, t_command *current);
-int	ft_pwd(t_data *data, t_command *current);
+int	ft_cd(t_data *data);
+int	ft_pwd(t_data *data);
 int	ft_export(t_data *data, t_command *current);
 int	ft_unset(t_data *data, t_command *current);
 int	ft_env(t_data *data);
 int	ft_exit(t_data *data, t_command *current);
-void	update_env(t_data *data, char *var, char *value);
+
+/*builtin_utils*/
+void	update_envp(t_data *data, char *var, char *value, char *command);
+int	search_envp_index(char **envp, char *var, int len);
+char	*extract_var_name(char *arg);
+int	export_error(char *arg, int error);
+void	remove_quotes(char **arg);
 
 /*expander*/
 void	check_expand_variables(t_command *current, char *arg);
 
 /*utils*/
 void	array_dup(t_data *data, char **envp);
+void	free_data(t_data *data);
+char	**ft_split_argv(char *arg);
 
 #endif

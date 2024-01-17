@@ -12,10 +12,11 @@ INC = -I ./includes -lreadline
 
 # minishell targets
 BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
-	ft_export.c ft_pwd.c ft_unset.c builtin_utils.c
+	ft_export.c ft_pwd.c ft_unset.c \
+	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c
 EXP = expander.c
 INIT = main.c main_avery.c
-UTILS = array_dup.c
+UTILS = array_dup.c ft_split_argv.c
 LEXER = lexer.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))

@@ -15,6 +15,6 @@
 int	ft_unset(t_data *data, t_command *current)
 {
 	if (data)
-		printf("command is %s\n", current->command);
+		printf("command is %s\n", current->argv[0]);
 	return (1);
 }

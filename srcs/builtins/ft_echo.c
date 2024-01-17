@@ -14,8 +14,17 @@
 
 int	ft_echo(t_command *current)
 {
-	printf("%s", current->arg);
-	if (current->flags && ft_strncmp(current->flags, "-n", 3) == 0)
+	int	i;
+
+	i = 1;
+	if (!current->argv[i])
+		printf("\n");
+	while (current->argv[i])
+	{
+		printf("%s", current->argv[i]);
+		i++;
+	}
+	if (current->argv[1] && ft_strncmp(current->argv[1], "-n", 3) == 0)
 		return (1);
 	printf("\n");
 	return (1);
