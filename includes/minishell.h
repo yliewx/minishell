@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
+# include "./lexer.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -42,9 +43,7 @@
 typedef struct s_command
 {
 	char	*token;
-	char	*command;
-	char	*flags;
-	char	*arg;
+	char	**command;
 	int	input_fd;
 	int	output_fd;
 	struct s_command	*next;
