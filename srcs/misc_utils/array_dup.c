@@ -15,14 +15,13 @@
 void	array_dup(t_data *data, char **envp)
 {
 	int	i;
-	int	size;
 
-	size = 0;
-	while (envp[size])
-		size++;
-	data->envp = malloc((size + 1) * sizeof(char*));
+	data->envp_size = 0;
+	while (envp[data->envp_size])
+		data->envp_size++;
+	data->envp = malloc((data->envp_size + 1) * sizeof(char*));
 	i = 0;
-	while (i < size)
+	while (i < data->envp_size)
 	{
 		data->envp[i] = ft_strdup(envp[i]);
 		i++;

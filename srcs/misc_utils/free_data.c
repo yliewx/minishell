@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 17:32:42 by yliew             #+#    #+#             */
-/*   Updated: 2024/01/11 17:32:50 by yliew            ###   ########.fr       */
+/*   Created: 2024/01/12 18:15:28 by yliew             #+#    #+#             */
+/*   Updated: 2024/01/12 18:15:37 by yliew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exit(t_data *data, t_command *current)
+void	free_data(t_data *data)
 {
-	if (data)
-		printf("command is %s\n", current->argv[0]);
-	return (1);
+	int	i;
+
+	free(data->command_list->flags);
+	free(data->command_list->arg);
+	free(data->command_list);
+	i = 0;
+	while (data->envp[i])
+		free(data->envp[i++]);
+	free(data->envp);
 }
+

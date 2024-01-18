@@ -16,13 +16,9 @@ char	*value_in_env(char **envp, char *var, int len)
 {
 	int	i;
 
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], var, len) == 0)
-			return (envp[i] + len + 1);
-		i++;
-	}
+	i = search_envp_index(envp, var, len);
+	if (i >= 0)
+		return (envp[i] + len + 1);
 	return (NULL);
 }
 
@@ -59,11 +55,8 @@ void	check_expand_variables(t_command *current, char *arg)
 	char	*var_start;
 	char	*var_name;
 	char	*value;
-	char	*temp;
 	int	var_len;
 
-	if (!arg)
-		return ;
 	var_start = ft_strchr(arg, '$');
 	if (!var_start)
 		return ;
@@ -77,10 +70,10 @@ void	check_expand_variables(t_command *current, char *arg)
 		free(var_name);
 		return ;
 	}
-	temp = current->arg;
 	arg = replace_with_value(arg, value, var_start - arg,
-		ft_strlen(current->arg) - var_len + ft_strlen(value));
-	free(temp);
-	current->arg = arg;
-	check_expand_variables(current, current->arg);
+		ft_strlen(current->argv[1]) - var_len + ft_strlen(value));
+	free(current->argv[1]);
+	free(var_name);
+	current->argv[1] = arg;
+	check_expand_variables(current, current->argv[1]);
 }
