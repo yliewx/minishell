@@ -35,7 +35,11 @@ typedef struct s_token
 	struct s_token *prev;
 }	t_token;
 
-t_token *create_node(char *content);
+t_token *ft_lexer(char *line);
+
+//lexer utils
+t_token *create_node(char *content, t_token_type type);
+t_token	*token_last(t_token *lst);
 void token_add_back(t_token **token_list, t_token *new);
 void print_token_list(t_token *token_list);
 
