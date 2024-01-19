@@ -18,12 +18,13 @@ void print_token_list(t_token *token_list)
 	while(token_list)
 	{
 		printf("%s\n", token_list->value);
+		printf("%i\n", token_list->type);
 		token_list = token_list->next;
 	}
 }
-s
+
 // Create node
-t_token *create_node(char *content)
+t_token *create_node(char *content, t_token_type type)
 {
 	t_token *node;
 
@@ -31,6 +32,7 @@ t_token *create_node(char *content)
 	if (!node)
 		return (NULL);
 	node->value = content;
+	node->type = type;
 	node->prev = NULL;
 	node->next = NULL;
 	return (node);
@@ -63,3 +65,4 @@ void token_add_back(t_token **token_list, t_token *new)
 	last->next = new;
 	new->prev = last;
 }
+
