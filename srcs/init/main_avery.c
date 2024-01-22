@@ -53,6 +53,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
+	//t_minishell minishell;
 
 	if (argc > 1 && argv)
 	{
@@ -64,5 +65,7 @@ int	main(int argc, char **argv, char **envp)
 	data.history_list = malloc(sizeof(t_history));
 	data.history_list->input = readline("Minishell:~$ ");
 	ft_lexer(data.history_list->input);
+	// minishell->tokens = ft_lexer(data.history_list->input);
+	// minishell->curr_token = minishell->tokens;
 	return (0);
 }

@@ -18,12 +18,14 @@ EXP = expander.c
 INIT = main.c main_avery.c
 UTILS = array_dup.c ft_split_argv.c
 LEXER = lexer.c lexer_utils.c
+PARSER = parser.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
-SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS)
+PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
+SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS) $(PARSER_SRCS)
 
 # colours
 GREEN = \033[0;32m
