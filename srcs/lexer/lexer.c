@@ -119,6 +119,6 @@ t_token *ft_lexer(char *line)
 		if (find_next_token(&token_list, line, &i) == -1)
 			break ;
 	}
-	//print_token_list(token_list);
+	print_token_list(token_list);
 	return (token_list);
 }
