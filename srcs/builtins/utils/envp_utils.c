@@ -30,18 +30,20 @@ int	resize_envp(t_data *data, int size, int remove_index)
 {
 	char	**old_envp;
 	int	i;
+	int	j;
 
 	old_envp = data->envp;
 	data->envp_size = size;
 	data->envp = malloc((size + 1) * sizeof(char*));
 	i = -1;
+	j = 0;
 	if (remove_index >= 0)
 	{
 		while (++i < size)
 		{
-			if (i == remove_index)
-				i++;
-			data->envp[i] = old_envp[i];
+			if (j == remove_index)
+				j++;
+			data->envp[i] = old_envp[j++];
 		}
 		free(old_envp[remove_index]);
 	}
@@ -53,22 +55,6 @@ int	resize_envp(t_data *data, int size, int remove_index)
 	data->envp[i] = NULL;
 	free(old_envp);
 	return (i);
-}
-
-char	*extract_var_name(char *arg)
-{
-	char	*var_name;
-	int		i;
-
-	i = 0;
-	if (!ft_strchr(arg, '='))
-		return (arg);
-	while (arg[i] && arg[i] != '=')
-		i++;
-	if (arg[i] == '=')
-		i++;
-	var_name = ft_substr(arg, 0, i);
-	return (var_name);
 }
 
 void	update_envp(t_data *data, char *var, char *value, char *command)

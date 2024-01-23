@@ -14,7 +14,22 @@
 
 int	ft_unset(t_data *data, t_command *current)
 {
-	if (data)
-		printf("command is %s\n", current->argv[0]);
+	char	*var_name;
+	char	*temp;
+	int		i;
+
+	if (!current->argv[1])
+		return (1);
+	i = 1;
+	while (current->argv[i])
+	{
+		remove_quotes(&current->argv[i]);
+		temp = extract_var_name(current->argv[i]);
+		var_name = ft_strjoin(temp, "=");
+		free(temp);
+		update_envp(data, var_name, current->argv[i], "unset");
+		free(var_name);
+		i++;
+	}
 	return (1);
 }

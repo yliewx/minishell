@@ -13,19 +13,22 @@ INC = -I ./includes -lreadline
 # minishell targets
 BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	ft_export.c ft_pwd.c ft_unset.c \
-	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c
+	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c \
+	utils/var_name.c
 EXP = expander.c
+EXEC = executor.c
 INIT = main.c main_avery.c
-UTILS = array_dup.c ft_split_argv.c
+UTILS = envp_dup.c ft_split_argv.c
 LEXER = lexer.c lexer_utils.c
 PARSER = parser.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
+EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
-SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS) $(PARSER_SRCS)
+SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS)
 
 # colours
 GREEN = \033[0;32m

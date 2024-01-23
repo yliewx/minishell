@@ -29,7 +29,7 @@ int	check_builtin(t_data *data, t_command *current)
 	else if (ft_strncmp(current->argv[0], "env", 4) == 0)
 		return (ft_env(data));
 	else if (ft_strncmp(current->argv[0], "exit", 5) == 0)
-		return (ft_exit(data, current));
+		return (ft_exit(data));
 	else
 		return (0);
 }
