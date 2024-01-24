@@ -26,6 +26,7 @@
 # include <curses.h>
 # include "./lexer.h"
 # include "./parser.h"
+# include "./builtins.h"
 
 /*text colour*/
 
@@ -83,23 +84,6 @@ enum e_errortype
 	EXPORT_OPTION,
 	EXPORT_IDENTIFIER,
 };
-
-/*builtins*/
-int	check_builtin(t_data *data, t_command *current);
-int	ft_echo(t_command *current);
-int	ft_cd(t_data *data);
-int	ft_pwd(t_data *data);
-int	ft_export(t_data *data, t_command *current);
-int	ft_unset(t_data *data, t_command *current);
-int	ft_env(t_data *data);
-int	ft_exit(t_data *data, t_command *current);
-
-/*builtin_utils*/
-void	update_envp(t_data *data, char *var, char *value, char *command);
-int		search_envp_index(char **envp, char *var, int len);
-char	*extract_var_name(char *arg);
-int		export_error(char *arg, int error);
-void	remove_quotes(char **arg);
 
 /*expander*/
 void	check_expand_variables(t_command *current, char *arg);
