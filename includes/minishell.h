@@ -14,8 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
-# include "./parser.h"
-# include "./builtins.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -56,13 +54,6 @@ typedef struct s_command
 	struct s_data		*data;
 }	t_command;
 
-typedef struct s_history
-{
-	char				*input;
-	struct s_history	*next;
-	struct	s_data		*data;
-}	t_history;
-
 typedef struct s_minishell
 {
 	t_node *ast;
@@ -72,11 +63,17 @@ typedef struct s_minishell
 	int exit_status;
 }	t_minishell;
 
+typedef struct s_history
+{
+	char				*input;
+	struct s_history	*next;
+	struct	s_data		*data;
+}	t_history;
+
 typedef struct s_data
 {
 	t_command	*command_list;
 	t_history	*history_list;
-	t_node		*ast;
 	char		**envp;
 	int		envp_size;
 }	t_data;
@@ -87,12 +84,28 @@ enum e_errortype
 	EXPORT_IDENTIFIER,
 };
 
+/*builtins*/
+int	check_builtin(t_data *data, t_command *current);
+int	ft_echo(t_command *current);
+int	ft_cd(t_data *data);
+int	ft_pwd(t_data *data);
+int	ft_export(t_data *data, t_command *current);
+int	ft_unset(t_data *data, t_command *current);
+int	ft_env(t_data *data);
+int	ft_exit(t_data *data, t_command *current);
+
+/*builtin_utils*/
+void	update_envp(t_data *data, char *var, char *value, char *command);
+int		search_envp_index(char **envp, char *var, int len);
+char	*extract_var_name(char *arg);
+int		export_error(char *arg, int error);
+void	remove_quotes(char **arg);
+
 /*expander*/
 void	check_expand_variables(t_command *current, char *arg);
 
 /*utils*/
 void	array_dup(t_data *data, char **envp);
-void	sort_envp(t_data *data);
 void	free_data(t_data *data);
 char	**ft_split_argv(char *arg);
 int		get_substr_len(char *arg, int delimiter, int i);
