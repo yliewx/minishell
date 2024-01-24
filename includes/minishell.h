@@ -62,6 +62,15 @@ typedef struct s_history
 	struct	s_data		*data;
 }	t_history;
 
+typedef struct s_minishell
+{
+	t_node *ast;
+	t_token *tokens;
+	t_token *curr_token;
+	int parse_err;
+	int exit_status;
+}	t_minishell;
+
 typedef struct s_data
 {
 	t_command	*command_list;
