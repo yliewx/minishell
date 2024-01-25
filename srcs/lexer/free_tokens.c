@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   free_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agan <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 19:18:08 by agan              #+#    #+#             */
-/*   Updated: 2024/01/11 19:18:09 by agan             ###   ########.fr       */
+/*   Created: 2024/01/25 16:42:55 by agan              #+#    #+#             */
+/*   Updated: 2024/01/25 16:42:55 by agan             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *ft_lexer(char *line)
+// Free tokens list and malloc'ed string
+void ft_free_token_list(t_token **lst)
 {
-	t_token *token_list;
-	int i;
+	t_token *tmp;
+	t_token *next;
 
-	i = 0;
-	token_list = NULL;
-	while (line[i])
+	tmp = *lst;
+	if (!tmp)
+		return ;
+	while (tmp)
 	{
-		skip_spaces(line, &i);
-		if (find_next_token(&token_list, line, &i) == -1)
-			break ;
+		next = tmp->next;
+		if (tmp->value)
+			free(tmp->value);
+		free(tmp);
+		tmp = next;
 	}
-	//print_token_list(token_list);
-	return (token_list);
+	*lst = NULL;
 }

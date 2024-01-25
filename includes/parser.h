@@ -34,8 +34,29 @@ typedef struct s_node
     struct s_node *right;
 } t_node;
 
+// Parser main
 t_node *ft_parser(t_minishell *minishell);
 t_node *ft_expression(t_minishell *minishell, int min_prec);
+
+// Parser utils
+int is_binop(t_token *token);
+int is_redir(t_minishell *minishell);
 int get_token_prec(t_token *token);
+t_token *lookahead(t_minishell *minishell);
+
+// Parser helper functions
+void set_parse_err(int parse_err, t_minishell *minishell);
+void ft_next_token(t_minishell *minishell);
+t_node *ft_cmd(t_minishell *minishell);
+t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node *right);
+
+// Node functions
+t_node *ft_new_node(char *cmd, t_token_type type);
+t_io_node *new_io_node(t_minishell *minishell, t_io_node **list);
+
+// Free ast functions
+void ft_free_io_list(t_io_node **list);
+void free_ast_nodes(t_node *node);
+void free_ast(t_minishell *minishell);
 
 #endif
