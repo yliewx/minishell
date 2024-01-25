@@ -50,29 +50,28 @@ t_token **create_symbol(t_token **token_list, t_token_type sym_type, int *i)
 t_token **create_sym_token(t_token **token_list, char *line, int *i)
 {
 	if (!ft_strncmp(line + *i, "|", 1))
-		create_symbol(token_list, T_PIPE, i);
+		return (create_symbol(token_list, T_PIPE, i));
 	else if (!ft_strncmp(line + *i, "||", 2))
-		create_symbol(token_list, T_OR, i);
+		return (create_symbol(token_list, T_OR, i));
 	else if (!ft_strncmp(line + *i, "<<", 2))
-		create_symbol(token_list, T_APPEND, i);
+		return (create_symbol(token_list, T_APPEND, i));
 	else if (!ft_strncmp(line + *i, ">>", 2))
-		create_symbol(token_list, T_HEREDOC, i);
+		return (create_symbol(token_list, T_HEREDOC, i));
 	else if (!ft_strncmp(line + *i, "&&", 2))
-		create_symbol(token_list, T_AND, i);
+		return (create_symbol(token_list, T_AND, i));
 	else if (!ft_strncmp(line + *i, "<", 1))
-		create_symbol(token_list, T_REDIR_L, i);
+		return (create_symbol(token_list, T_REDIR_L, i));
 	else if (!ft_strncmp(line + *i, ">", 1))
-		create_symbol(token_list, T_REDIR_R, i);
+		return (create_symbol(token_list, T_REDIR_R, i));
 	else if (!ft_strncmp(line + *i, "(", 1))
-		create_symbol(token_list, T_OPEN, i);
+		return (create_symbol(token_list, T_OPEN, i));
 	else if (!ft_strncmp(line + *i, ")", 1))
-		create_symbol(token_list, T_CLOSE, i);
+		return (create_symbol(token_list, T_CLOSE, i));
 	else
 	{
 		write(2, "invalid syntax\n", 15);
 		return (NULL);
 	}
-	return (token_list);
 }
 
 int find_next_token(t_token **token_list, char *line, int *i)
@@ -87,11 +86,10 @@ int find_next_token(t_token **token_list, char *line, int *i)
 		(*i)++;
 	}
 	if (is_symbol(line[*i]) && j == 0)
-	{
 		if (!create_sym_token(token_list, line, i))
 			return (-1);
-	}
 	else
-		create_str_token(token_list, line, *i, j);
+		if (!create_str_token(token_list, line, *i, j))
+            return (-1);
 	return (*i);
 }

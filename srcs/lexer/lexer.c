@@ -23,7 +23,10 @@ t_token *ft_lexer(char *line)
 	{
 		skip_spaces(line, &i);
 		if (find_next_token(&token_list, line, &i) == -1)
+		{
+			ft_free_token_list(token_list);
 			break ;
+		}
 	}
 	//print_token_list(token_list);
 	return (token_list);
