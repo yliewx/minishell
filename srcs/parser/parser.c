@@ -12,7 +12,48 @@
 
 #include "minishell.h"
 
+void ft_free_io_list(t_io_node **list)
+{
+    t_io_node *curr;
+    t_io_node *next;
+
+    curr = *list;
+    if (!curr)
+        return ;
+    while (curr)
+    {
+        next = curr->next;
+        free(curr->value);
+        free(curr);
+        curr = next;
+    }
+    *list = NULL;
+}
+
+void free_ast_nodes(t_node *node)
+{
+    if (!node)
+        return ;
+    if (node->left)
+        free_ast_nodes(node->left);
+    if (node->right)
+        free_ast_nodes(node->right) 
+    if (node->value)
+        free(node->value);
+    if (node->io_list)
+        ft_free_io_list;
+    free(node);
+}
+
 // Functions to free ast
+void free_ast(t_minishell *minishell)
+{
+    if (minishell->ast)
+    {
+        free_ast_nodes(minishell->ast);
+        minishell->ast = NULL;
+    }
+}
 
 // Error handling
 
