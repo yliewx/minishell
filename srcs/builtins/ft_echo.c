@@ -21,7 +21,13 @@ int	ft_echo(t_command *current)
 		printf("\n");
 	while (current->argv[i])
 	{
-		printf("%s", current->argv[i]);
+		remove_quotes(&current->argv[i]);
+		if (ft_strlen(current->argv[i]) > 0)
+		{
+			printf("%s", current->argv[i]);
+			if (current->argv[i + 1])
+				printf(" ");
+		}
 		i++;
 	}
 	if (current->argv[1] && ft_strncmp(current->argv[1], "-n", 3) == 0)

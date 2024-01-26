@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   array_dup.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 16:51:03 by yliew             #+#    #+#             */
-/*   Updated: 2024/01/11 16:51:04 by yliew            ###   ########.fr       */
+/*   Created: 2024/01/24 18:25:45 by yliew             #+#    #+#             */
+/*   Updated: 2024/01/24 18:25:51 by yliew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	array_dup(t_data *data, char **envp)
+/*possible cases to handle:
+- heredoc interruption?
+- sigint when command is in the middle of executing?*/
+void	sigint_handler(int signum)
 {
-	int	i;
+	(void)signum;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	data->envp_size = 0;
-	while (envp[data->envp_size])
-		data->envp_size++;
-	data->envp = malloc((data->envp_size + 1) * sizeof(char*));
-	i = 0;
-	while (i < data->envp_size)
-	{
-		data->envp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	data->envp[i] = NULL;
+void	init_signals(t_data *data)
+{
+	if (data)
+		signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

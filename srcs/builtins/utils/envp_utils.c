@@ -69,7 +69,7 @@ void	update_envp(t_data *data, char *var, char *value, char *command)
 		else
 		{
 			free(data->envp[i]);
-			data->envp[i] = value;
+			data->envp[i] = ft_strdup(value);
 		}
 	}
 	else
@@ -77,7 +77,7 @@ void	update_envp(t_data *data, char *var, char *value, char *command)
 		if (ft_strncmp(command, "export", 7) == 0)
 		{
 			i = resize_envp(data, data->envp_size + 1, -1);
-			data->envp[i] = value;
+			data->envp[i] = ft_strdup(value);
 			data->envp[i + 1] = NULL;
 		}
 	}

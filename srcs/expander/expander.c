@@ -12,68 +12,64 @@
 
 #include "minishell.h"
 
-char	*value_in_env(char **envp, char *var, int len)
-{
-	int	i;
-
-	i = search_envp_index(envp, var, len);
-	if (i >= 0)
-		return (envp[i] + len + 1);
-	return (NULL);
-}
-
-bool	is_varname(int c)
-{
-	return (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		|| c == '_');
-}
-
-char	*replace_with_value(char *arg, char *value, int start, int total_len)
+void	expand_exit_status(t_command *current, char **arg, int start)
 {
 	char	*new_str;
-	int	i;
-	int	j;
+	char	*value;
 
-	new_str = malloc((total_len + 1) * sizeof(char));
-	i = -1;
-	while (++i < start)
-		new_str[i] = arg[i];
-	start++;
-	while (arg[start] && is_varname(arg[start]))
-		start++;
-	j = 0;
-	while (value[j])
-		new_str[i++] = value[j++];
-	while (i < total_len)
-		new_str[i++] = arg[start++];
-	new_str[i] = '\0';
-	return (new_str);
+	value = ft_itoa(current->data->minishell->exit_status);
+	new_str = replace_with_value(*arg, value, start,
+		ft_strlen(*arg) - 2 + ft_strlen(value));
+	free(value);
+	free(*arg);
+	*arg = new_str;
 }
 
-void	check_expand_variables(t_command *current, char *arg)
+void	expand_var_value(t_command *current, char **arg, char *var_start)
 {
-	char	*var_start;
+	char	*new_str;
 	char	*var_name;
 	char	*value;
-	int	var_len;
+	int		var_len;
 
-	var_start = ft_strchr(arg, '$');
-	if (!var_start)
-		return ;
 	var_len = 1;
 	while (var_start[var_len] && is_varname(var_start[var_len]))
 		var_len++;
 	var_name = ft_substr(var_start, 0, var_len);
 	value = value_in_env(current->data->envp, var_name + 1, var_len - 1);
-	if (!value)
-	{
-		free(var_name);
-		return ;
-	}
-	arg = replace_with_value(arg, value, var_start - arg,
-		ft_strlen(current->argv[1]) - var_len + ft_strlen(value));
-	free(current->argv[1]);
+	new_str = replace_with_value(*arg, value, var_start - *arg,
+		ft_strlen(*arg) - var_len + ft_strlen(value));
+	if (ft_strlen(value) == 0)
+		free(value);
 	free(var_name);
-	current->argv[1] = arg;
-	check_expand_variables(current, current->argv[1]);
+	free(*arg);
+	*arg = new_str;
+}
+
+void	check_expandable_vars(t_command *current, char **arg)
+{
+	char	*var_start;
+
+	var_start = ft_strchr(*arg, '$');
+	if (!var_start || !var_start[1]
+		|| (var_start && is_in_quote(var_start, *arg, '\'')))
+		return ;
+	if (var_start[1] == '?')
+		expand_exit_status(current, arg, var_start - *arg);
+	else if (var_start[1] != ' ')
+			expand_var_value(current, arg, var_start);
+	check_expandable_vars(current, arg);
+}
+
+void	expand_argv(t_command *current)
+{
+	int		i;
+
+	i = 1;
+	while (current->argv[i])
+	{
+		check_expandable_vars(current, &current->argv[i]);
+		check_wildcard(current, &current->argv[i]);
+		i++;
+	}
 }

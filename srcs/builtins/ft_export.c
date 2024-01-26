@@ -25,7 +25,7 @@ int	print_export(t_data *data)
 	int		i;
 
 	i = 0;
-	sort_envp(data);
+	sort_envp(data->envp, 0, data->envp_size - 1);
 	while (data->envp[i])
 	{
 		var_name = extract_var_name(data->envp[i]);
@@ -40,7 +40,7 @@ int	print_export(t_data *data)
 	return (1);
 }
 
-int	check_valid_arg(char *arg, char *var_name)
+static int	check_valid_arg(char *arg, char *var_name)
 {
 	int	i;
 
@@ -63,6 +63,7 @@ int	check_valid_arg(char *arg, char *var_name)
 int	ft_export(t_data *data, t_command *current)
 {
 	char	*var_name;
+	//char	*temp;
 	int		i;
 
 	if (!current->argv[1])
@@ -72,6 +73,7 @@ int	ft_export(t_data *data, t_command *current)
 	{
 		remove_quotes(&current->argv[i]);
 		var_name = extract_var_name(current->argv[i]);
+		printf("extracted var_name: %s\n", var_name);
 		if (check_valid_arg(current->argv[i], var_name))
 			update_envp(data, var_name, current->argv[i], "export");
 		free(var_name);

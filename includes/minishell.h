@@ -27,6 +27,7 @@
 # include "./lexer.h"
 # include "./parser.h"
 # include "./builtins.h"
+# include "./expander.h"
 
 /*text colour*/
 
@@ -77,21 +78,18 @@ typedef struct s_data
 	t_history	*history_list;
 	char		**envp;
 	int		envp_size;
+	t_minishell	*minishell;
 }	t_data;
-
-enum e_errortype
-{
-	EXPORT_OPTION,
-	EXPORT_IDENTIFIER,
-};
 
 /*expander*/
 void	check_expand_variables(t_command *current, char *arg);
 
 /*utils*/
 void	array_dup(t_data *data, char **envp);
+void	sort_envp(char **envp, int start, int end);
 void	free_data(t_data *data);
 char	**ft_split_argv(char *arg);
-int		get_substr_len(char *arg, int delimiter, int i);
+bool	is_quote(int c);
+void	init_signals(t_data *data);
 
 #endif
