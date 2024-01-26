@@ -24,7 +24,9 @@ void set_parse_err(int parse_err, t_minishell *minishell)
 void ft_next_token(t_minishell *minishell)
 {
     if (minishell->curr_token)
+    {
         minishell->curr_token = minishell->curr_token->next;
+    }
 }
 
 // get_cmd
@@ -59,8 +61,10 @@ t_node *ft_cmd(t_minishell *minishell)
     {
         if (minishell->curr_token->type == T_STRING)
         {
+            //printf("ft_cmd: current token is %s\n", minishell->curr_token->value);
             node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type);
             ft_next_token(minishell);
+            //printf("ft_cmd after: current token is %s\n", minishell->curr_token->value);
         }
         while (minishell->curr_token && is_redir(minishell))
             new_io_node(minishell, &(node->io_list));

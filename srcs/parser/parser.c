@@ -38,7 +38,7 @@ t_node *ft_expression(t_minishell *minishell, int min_prec)
         if (!right)
             return (left);
         left = ft_combine(minishell, op, left, right);
-        // printf("left being returned is %s\n", left->value);
+        // printf("left being returned is %s type %d\n", left->value, left->type);
         // printf("left node is %s\n", left->left->value);
         // printf("right node is %s\n", left->right->value);
         if (!left)
@@ -54,7 +54,9 @@ t_node *ft_expression(t_minishell *minishell, int min_prec)
 t_node *ft_parser(t_minishell *minishell)
 {
     if (minishell->curr_token)
+    {
         minishell->ast = ft_expression(minishell, 0);
+    }
     if (minishell->curr_token)
         set_parse_err(1, minishell);
     return (minishell->ast);
