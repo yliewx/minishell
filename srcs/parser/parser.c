@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// Error handling
-
 // Print tree
 
 // parse_expression(min_prec)
@@ -38,11 +36,11 @@ t_node *ft_expression(t_minishell *minishell, int min_prec)
         ft_next_token(minishell);
         right = ft_expression(minishell, get_token_prec(minishell->curr_token) + 1);
         if (!right)
-            return (NULL);
+            return (left);
         left = ft_combine(minishell, op, left, right);
-        printf("left being returned is %s\n", left->value);
-        printf("left node is %s\n", left->left->value);
-        printf("right node is %s\n", left->right->value);
+        // printf("left being returned is %s\n", left->value);
+        // printf("left node is %s\n", left->left->value);
+        // printf("right node is %s\n", left->right->value);
         if (!left)
             return (NULL);
     }
@@ -57,5 +55,7 @@ t_node *ft_parser(t_minishell *minishell)
 {
     if (minishell->curr_token)
         minishell->ast = ft_expression(minishell, 0);
+    if (minishell->curr_token)
+        set_parse_err(1, minishell);
     return (minishell->ast);
 }

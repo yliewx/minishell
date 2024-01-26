@@ -61,8 +61,6 @@ t_node *ft_cmd(t_minishell *minishell)
         {
             node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type);
             ft_next_token(minishell);
-            if (!node)
-                return (NULL);
         }
         while (minishell->curr_token && is_redir(minishell))
             new_io_node(minishell, &(node->io_list));
@@ -76,7 +74,7 @@ t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node
 
     binop = ft_new_node(NULL, op);
     if (!binop)
-        set_parse_err(1, minishell);
+        return (set_parse_err(1, minishell), NULL);
     binop->left = left;
     binop->right = right;
     return (binop);

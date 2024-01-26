@@ -37,20 +37,20 @@ void free_ast_nodes(t_node *node)
     if (node->left)
         free_ast_nodes(node->left);
     if (node->right)
-        free_ast_nodes(node->right) 
+        free_ast_nodes(node->right);
     if (node->value)
         free(node->value);
     if (node->io_list)
-        ft_free_io_list;
+        ft_free_io_list(&node->io_list);
     free(node);
 }
 
 // Functions to free ast
-void free_ast(t_minishell *minishell)
+void free_ast(t_node **ast)
 {
-    if (minishell->ast)
+    if (*ast)
     {
-        free_ast_nodes(minishell->ast);
-        minishell->ast = NULL;
+        free_ast_nodes(*ast);
+        *ast = NULL;
     }
 }

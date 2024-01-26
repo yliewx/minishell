@@ -86,10 +86,14 @@ int find_next_token(t_token **token_list, char *line, int *i)
 		(*i)++;
 	}
 	if (is_symbol(line[*i]) && j == 0)
+	{
 		if (!create_sym_token(token_list, line, i))
 			return (-1);
+	}
 	else
+	{
 		if (!create_str_token(token_list, line, *i, j))
-            return (-1);
+			return (-1);
+	}
 	return (*i);
 }

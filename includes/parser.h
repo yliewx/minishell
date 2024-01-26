@@ -57,6 +57,6 @@ t_io_node *new_io_node(t_minishell *minishell, t_io_node **list);
 // Free ast functions
 void ft_free_io_list(t_io_node **list);
 void free_ast_nodes(t_node *node);
-void free_ast(t_minishell *minishell);
+void free_ast(t_node **ast);
 
 #endif
