@@ -36,26 +36,24 @@ int is_binop_node(t_node *node)
     // When simple cmd found -> 
         // Exec and set status
 
-t_node *traverse_tree(t_node *ast, t_minishell *minishell)
+t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minishell)
 {
-    if (minishell->heredoc == 1)
-        // Run heredoc
-        continue;
     if (is_binop_node(ast))
     {
-        traverse_tree(ast->left);
+        traverse_tree(ast->left, ast->type, minishell);
         // Check condition
+        //if (WIFEXITED(minishell->status))
             // traverse_tree(ast->right);
     }
-    // split
     ast->expanded_arg = ft_split_argv(ast->value);
     // expand expanded_arg
-    if (is_builtin())
-    {
-        // Exec builtin
-    }
-    else if (is_simple_cmd())
-    {
-        // Exec simple cmd
-    }
+    if (!check_builtin(minishell, ast))
+        exec_simple_cmd(ast, ast->expanded_args, parent_type, minishell);
+}
+
+t_node *ft_exec(t_minishell *minishell)
+{
+    if (minishell->here == 1)
+        continue;
+    traverse_tree(minishell->ast, minishell->ast->type, minishell);
 }
