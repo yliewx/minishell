@@ -46,9 +46,9 @@ t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minish
             // traverse_tree(ast->right);
     }
     get_expanded_arg(ast);
-    // expand expanded_arg
     if (!check_builtin(minishell, ast) && parent_type)
         exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell);
+    return (ast);
 }
 
 t_node *ft_exec(t_minishell *minishell)
@@ -56,4 +56,5 @@ t_node *ft_exec(t_minishell *minishell)
     //if (minishell->here == 1)
     //    continue;
     traverse_tree(minishell->ast, minishell->ast->type, minishell);
+    return (minishell->ast);
 }

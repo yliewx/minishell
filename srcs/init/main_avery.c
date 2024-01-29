@@ -52,21 +52,21 @@
 // Lexer main
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
 	t_minishell minishell;
+	char *command;
 
 	if (argc > 1 && argv)
 	{
 		ft_putstr_fd("Program does not accept arguments.\n", 2);
 		return (0);
 	}
-	array_dup(&data, envp);
+	array_dup(&minishell, envp);
 	//testing
-	data.history_list = malloc(sizeof(t_history));
-	data.history_list->input = readline("Minishell:~$ ");
-	ft_lexer(data.history_list->input);
-	minishell.tokens = ft_lexer(data.history_list->input);
+	command = readline("Minishell:~$ ");
+	minishell.env_path = get_env_path(envp);
+	minishell.tokens = ft_lexer(command);
 	minishell.curr_token = minishell.tokens;
 	ft_parser(&minishell);
+	ft_exec(&minishell);
 	return (0);
 }

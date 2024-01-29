@@ -16,7 +16,7 @@ BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c \
 	utils/var_name.c
 EXP = expander.c wildcard.c expander_utils.c readdir_utils.c
-EXEC = exec.c
+EXEC = exec.c exec_utils.c
 INIT = main.c main_avery.c
 UTILS = envp_dup.c envp_sort.c ft_split_argv.c signals.c free_data.c
 LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c

@@ -15,6 +15,7 @@
 
 # include "../libft/includes/libft.h"
 # include <stdio.h>
+# include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
@@ -24,10 +25,12 @@
 # include <dirent.h>
 # include <termios.h>
 # include <curses.h>
+# include <fcntl.h>
 # include "./lexer.h"
 # include "./parser.h"
 # include "./builtins.h"
 # include "./expander.h"
+# include "./exec.h"
 
 /*text colour*/
 
@@ -65,7 +68,7 @@ typedef struct s_minishell
 	char	**env_path;
 	int		envp_size;
 	int 	here_doc[2];
-	int 	parse_err;
+	int 	minishell_err;
 	int 	exit_status;
 }	t_minishell;
 
@@ -75,6 +78,17 @@ typedef struct s_history
 	struct s_history	*next;
 	struct	s_data		*data;
 }	t_history;
+
+enum e_minishell_err
+{
+	SYNTAX_ERR,
+	MEM_ERR,
+	OPEN_ERR,
+	DUP2_ERR,
+	PIPE_ERR,
+	FORK_ERR,
+	EXEC_ERR
+};
 
 /*utils*/
 void	array_dup(t_minishell *minishell, char **envp);

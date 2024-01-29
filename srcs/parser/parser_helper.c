@@ -17,7 +17,7 @@
 // parse_err 2 = mem alloc err
 void set_parse_err(int parse_err, t_minishell *minishell)
 {
-    minishell->parse_err = parse_err;
+    minishell->minishell_err = parse_err;
 }
 
 // Move to next token
@@ -48,13 +48,13 @@ t_node *ft_cmd(t_minishell *minishell)
     else if (minishell->curr_token->type == T_OPEN)
     {
         if (!lookahead(minishell))
-            return (set_parse_err(2, minishell), NULL);
+            return (set_parse_err(MEM_ERR, minishell), NULL);
         ft_next_token(minishell);
         node = ft_expression(minishell, 0);
         if (!node)
-            return (set_parse_err(2, minishell), NULL);
+            return (set_parse_err(MEM_ERR, minishell), NULL);
         if (!minishell->curr_token || minishell->curr_token->type != T_CLOSE)
-            return (set_parse_err(1, minishell), NULL);
+            return (set_parse_err(SYNTAX_ERR, minishell), NULL);
         ft_next_token(minishell);
     }
     else
@@ -78,7 +78,7 @@ t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node
 
     binop = ft_new_node(NULL, op, minishell);
     if (!binop)
-        return (set_parse_err(1, minishell), NULL);
+        return (set_parse_err(SYNTAX_ERR, minishell), NULL);
     binop->left = left;
     binop->right = right;
     return (binop);
