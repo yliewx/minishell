@@ -24,7 +24,7 @@ typedef struct s_entry
 }	t_entry;
 
 /*expander*/
-void	expand_argv(t_node *node);
+void	get_expanded_arg(t_node *node);
 void    check_wildcard(t_node *node, char **arg);
 
 /*utils*/

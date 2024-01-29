@@ -14,8 +14,6 @@
 
 int	check_builtin(t_minishell *minishell, t_node *node)
 {
-	if (node->expanded_arg[1])
-		expand_argv(node);
 	if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)
 		return (ft_echo(node));
 	else if (ft_strncmp(node->expanded_arg[0], "cd", 3) == 0)

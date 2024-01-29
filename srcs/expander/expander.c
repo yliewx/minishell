@@ -61,15 +61,12 @@ void	check_expandable_vars(t_node *node, char **arg)
 	check_expandable_vars(node, arg);
 }
 
-void	expand_argv(t_node *node)
+void	get_expanded_arg(t_node *node)
 {
-	int		i;
-
-	i = 1;
-	while (node->expanded_arg[i])
+	if (node->value)
 	{
-		check_expandable_vars(node, &node->expanded_arg[i]);
-		check_wildcard(node, &node->expanded_arg[i]);
-		i++;
+		check_expandable_vars(node, &node->value);
+		check_wildcard(node, &node->value);
+		node->expanded_arg = ft_split_argv(node->value);
 	}
 }

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_minishell(t_minishell *minishell)
+void	free_data(t_minishell *minishell)
 {
 	int	i;
 
