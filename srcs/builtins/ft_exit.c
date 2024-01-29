@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-//add in proper free_data function after the structs are finalised
-int	ft_exit(t_data *data)
+//add in proper free_minishell function after the structs are finalised
+int	ft_exit(t_minishell *minishell)
 {
 	printf("exit\n");
-	free(data->command_list);
+	free_data(minishell);
 	exit(1);
 	return (1);
 }

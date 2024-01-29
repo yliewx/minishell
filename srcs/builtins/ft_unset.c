@@ -26,20 +26,20 @@ static int	check_valid_arg(char *arg, char *var_name)
 	return (1);
 }
 
-int	ft_unset(t_data *data, t_command *current)
+int	ft_unset(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;
 	int		i;
 
-	if (!current->argv[1])
+	if (!node->expanded_arg[1])
 		return (1);
 	i = 1;
-	while (current->argv[i])
+	while (node->expanded_arg[i])
 	{
-		remove_quotes(&current->argv[i]);
-		var_name = extract_var_name(current->argv[i]);
-		if (check_valid_arg(current->argv[i], var_name))
-			update_envp(data, var_name, current->argv[i], "unset");
+		remove_quotes(&node->expanded_arg[i]);
+		var_name = extract_var_name(node->expanded_arg[i]);
+		if (check_valid_arg(node->expanded_arg[i], var_name))
+			update_envp(minishell, var_name, node->expanded_arg[i], "unset");
 		free(var_name);
 		i++;
 	}

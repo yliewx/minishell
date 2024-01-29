@@ -19,20 +19,20 @@ but export "testvar= 123" succeeds
 - no need to handle unclosed quotes
 - multiple arguments: each argument is stored as a separate variable
 - if 1 argument fails, export moves on to the next arg*/
-int	print_export(t_data *data)
+int	print_export(t_minishell *minishell)
 {
 	char	*var_name;
 	int		i;
 
 	i = 0;
-	sort_envp(data->envp, 0, data->envp_size - 1);
-	while (data->envp[i])
+	sort_envp(minishell->envp, 0, minishell->envp_size - 1);
+	while (minishell->envp[i])
 	{
-		var_name = extract_var_name(data->envp[i]);
+		var_name = extract_var_name(minishell->envp[i]);
 		if (ft_strncmp(var_name, "_=", 3) != 0)
 		{
 			printf("declare -x %s\"%s\"\n", var_name,
-				after_equal_sign(data->envp[i]));
+				after_equal_sign(minishell->envp[i]));
 		}
 		free(var_name);
 		i++;
@@ -60,22 +60,22 @@ static int	check_valid_arg(char *arg, char *var_name)
 	return (1);
 }
 
-int	ft_export(t_data *data, t_command *current)
+int	ft_export(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;
 	//char	*temp;
 	int		i;
 
-	if (!current->argv[1])
-		return (print_export(data));
+	if (!node->expanded_arg[1])
+		return (print_export(minishell));
 	i = 1;
-	while (current->argv[i])
+	while (node->expanded_arg[i])
 	{
-		remove_quotes(&current->argv[i]);
-		var_name = extract_var_name(current->argv[i]);
+		remove_quotes(&node->expanded_arg[i]);
+		var_name = extract_var_name(node->expanded_arg[i]);
 		printf("extracted var_name: %s\n", var_name);
-		if (check_valid_arg(current->argv[i], var_name))
-			update_envp(data, var_name, current->argv[i], "export");
+		if (check_valid_arg(node->expanded_arg[i], var_name))
+			update_envp(minishell, var_name, node->expanded_arg[i], "export");
 		free(var_name);
 		i++;
 	}

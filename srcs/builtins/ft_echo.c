@@ -12,25 +12,25 @@
 
 #include "minishell.h"
 
-int	ft_echo(t_command *current)
+int	ft_echo(t_node *node)
 {
 	int	i;
 
 	i = 1;
-	if (!current->argv[i])
+	if (!node->expanded_arg[i])
 		printf("\n");
-	while (current->argv[i])
+	while (node->expanded_arg[i])
 	{
-		remove_quotes(&current->argv[i]);
-		if (ft_strlen(current->argv[i]) > 0)
+		remove_quotes(&node->expanded_arg[i]);
+		if (ft_strlen(node->expanded_arg[i]) > 0)
 		{
-			printf("%s", current->argv[i]);
-			if (current->argv[i + 1])
+			printf("%s", node->expanded_arg[i]);
+			if (node->expanded_arg[i + 1])
 				printf(" ");
 		}
 		i++;
 	}
-	if (current->argv[1] && ft_strncmp(current->argv[1], "-n", 3) == 0)
+	if (node->expanded_arg[1] && ft_strncmp(node->expanded_arg[1], "-n", 3) == 0)
 		return (1);
 	printf("\n");
 	return (1);

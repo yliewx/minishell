@@ -12,24 +12,24 @@
 
 #include "minishell.h"
 
-int	check_builtin(t_data *data, t_command *current)
+int	check_builtin(t_minishell *minishell, t_node *node)
 {
-	if (current->argv[1])
-		expand_argv(current);
-	if (data && ft_strncmp(current->argv[0], "echo", 5) == 0)
-		return (ft_echo(current));
-	else if (ft_strncmp(current->argv[0], "cd", 3) == 0)
-		return (ft_cd(data, current));
-	else if (ft_strncmp(current->argv[0], "pwd", 4) == 0)
-		return (ft_pwd(data));
-	else if (ft_strncmp(current->argv[0], "export", 7) == 0)
-		return (ft_export(data, current));
-	else if (ft_strncmp(current->argv[0], "unset", 6) == 0)
-		return (ft_unset(data, current));
-	else if (ft_strncmp(current->argv[0], "env", 4) == 0)
-		return (ft_env(data));
-	else if (ft_strncmp(current->argv[0], "exit", 5) == 0)
-		return (ft_exit(data));
+	if (node->expanded_arg[1])
+		expand_argv(node);
+	if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)
+		return (ft_echo(node));
+	else if (ft_strncmp(node->expanded_arg[0], "cd", 3) == 0)
+		return (ft_cd(minishell, node));
+	else if (ft_strncmp(node->expanded_arg[0], "pwd", 4) == 0)
+		return (ft_pwd(minishell));
+	else if (ft_strncmp(node->expanded_arg[0], "export", 7) == 0)
+		return (ft_export(minishell, node));
+	else if (ft_strncmp(node->expanded_arg[0], "unset", 6) == 0)
+		return (ft_unset(minishell, node));
+	else if (ft_strncmp(node->expanded_arg[0], "env", 4) == 0)
+		return (ft_env(minishell));
+	else if (ft_strncmp(node->expanded_arg[0], "exit", 5) == 0)
+		return (ft_exit(minishell));
 	else
 		return (0);
 }

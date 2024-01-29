@@ -26,15 +26,15 @@ int	search_envp_index(char **envp, char *var, int len)
 	return (-1);
 }
 
-int	resize_envp(t_data *data, int size, int remove_index)
+int	resize_envp(t_minishell *minishell, int size, int remove_index)
 {
 	char	**old_envp;
 	int	i;
 	int	j;
 
-	old_envp = data->envp;
-	data->envp_size = size;
-	data->envp = malloc((size + 1) * sizeof(char*));
+	old_envp = minishell->envp;
+	minishell->envp_size = size;
+	minishell->envp = malloc((size + 1) * sizeof(char*));
 	i = -1;
 	j = 0;
 	if (remove_index >= 0)
@@ -43,42 +43,42 @@ int	resize_envp(t_data *data, int size, int remove_index)
 		{
 			if (j == remove_index)
 				j++;
-			data->envp[i] = old_envp[j++];
+			minishell->envp[i] = old_envp[j++];
 		}
 		free(old_envp[remove_index]);
 	}
 	else
 	{
 		while (++i < size - 1)
-			data->envp[i] = old_envp[i];
+			minishell->envp[i] = old_envp[i];
 	}
-	data->envp[i] = NULL;
+	minishell->envp[i] = NULL;
 	free(old_envp);
 	return (i);
 }
 
-void	update_envp(t_data *data, char *var, char *value, char *command)
+void	update_envp(t_minishell *minishell, char *var, char *value, char *command)
 {
 	int	i;
 
-	i = search_envp_index(data->envp, var, ft_strlen(var));
+	i = search_envp_index(minishell->envp, var, ft_strlen(var));
 	if (i >= 0)
 	{
 		if (ft_strncmp(command, "unset", 6) == 0)
-			resize_envp(data, data->envp_size - 1, i);
+			resize_envp(minishell, minishell->envp_size - 1, i);
 		else
 		{
-			free(data->envp[i]);
-			data->envp[i] = ft_strdup(value);
+			free(minishell->envp[i]);
+			minishell->envp[i] = ft_strdup(value);
 		}
 	}
 	else
 	{
 		if (ft_strncmp(command, "export", 7) == 0)
 		{
-			i = resize_envp(data, data->envp_size + 1, -1);
-			data->envp[i] = ft_strdup(value);
-			data->envp[i + 1] = NULL;
+			i = resize_envp(minishell, minishell->envp_size + 1, -1);
+			minishell->envp[i] = ft_strdup(value);
+			minishell->envp[i + 1] = NULL;
 		}
 	}
 }

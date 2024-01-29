@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int	ft_pwd(t_data *data)
+int	ft_pwd(t_minishell *minishell)
 {
 	int	i;
 
-	i = search_envp_index(data->envp, "PWD", 3);
-	printf("%s\n", data->envp[i] + 4);
+	i = search_envp_index(minishell->envp, "PWD", 3);
+	printf("%s\n", minishell->envp[i] + 4);
 	return (1);
 }

@@ -52,7 +52,7 @@ t_node *ft_cmd(t_minishell *minishell);
 t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node *right);
 
 // Node functions
-t_node *ft_new_node(char *cmd, t_token_type type);
+t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell);
 t_io_node *new_io_node(t_minishell *minishell, t_io_node **list);
 
 // Free ast functions

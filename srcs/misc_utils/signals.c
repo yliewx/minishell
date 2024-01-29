@@ -24,9 +24,9 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
-void	init_signals(t_data *data)
+void	init_signals(t_minishell *minishell)
 {
-	if (data)
+	if (minishell)
 		signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

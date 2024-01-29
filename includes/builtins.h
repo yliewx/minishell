@@ -15,8 +15,7 @@
 
 #include "minishell.h"
 
-typedef struct s_data t_data;
-typedef struct s_command t_command;
+typedef struct s_minishell t_minishell;
 
 enum e_errortype
 {
@@ -28,17 +27,17 @@ enum e_errortype
 };
 
 /*builtins*/
-int	check_builtin(t_data *data, t_command *current);
-int	ft_echo(t_command *current);
-int	ft_cd(t_data *data, t_command *current);
-int	ft_pwd(t_data *data);
-int	ft_export(t_data *data, t_command *current);
-int	ft_unset(t_data *data, t_command *current);
-int	ft_env(t_data *data);
-int	ft_exit(t_data *data);
+int	check_builtin(t_minishell *minishell, t_node *node);
+int	ft_echo(t_node *node);
+int	ft_cd(t_minishell *minishell, t_node *node);
+int	ft_pwd(t_minishell *minishell);
+int	ft_export(t_minishell *minishell, t_node *node);
+int	ft_unset(t_minishell *minishell, t_node *node);
+int	ft_env(t_minishell *minishell);
+int	ft_exit(t_minishell *minishell);
 
 /*builtin_utils*/
-void	update_envp(t_data *data, char *var, char *value, char *command);
+void	update_envp(t_minishell *minishell, char *var, char *value, char *command);
 int	search_envp_index(char **envp, char *var, int len);
 char	*extract_var_name(char *arg);
 char	*after_equal_sign(char *arg);

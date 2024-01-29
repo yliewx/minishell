@@ -28,20 +28,20 @@ void	make_test_nodes(t_node **node)
 */
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
-	char	*command;
+	t_minishell	minishell;
+	//char	*command;
 
 	if (argc > 1 && argv)
 	{
 		ft_putstr_fd("Program does not accept arguments.\n", 2);
 		return (0);
 	}
-	array_dup(&data, envp);
+	array_dup(&minishell, envp);
 	//testing
-	data.command_list = malloc(sizeof(t_command));
-	data.command_list->data = &data;
-	data.minishell->exit_status = 0;
-	init_signals(&data);
+	/*minishell.command_list = malloc(sizeof(t_command));
+	minishell.command_list->minishell = &minishell;
+	minishell.minishell->exit_status = 0;
+	init_signals(&minishell);
 	while (1)
 	{
 		command = readline("minishell$ ");
@@ -50,21 +50,21 @@ int	main(int argc, char **argv, char **envp)
 		else if (command && command[0])
 		{
 			add_history(command);
-			data.command_list->argv = ft_split_argv(command);
-			//make_test_nodes(&data.ast);
-			if (data.command_list->argv)
+			minishell.command_list->argv = ft_split_argv(command);
+			//make_test_nodes(&minishell.ast);
+			if (minishell.command_list->argv)
 			{
 				int	i = 0;
-				while (data.command_list->argv[i])
+				while (minishell.command_list->argv[i])
 				{
-					printf("command[%i]: %s\n", i, data.command_list->argv[i]);
+					printf("command[%i]: %s\n", i, minishell.command_list->argv[i]);
 					i++;
 				}
-				//begin_execution(&data, data.ast);
-				if (!check_builtin(&data, data.command_list))
+				//begin_execution(&minishell, minishell.ast);
+				if (!check_builtin(&minishell, minishell.command_list))
 					printf("command is not a builtin\n");
 			}
 		}
-	}
+	}*/
 	return (0);
 }

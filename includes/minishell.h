@@ -62,6 +62,7 @@ typedef struct s_minishell
 	t_token *tokens;
 	t_token *curr_token;
 	char	**envp;
+	char	**env_path;
 	int		envp_size;
 	int 	here_doc[2];
 	int 	parse_err;
@@ -75,15 +76,12 @@ typedef struct s_history
 	struct	s_data		*data;
 }	t_history;
 
-/*expander*/
-void	check_expand_variables(t_command *current, char *arg);
-
 /*utils*/
-void	array_dup(t_data *data, char **envp);
+void	array_dup(t_minishell *minishell, char **envp);
 void	sort_envp(char **envp, int start, int end);
-void	free_data(t_data *data);
+void	free_data(t_minishell *minishell);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
-void	init_signals(t_data *data);
+void	init_signals(t_minishell *minishell);
 
 #endif
