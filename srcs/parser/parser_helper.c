@@ -62,7 +62,7 @@ t_node *ft_cmd(t_minishell *minishell)
         if (minishell->curr_token->type == T_STRING)
         {
             //printf("ft_cmd: current token is %s\n", minishell->curr_token->value);
-            node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type);
+            node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type, minishell);
             ft_next_token(minishell);
             //printf("ft_cmd after: current token is %s\n", minishell->curr_token->value);
         }
@@ -76,7 +76,7 @@ t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node
 {
     t_node *binop;
 
-    binop = ft_new_node(NULL, op);
+    binop = ft_new_node(NULL, op, minishell);
     if (!binop)
         return (set_parse_err(1, minishell), NULL);
     binop->left = left;

@@ -32,6 +32,7 @@ typedef struct s_node
     t_io_node *io_list;
     struct s_node *left;
     struct s_node *right;
+    t_minishell *minishell;
 } t_node;
 
 // Parser main

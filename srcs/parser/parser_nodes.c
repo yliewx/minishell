@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // Create ast nodes
-t_node *ft_new_node(char *cmd, t_token_type type)
+t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 {
     t_node *node;
 
@@ -25,6 +25,7 @@ t_node *ft_new_node(char *cmd, t_token_type type)
     else
         node->value = NULL;
     node->type = type;
+    node->minishell = minishell;
     return (node);
 }
 
