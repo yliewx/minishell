@@ -61,8 +61,11 @@ typedef struct s_minishell
 	t_node *ast;
 	t_token *tokens;
 	t_token *curr_token;
-	int parse_err;
-	int exit_status;
+	char	**envp;
+	int		envp_size;
+	int 	here_doc[2];
+	int 	parse_err;
+	int 	exit_status;
 }	t_minishell;
 
 typedef struct s_history
@@ -71,15 +74,6 @@ typedef struct s_history
 	struct s_history	*next;
 	struct	s_data		*data;
 }	t_history;
-
-typedef struct s_data
-{
-	t_command	*command_list;
-	t_history	*history_list;
-	char		**envp;
-	int		envp_size;
-	t_minishell	*minishell;
-}	t_data;
 
 /*expander*/
 void	check_expand_variables(t_command *current, char *arg);
