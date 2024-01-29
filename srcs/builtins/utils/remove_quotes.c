@@ -35,14 +35,13 @@ void	remove_quotes(char **arg)
 	{
 		in_quote = 0;
 		len = i;
-		if ((*arg)[len] == '\'' || (*arg)[len] == '\"')
+		if (is_quote((*arg)[len]))
 		{
 			in_quote = (*arg)[len++];
 			i++;
 		}
 		while ((in_quote != 0 && (*arg)[len] && (*arg)[len] != in_quote)
-			|| (in_quote == 0 && (*arg)[len]
-			&& ((*arg)[len] != '\'' && (*arg)[len] != '\"')))
+			|| (in_quote == 0 && (*arg)[len] && !is_quote((*arg)[len])))
 			len++;
 		while (i < len)
 			new_str[j++] = (*arg)[i++];

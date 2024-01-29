@@ -15,11 +15,11 @@
 int	check_builtin(t_data *data, t_command *current)
 {
 	if (current->argv[1])
-		check_expand_variables(current, current->argv[1]);
+		expand_argv(current);
 	if (data && ft_strncmp(current->argv[0], "echo", 5) == 0)
 		return (ft_echo(current));
 	else if (ft_strncmp(current->argv[0], "cd", 3) == 0)
-		return (ft_cd(data));
+		return (ft_cd(data, current));
 	else if (ft_strncmp(current->argv[0], "pwd", 4) == 0)
 		return (ft_pwd(data));
 	else if (ft_strncmp(current->argv[0], "export", 7) == 0)
