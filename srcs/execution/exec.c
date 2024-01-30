@@ -28,23 +28,30 @@ int is_binop_node(t_node *node)
 }
 
 // Function to check for echo, env, pwd
-
-void exec_commands(t_node *node, t_token_type parent_type)
+void exec_command(t_node *node, t_token_type parent_type, t_minishell *minishell)
 {
     int pid;
     int pipefd[2];
-    char *command_path;
+    int builtin_type;
 
+    builtin_type = -1;
     get_expanded_arg(node);
-    if (parent_type == T_PIPE || parent_type == T_AND || parent_type == T_OR)
+    builtin_type = check_builtin(node);
+    if ((parent_type == T_PIPE || parent_type == T_AND || parent_type == T_OR) && \
+        builtin_type && (builtin_type == CMD_ECHO || builtin_type == CMD_ENV \
+         || builtin_type == CMD_PWD))
     {
         if (parent_type == T_PIPE)
             pipe_handler(node, pipefd, parent_type);
         pid = fork();
     }
-    if (!check_builtin(minishell, ast) && parent_type)
-    
-    else (exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell));
+    if (builtin_type != CMD_SIMPLE)
+    {
+        if (pid == 0)
+            exec_builtin(node, builtin_type);
+    }
+    else
+        exec_simple_cmd(node, node->expanded_arg, parent_type, minishell);
 }
 
 // RECURSIVE - traverse_tree
@@ -55,18 +62,18 @@ void exec_commands(t_node *node, t_token_type parent_type)
             // traverse_tree right
     // When simple cmd found -> 
         // Exec and set status
-
 t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minishell)
 {
     if (is_binop_node(ast))
     {
         traverse_tree(ast->left, parent_type, minishell);
         // Check condition
-        //if (WIFEXITED(minishell->status))
-        traverse_tree(ast->right, parent_type, minishell);
+        if ((WIFEXITED(minishell->exit_status) == 0 && parent_type == T_AND) \
+            || (WIFEXITED(minishell->exit_status) && parent_type == T_OR))
+                traverse_tree(ast->right, parent_type, minishell);
     }
     else
-        exec_command(ast, parent_type);
+        exec_command(ast, parent_type, minishell);
     return (ast);
 }
 

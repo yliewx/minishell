@@ -27,6 +27,7 @@ typedef struct s_io_node
 typedef struct s_node
 {
     t_token_type type;
+    t_token_type next_binop;
     char *value;
     char **expanded_arg;
     t_io_node *io_list;

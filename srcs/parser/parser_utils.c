@@ -44,6 +44,8 @@ t_token *lookahead(t_minishell *minishell)
 {
     t_token *token;
 
-    token = minishell->curr_token->next;
+    token = NULL;
+    if (minishell->curr_token)
+        token = minishell->curr_token->next;
     return (token);
 }

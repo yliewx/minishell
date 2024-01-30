@@ -16,7 +16,9 @@
 t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 {
     t_node *node;
+    t_token *next_token;
 
+    next_token = lookahead(minishell);
     node = malloc(sizeof(t_node) * 1);
     if (!node)
         return (NULL);
@@ -26,6 +28,15 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
         node->value = NULL;
     node->type = type;
     node->minishell = minishell;
+    if (next_token)
+    {
+        if (is_binop(next_token))
+            node->next_binop = next_token->type;
+        else
+            node->next_binop = T_NULL;
+    }
+    else
+        node->next_binop = T_NULL;
     return (node);
 }
 

@@ -25,6 +25,7 @@ typedef enum e_token_type
 	T_CLOSE,
 	T_AND,
 	T_OR,
+	T_NULL
 }	t_token_type;
 
 typedef struct s_token

@@ -44,9 +44,13 @@ t_node *ft_expression(t_minishell *minishell, int min_prec)
         if (!left)
             return (NULL);
     }
-    // printf("single node returned %s\n", left->value);
-    // printf("single node's t_token_type %d\n", left->io_list->type);
-    // printf("single node's io_list val %s\n", left->io_list->value);
+    if (left)
+    {
+        // printf("single node returned %s\n", left->value);
+        // printf("single node's t_token_type %d\n", left->io_list->type);
+        // printf("single node's io_list val %s\n", left->io_list->value);
+        // printf("single node's next binop is %i\n", left->next_binop);
+    }
     return (left);
 }
 
