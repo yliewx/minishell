@@ -40,21 +40,21 @@ int	print_export(t_minishell *minishell)
 	return (1);
 }
 
-static int	check_valid_arg(char *arg, char *var_name)
+static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 {
 	int	i;
 
 	i = 0;
 	if (arg[i] == '-')
-		return (export_error(arg, EXPORT_OPTION));
+		return (export_error(EXPORT_OPTION, arg, minishell));
 	if (!ft_isalpha(arg[i]) && arg[i] != '_')
-		return (export_error(arg, EXPORT_IDENTIFIER));
+		return (export_error(EXPORT_IDENTIFIER, arg, minishell));
 	i++;
 	while (var_name[i])
 	{
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_'
 			&& var_name[i] != '=')
-			return (export_error(arg, EXPORT_IDENTIFIER));
+			return (export_error(EXPORT_IDENTIFIER, arg, minishell));
 		i++;
 	}
 	return (1);
@@ -74,7 +74,7 @@ int	ft_export(t_minishell *minishell, t_node *node)
 		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
 		printf("extracted var_name: %s\n", var_name);
-		if (check_valid_arg(node->expanded_arg[i], var_name))
+		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
 			update_envp(minishell, var_name, node->expanded_arg[i], "export");
 		free(var_name);
 		i++;

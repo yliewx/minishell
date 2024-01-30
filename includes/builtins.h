@@ -17,9 +17,21 @@
 
 typedef struct s_minishell t_minishell;
 
-enum e_errortype
+enum e_command_type
 {
-	EXPORT_OPTION,
+	CMD_SIMPLE,
+	CMD_CD,
+	CMD_ECHO,
+	CMD_ENV,
+	CMD_EXIT,
+	CMD_EXPORT,
+	CMD_PWD,
+	CMD_UNSET,
+};
+
+enum e_builtin_err
+{
+	EXPORT_OPTION = 10,
 	EXPORT_IDENTIFIER,
 	UNSET_PARAM,
 	CD_ARG,
@@ -27,7 +39,8 @@ enum e_errortype
 };
 
 /*builtins*/
-int	check_builtin(t_minishell *minishell, t_node *node);
+int	check_builtin(t_node *node);
+int	exec_builtin(t_node *node, int type);
 int	ft_echo(t_node *node);
 int	ft_cd(t_minishell *minishell, t_node *node);
 int	ft_pwd(t_minishell *minishell);
@@ -44,8 +57,8 @@ char	*after_equal_sign(char *arg);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/
-int	cd_error(char *arg, int error);
-int	export_error(char *arg, int error);
-int	unset_error(char *arg, int error);
+int	cd_error(int error, char *arg, t_minishell *minishell);
+int	export_error(int error, char *arg, t_minishell *minishell);
+int	unset_error(int error, char *arg, t_minishell *minishell);
 
 #endif

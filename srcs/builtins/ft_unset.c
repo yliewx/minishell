@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	check_valid_arg(char *arg, char *var_name)
+static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 {
 	int	i;
 
@@ -20,7 +20,7 @@ static int	check_valid_arg(char *arg, char *var_name)
 	while (var_name[i])
 	{
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
-			return (unset_error(arg, UNSET_PARAM));
+			return (unset_error(UNSET_PARAM, arg, minishell));
 		i++;
 	}
 	return (1);
@@ -38,7 +38,7 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 	{
 		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
-		if (check_valid_arg(node->expanded_arg[i], var_name))
+		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
 			update_envp(minishell, var_name, node->expanded_arg[i], "unset");
 		free(var_name);
 		i++;

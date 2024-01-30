@@ -12,17 +12,18 @@
 
 #include "minishell.h"
 
-int	cd_error(char *arg, int error)
+int	cd_error(int error, char *arg, t_minishell *minishell)
 {
 	printf("minishell: cd: ");
 	if (error == CD_ARG)
 		printf("too many arguments\n");
 	else if (error == CD_NODIR)
 		printf("%s: No such file or directory\n", arg);
+	minishell->minishell_err = error;
 	return (0);
 }
 
-int	export_error(char *arg, int error)
+int	export_error(int error, char *arg, t_minishell *minishell)
 {
 	printf("minishell: export: ");
 	if (error == EXPORT_IDENTIFIER)
@@ -32,12 +33,14 @@ int	export_error(char *arg, int error)
 		printf("-%c: invalid option\n" , arg[1]);
 		printf("export: usage: export [name[=value] ...]\n");
 	}
+	minishell->minishell_err = error;
 	return (0);
 }
 
-int	unset_error(char *arg, int error)
+int	unset_error(int error, char *arg, t_minishell *minishell)
 {
 	if (error == UNSET_PARAM)
 		printf("minishell: unset: %s: invalid parameter name\n", arg);
+	minishell->minishell_err = error;
 	return (0);
 }

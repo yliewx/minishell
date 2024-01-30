@@ -40,9 +40,9 @@ int	ft_cd(t_minishell *minishell, t_node *node)
 	while (node->expanded_arg[i])
 		i++;
 	if (i > 2)
-		return (cd_error(NULL, CD_ARG), 1);
+		return (cd_error(CD_ARG, NULL, minishell));
 	if (chdir(node->expanded_arg[1]) == -1)
-		return (cd_error(node->expanded_arg[1], CD_NODIR), 1);
+		return (cd_error(CD_NODIR, node->expanded_arg[1], minishell));
 	update_pwd(minishell);
 	return (1);
 }
