@@ -138,6 +138,7 @@ void exec_simple_cmd(t_node *node, char **argv, t_token_type parent_type, t_mini
     char *command_path;
 
     (void)node;
+    pipe_handler(node, pipefd, parent_type);
     pid = fork();
     if (pid == 0)
     {

@@ -40,14 +40,17 @@ t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minish
 {
     if (is_binop_node(ast))
     {
-        traverse_tree(ast->left, ast->type, minishell);
+        traverse_tree(ast->left, parent_type, minishell);
         // Check condition
         //if (WIFEXITED(minishell->status))
-            // traverse_tree(ast->right);
+        traverse_tree(ast->right, parent_type, minishell);
     }
-    get_expanded_arg(ast);
-    if (!check_builtin(minishell, ast) && parent_type)
-        exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell);
+    else
+    {
+        get_expanded_arg(ast);
+        if (!check_builtin(minishell, ast) && parent_type)
+            exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell);
+    }
     return (ast);
 }
 
