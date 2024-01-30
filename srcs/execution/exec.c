@@ -27,6 +27,26 @@ int is_binop_node(t_node *node)
     return (0);
 }
 
+// Function to check for echo, env, pwd
+
+void exec_commands(t_node *node, t_token_type parent_type)
+{
+    int pid;
+    int pipefd[2];
+    char *command_path;
+
+    get_expanded_arg(node);
+    if (parent_type == T_PIPE || parent_type == T_AND || parent_type == T_OR)
+    {
+        if (parent_type == T_PIPE)
+            pipe_handler(node, pipefd, parent_type);
+        pid = fork();
+    }
+    if (!check_builtin(minishell, ast) && parent_type)
+    
+    else (exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell));
+}
+
 // RECURSIVE - traverse_tree
     // Is there heredoc?
     // When it finds a binop
@@ -46,11 +66,7 @@ t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minish
         traverse_tree(ast->right, parent_type, minishell);
     }
     else
-    {
-        get_expanded_arg(ast);
-        if (!check_builtin(minishell, ast) && parent_type)
-            exec_simple_cmd(ast, ast->expanded_arg, parent_type, minishell);
-    }
+        exec_command(ast, parent_type);
     return (ast);
 }
 
