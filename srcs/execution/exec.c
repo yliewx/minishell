@@ -40,7 +40,8 @@ int redir_handler(t_node *node, int pid, int *pipefd)
     int fd;
 
     io_list = node->io_list;
-    if (pid == 0 || is_builtin_fork(check_builtin(node)))
+    //printf("node %s entered redir_handler\n", node->value);
+    if (pid == 0 || !is_builtin_fork(check_builtin(node)))
     {
         if (node->next_binop == T_PIPE)
         {
@@ -49,7 +50,6 @@ int redir_handler(t_node *node, int pid, int *pipefd)
         }
         while (io_list)
         {
-            printf("iterating through io_list\n");
             if (open_handler(node->minishell, io_list, &fd) == -1)
                 return (-1);
             if (io_list->type == T_REDIR_L)
@@ -115,9 +115,9 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
         // if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
         //     || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
         //     || ast->next_binop == T_PIPE)
-        if ((WIFEXITED(minishell->exit_status) && ast->left->next_binop == T_AND) \
-            || (!WIFEXITED(minishell->exit_status) && ast->left->next_binop == T_OR)
-            || ast->left->next_binop == T_PIPE)
+        if ((WIFEXITED(minishell->exit_status) && ast->type == T_AND) \
+            || (!WIFEXITED(minishell->exit_status) && ast->type == T_OR)
+            || ast->type == T_PIPE)
         {
             printf("traversing right node\n");
                 traverse_tree(ast->right, minishell);
