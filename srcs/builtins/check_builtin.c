@@ -47,5 +47,5 @@ int	exec_builtin(t_node *node, int type)
 		return (ft_env(node->minishell));
 	else if (type == CMD_EXIT)
 		return (ft_exit(node->minishell));
-	return (0);
+	return (1);
 }

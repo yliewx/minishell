@@ -31,7 +31,7 @@ int	ft_echo(t_node *node)
 		i++;
 	}
 	if (node->expanded_arg[1] && ft_strncmp(node->expanded_arg[1], "-n", 3) == 0)
-		return (1);
+		return (0);
 	printf("\n");
-	return (1);
+	return (0);
 }

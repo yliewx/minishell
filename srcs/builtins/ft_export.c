@@ -73,11 +73,10 @@ int	ft_export(t_minishell *minishell, t_node *node)
 	{
 		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
-		printf("extracted var_name: %s\n", var_name);
 		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
 			update_envp(minishell, var_name, node->expanded_arg[i], "export");
 		free(var_name);
 		i++;
 	}
-	return (1);
+	return (0);
 }

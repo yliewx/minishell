@@ -18,5 +18,5 @@ int	ft_pwd(t_minishell *minishell)
 
 	i = search_envp_index(minishell->envp, "PWD", 3);
 	printf("%s\n", minishell->envp[i] + 4);
-	return (1);
+	return (0);
 }

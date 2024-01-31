@@ -50,3 +50,21 @@ void	append_entry(t_entry **list, t_entry *new)
 	}
 	get_last_entry(list)->next = new;
 }
+
+void	sort_entries(t_entry **list)
+{
+	t_entry	*node;
+
+	node = *list;
+	while (node && node->next)
+	{
+		if (ft_strncmp(node->name, node->next->name,
+			ft_strlen(node->name)) > 0)
+		{
+			ft_swap(&node->name, &node->next->name);
+			node = *list;
+		}
+		else
+			node = node->next;
+	}
+}

@@ -20,7 +20,7 @@ int	cd_error(int error, char *arg, t_minishell *minishell)
 	else if (error == CD_NODIR)
 		printf("%s: No such file or directory\n", arg);
 	minishell->minishell_err = error;
-	return (0);
+	return (1);
 }
 
 int	export_error(int error, char *arg, t_minishell *minishell)
@@ -34,7 +34,7 @@ int	export_error(int error, char *arg, t_minishell *minishell)
 		printf("export: usage: export [name[=value] ...]\n");
 	}
 	minishell->minishell_err = error;
-	return (0);
+	return (1);
 }
 
 int	unset_error(int error, char *arg, t_minishell *minishell)
@@ -42,5 +42,5 @@ int	unset_error(int error, char *arg, t_minishell *minishell)
 	if (error == UNSET_PARAM)
 		printf("minishell: unset: %s: invalid parameter name\n", arg);
 	minishell->minishell_err = error;
-	return (0);
+	return (1);
 }

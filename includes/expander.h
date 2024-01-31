@@ -37,5 +37,6 @@ bool    is_in_quote(char *c, char *arg, int quote);
 struct dirent	*ft_readdir(DIR *dir, struct dirent **entry);
 t_entry	*create_entry_node(char *name);
 void	append_entry(t_entry **list, t_entry *new);
+void	sort_entries(t_entry **list);
 
 #endif
