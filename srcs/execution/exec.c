@@ -115,8 +115,9 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
         // if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
         //     || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
         //     || ast->next_binop == T_PIPE)
-        if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
-            || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR))
+        if ((WIFEXITED(minishell->exit_status) && ast->left->next_binop == T_AND) \
+            || (!WIFEXITED(minishell->exit_status) && ast->left->next_binop == T_OR)
+            || ast->left->next_binop == T_PIPE)
         {
             printf("traversing right node\n");
                 traverse_tree(ast->right, minishell);
