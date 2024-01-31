@@ -144,11 +144,5 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell)
         execve(command_path, argv, minishell->envp);
     }
     else
-    {
-        if (node->next_binop == T_PIPE)
-        {
-            close(pipefd[1]);
-        }
         wait(&(minishell->exit_status));
-    }
 }

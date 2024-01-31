@@ -42,7 +42,10 @@ int redir_handler(t_node *node, int oldfd, int newfd, int pid)
     if (pid == 0 || /*builtin boolean checker*/)
     {
         if (node->next_binop == T_PIPE)
+        {
+            close(pipefd[0])
             ft_dup(node->minishell, pipefd[1], STDOUT_FILENO);
+        }
         while (io_list)
         {
             if (open_handler(node->minishell, io_list, &fd) == -1)
@@ -57,6 +60,11 @@ int redir_handler(t_node *node, int oldfd, int newfd, int pid)
                 ft_dup(node->minishell, node->minishell->here_doc[0], STDIN_FILENO);
             io_list = io_list->next;
         }
+    }
+    else
+    {
+        if (node->next_binop == T_PIPE)
+            close(pipefd[1])
     }
 }
 
