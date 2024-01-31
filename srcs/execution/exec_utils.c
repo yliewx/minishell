@@ -100,6 +100,7 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
 // Pipe handler
     // Check t_token_type is pipe
     // Check io_list
+/*
 void pipe_handler(t_node *node, int *pipefd)
 {
     t_io_node *io_list;
@@ -126,12 +127,12 @@ void pipe_handler(t_node *node, int *pipefd)
         io_list = io_list->next;
     }
 }
-
+*/
 // Exec_simple_cmd
     // Split and expand cmd
     // Fork
     // Exec
-void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell)
+void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
 {
     char *command_path;
 

@@ -18,9 +18,10 @@
 void    exec_command(t_node *node, t_minishell *minishell);
 char	**get_env_path(char **envp);
 void	get_command_path(char **command_path, char *arg, char **path_array);
-void    exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell);
+void    exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid);
 void    pipe_handler(t_node *node, int *pipefd);
 int     open_handler(t_minishell *minishell, t_io_node *io_node, int *fd);
 t_node *ft_exec(t_minishell *minishell);
+int ft_dup(t_minishell *minishell, int oldfd, int newfd);
 
 #endif

@@ -34,22 +34,23 @@ int binop_next_checker(t_token_type type)
     return (0);
 }
 
-int redir_handler(t_node *node, int oldfd, int newfd, int pid)
+int redir_handler(t_node *node, int pid, int *pipefd)
 {
     t_io_node *io_list;
+    int fd;
 
     io_list = node->io_list;
-    if (pid == 0 || /*builtin boolean checker*/)
+    if (pid == 0 || is_builtin_fork(check_builtin(node)))
     {
         if (node->next_binop == T_PIPE)
         {
-            close(pipefd[0])
+            close(pipefd[0]);
             ft_dup(node->minishell, pipefd[1], STDOUT_FILENO);
         }
         while (io_list)
         {
             if (open_handler(node->minishell, io_list, &fd) == -1)
-                return ;
+                return (-1);
             if (io_list->type == T_REDIR_L)
                 ft_dup(node->minishell, fd, STDIN_FILENO);
             else if (io_list->type == T_REDIR_R)
@@ -64,8 +65,9 @@ int redir_handler(t_node *node, int oldfd, int newfd, int pid)
     else
     {
         if (node->next_binop == T_PIPE)
-            close(pipefd[1])
+            close(pipefd[1]);
     }
+    return (0);
 }
 
 // Function to check for echo, env, pwd
@@ -78,20 +80,19 @@ void exec_command(t_node *node, t_minishell *minishell)
     builtin_type = -1;
     get_expanded_arg(node);
     builtin_type = check_builtin(node);
-    if (builtin_type == CMD_SIMPLE || builtin_type == CMD_ECHO || \
-        builtin_type == CMD_ENV || builtin_type == CMD_PWD)
+    if (builtin_type == CMD_SIMPLE || is_builtin_fork(builtin_type))
     {
         if (node->next_binop == T_PIPE)
-            pipe(fd);
+            pipe(pipefd);
         pid = fork();
     }
     if (builtin_type != CMD_SIMPLE)
     {
-        exec_builtin(node, builtin_type);
+        exec_builtin(node, builtin_type, pid);
     }
     else
     {
-        exec_simple_cmd(node, node->expanded_arg, minishell);
+        exec_simple_cmd(node, node->expanded_arg, minishell, pid);
     }
 }
 
@@ -108,10 +109,15 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
     if (is_binop_node(ast))
     {
         traverse_tree(ast->left, minishell);
-        if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
-            || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
-            || ast->next_binop == T_PIPE)
+        // if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
+        //     || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
+        //     || ast->next_binop == T_PIPE)
+        if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
+            || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR))
+        {
+            printf("traversing right node\n");
                 traverse_tree(ast->right, minishell);
+        }
     }
     else
         exec_command(ast, minishell);

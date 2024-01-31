@@ -37,6 +37,7 @@ int	print_export(t_minishell *minishell)
 		free(var_name);
 		i++;
 	}
+	minishell->exit_status = 0;
 	return (1);
 }
 
@@ -78,5 +79,5 @@ int	ft_export(t_minishell *minishell, t_node *node)
 		free(var_name);
 		i++;
 	}
-	return (0);
+	return (minishell->exit_status = 0, 0);
 }

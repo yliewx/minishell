@@ -12,35 +12,54 @@
 
 #include "minishell.h"
 
+void	set_error_exit_status(t_minishell *minishell, int error, int status)
+{
+	minishell->minishell_err = error;
+	minishell->exit_status = status;
+}
+
 int	cd_error(int error, char *arg, t_minishell *minishell)
 {
-	printf("minishell: cd: ");
+	ft_putstr_fd("minishell: cd: ", 2);
 	if (error == CD_ARG)
-		printf("too many arguments\n");
+		ft_putstr_fd("too many arguments\n", 2);
 	else if (error == CD_NODIR)
-		printf("%s: No such file or directory\n", arg);
-	minishell->minishell_err = error;
+	{
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
+	set_error_exit_status(minishell, error, 1);
 	return (1);
 }
 
 int	export_error(int error, char *arg, t_minishell *minishell)
 {
-	printf("minishell: export: ");
+	ft_putstr_fd("minishell: export: ", 2);
 	if (error == EXPORT_IDENTIFIER)
-		printf("`%s': not a valid identifier\n", arg);
+	{
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
+	}
 	else if (error == EXPORT_OPTION)
 	{
-		printf("-%c: invalid option\n" , arg[1]);
-		printf("export: usage: export [name[=value] ...]\n");
+		ft_putstr_fd("-", 2);
+		write(2, &arg[1], 2);
+		ft_putstr_fd(": invalid option\n", 2);
+		ft_putstr_fd("export: usage: export [name[=value] ...]\n", 2);
 	}
-	minishell->minishell_err = error;
+	set_error_exit_status(minishell, error, 1);
 	return (1);
 }
 
 int	unset_error(int error, char *arg, t_minishell *minishell)
 {
 	if (error == UNSET_PARAM)
-		printf("minishell: unset: %s: invalid parameter name\n", arg);
-	minishell->minishell_err = error;
+	{
+		ft_putstr_fd("minishell: unset: ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": invalid parameter name\n", 2);
+	}
+	set_error_exit_status(minishell, error, 1);
 	return (1);
 }

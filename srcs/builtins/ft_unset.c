@@ -32,7 +32,7 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 	int		i;
 
 	if (!node->expanded_arg[1])
-		return (0);
+		return (minishell->exit_status = 0, 0);
 	i = 1;
 	while (node->expanded_arg[i])
 	{
@@ -43,5 +43,5 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 		free(var_name);
 		i++;
 	}
-	return (0);
+	return (minishell->exit_status = 0, 0);
 }

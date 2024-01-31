@@ -40,7 +40,8 @@ enum e_builtin_err
 
 /*builtins*/
 int	check_builtin(t_node *node);
-int	exec_builtin(t_node *node, int type);
+int	exec_builtin(t_node *node, int type, int pid);
+bool	is_builtin_fork(int type);
 int	ft_echo(t_node *node);
 int	ft_cd(t_minishell *minishell, t_node *node);
 int	ft_pwd(t_minishell *minishell);
