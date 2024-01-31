@@ -27,8 +27,15 @@ int is_binop_node(t_node *node)
     return (0);
 }
 
+int binop_next_checker(t_token_type type)
+{
+    if (type == T_AND || type == T_OR || type == T_PIPE)
+        return (1);
+    return (0);
+}
+
 // Function to check for echo, env, pwd
-void exec_command(t_node *node, t_token_type parent_type, t_minishell *minishell)
+void exec_command(t_node *node, t_minishell *minishell)
 {
     int pid;
     int pipefd[2];
@@ -37,21 +44,22 @@ void exec_command(t_node *node, t_token_type parent_type, t_minishell *minishell
     builtin_type = -1;
     get_expanded_arg(node);
     builtin_type = check_builtin(node);
-    if ((parent_type == T_PIPE || parent_type == T_AND || parent_type == T_OR) && \
-        builtin_type && (builtin_type == CMD_ECHO || builtin_type == CMD_ENV \
-         || builtin_type == CMD_PWD))
+    if (builtin_type == CMD_SIMPLE || builtin_type == CMD_ECHO || \
+        builtin_type == CMD_ENV || builtin_type == CMD_PWD)
     {
-        if (parent_type == T_PIPE)
-            pipe_handler(node, pipefd, parent_type);
+        if (node->next_binop == T_PIPE)
+            pipe_handler(node, pipefd);
         pid = fork();
     }
     if (builtin_type != CMD_SIMPLE)
     {
         if (pid == 0)
             exec_builtin(node, builtin_type);
+        else
+            wait(&(minishell->exit_status));
     }
     else
-        exec_simple_cmd(node, node->expanded_arg, parent_type, minishell);
+        exec_simple_cmd(node, node->expanded_arg, minishell);
 }
 
 // RECURSIVE - traverse_tree
@@ -62,18 +70,19 @@ void exec_command(t_node *node, t_token_type parent_type, t_minishell *minishell
             // traverse_tree right
     // When simple cmd found -> 
         // Exec and set status
-t_node *traverse_tree(t_node *ast, t_token_type parent_type, t_minishell *minishell)
+t_node *traverse_tree(t_node *ast, t_minishell *minishell)
 {
     if (is_binop_node(ast))
     {
-        traverse_tree(ast->left, parent_type, minishell);
+        traverse_tree(ast->left, minishell);
         // Check condition
-        if ((WIFEXITED(minishell->exit_status) == 0 && parent_type == T_AND) \
-            || (WIFEXITED(minishell->exit_status) && parent_type == T_OR))
-                traverse_tree(ast->right, parent_type, minishell);
+        if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
+            || !(WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
+            || ast->next_binop == T_PIPE)
+        traverse_tree(ast->right, minishell);
     }
     else
-        exec_command(ast, parent_type, minishell);
+        exec_command(ast, minishell);
     return (ast);
 }
 
@@ -81,6 +90,6 @@ t_node *ft_exec(t_minishell *minishell)
 {
     //if (minishell->here == 1)
     //    continue;
-    traverse_tree(minishell->ast, minishell->ast->type, minishell);
+    traverse_tree(minishell->ast, minishell);
     return (minishell->ast);
 }

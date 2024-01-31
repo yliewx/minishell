@@ -100,12 +100,12 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
 // Pipe handler
     // Check t_token_type is pipe
     // Check io_list
-void pipe_handler(t_node *node, int *pipefd, t_token_type parent_type)
+void pipe_handler(t_node *node, int *pipefd)
 {
     t_io_node *io_list;
     int fd;
 
-    if (parent_type == T_PIPE)
+    if (node->next_binop == T_PIPE)
     {
         pipe(pipefd);
         redir_handler(node->minishell, STDOUT_FILENO, pipefd[1]);
@@ -131,18 +131,18 @@ void pipe_handler(t_node *node, int *pipefd, t_token_type parent_type)
     // Split and expand cmd
     // Fork
     // Exec
-void exec_simple_cmd(t_node *node, char **argv, t_token_type parent_type, t_minishell *minishell)
+void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell)
 {
     int pid;
     int pipefd[2];
     char *command_path;
 
     (void)node;
-    pipe_handler(node, pipefd, parent_type);
+    pipe_handler(node, pipefd);
     pid = fork();
     if (pid == 0)
     {
-        if (parent_type == T_PIPE)
+        if (node->next_binop == T_PIPE)
             // Dup2 for pipe
         // Get path -> exec
         get_command_path(&command_path, argv[0], minishell->env_path);
@@ -150,7 +150,7 @@ void exec_simple_cmd(t_node *node, char **argv, t_token_type parent_type, t_mini
     }
     else
     {
-        if (parent_type == T_PIPE)
+        if (node->next_binop == T_PIPE)
         {
             redir_handler(minishell, STDIN_FILENO, pipefd[0]);
             close(pipefd[1]);
