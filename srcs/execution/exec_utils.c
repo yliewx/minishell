@@ -136,13 +136,17 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
 {
     char *command_path;
 
+    (void)node;
+    command_path = NULL;
     if (pid == 0)
     {
-        if (node->next_binop == T_PIPE)
+        //if (node->next_binop == T_PIPE)
             // Dup2 for pipe
         // Get path -> exec
         get_command_path(&command_path, argv[0], minishell->env_path);
-        execve(command_path, argv, minishell->envp);
+        printf("command path: %s\n", command_path);
+        if (execve(command_path, argv, minishell->envp) == -1)
+            perror("Execve() failed");
     }
     else
         wait(&(minishell->exit_status));

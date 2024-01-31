@@ -49,6 +49,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
         }
         while (io_list)
         {
+            printf("iterating through io_list\n");
             if (open_handler(node->minishell, io_list, &fd) == -1)
                 return (-1);
             if (io_list->type == T_REDIR_L)
@@ -77,6 +78,7 @@ void exec_command(t_node *node, t_minishell *minishell)
     int pipefd[2];
     int builtin_type;
 
+    pid = -1;
     builtin_type = -1;
     get_expanded_arg(node);
     builtin_type = check_builtin(node);
@@ -86,6 +88,7 @@ void exec_command(t_node *node, t_minishell *minishell)
             pipe(pipefd);
         pid = fork();
     }
+    redir_handler(node, pid, pipefd);
     if (builtin_type != CMD_SIMPLE)
     {
         exec_builtin(node, builtin_type, pid);

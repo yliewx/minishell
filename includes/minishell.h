@@ -93,6 +93,7 @@ enum e_minishell_err
 /*utils*/
 void	array_dup(t_minishell *minishell, char **envp);
 void	sort_envp(char **envp, int start, int end);
+void	ft_swap(char **a, char **b);
 void	free_data(t_minishell *minishell);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
