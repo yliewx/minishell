@@ -54,9 +54,15 @@ void exec_command(t_node *node, t_minishell *minishell)
     if (builtin_type != CMD_SIMPLE)
     {
         if (pid == 0)
-            exec_builtin(node, builtin_type);
+        {
+            minishell->exit_status = exec_builtin(node, builtin_type);
+            exit(minishell->exit_status);
+        }
         else
+        {
             wait(&(minishell->exit_status));
+            printf("exit status is %d\n", minishell->exit_status);
+        }
     }
     else
         exec_simple_cmd(node, node->expanded_arg, minishell);
@@ -76,10 +82,15 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
     {
         traverse_tree(ast->left, minishell);
         // Check condition
-        if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
-            || !(WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
+        // if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
+        //     || !(WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
+        //     || ast->next_binop == T_PIPE)
+        //         traverse_tree(ast->right, minishell);
+        printf("wifexited returns %i\n", WIFEXITED(minishell->exit_status));
+        if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
+            || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
             || ast->next_binop == T_PIPE)
-        traverse_tree(ast->right, minishell);
+                traverse_tree(ast->right, minishell);
     }
     else
         exec_command(ast, minishell);
