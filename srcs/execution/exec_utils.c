@@ -72,7 +72,7 @@ void	get_command_path(char **command_path, char *arg, char **path_array)
     // Create if outfile does not exist
     // If append > O_APPEND
     // If heredoc > refer to here_doc pipe
-int redir_handler(t_minishell *minishell, int oldfd, int newfd)
+int ft_dup(t_minishell *minishell, int oldfd, int newfd)
 {
     int res;
 
@@ -133,13 +133,8 @@ void pipe_handler(t_node *node, int *pipefd)
     // Exec
 void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell)
 {
-    int pid;
-    int pipefd[2];
     char *command_path;
 
-    (void)node;
-    pipe_handler(node, pipefd);
-    pid = fork();
     if (pid == 0)
     {
         if (node->next_binop == T_PIPE)
@@ -152,7 +147,6 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell)
     {
         if (node->next_binop == T_PIPE)
         {
-            redir_handler(minishell, STDIN_FILENO, pipefd[0]);
             close(pipefd[1]);
         }
         wait(&(minishell->exit_status));

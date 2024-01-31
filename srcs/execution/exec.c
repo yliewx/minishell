@@ -34,6 +34,32 @@ int binop_next_checker(t_token_type type)
     return (0);
 }
 
+int redir_handler(t_node *node, int oldfd, int newfd, int pid)
+{
+    t_io_node *io_list;
+
+    io_list = node->io_list;
+    if (pid == 0 || /*builtin boolean checker*/)
+    {
+        if (node->next_binop == T_PIPE)
+            ft_dup(node->minishell, pipefd[1], STDOUT_FILENO);
+        while (io_list)
+        {
+            if (open_handler(node->minishell, io_list, &fd) == -1)
+                return ;
+            if (io_list->type == T_REDIR_L)
+                ft_dup(node->minishell, fd, STDIN_FILENO);
+            else if (io_list->type == T_REDIR_R)
+                ft_dup(node->minishell, fd, STDOUT_FILENO);
+            else if (io_list->type == T_APPEND)
+                ft_dup(node->minishell, fd, STDOUT_FILENO);
+            else if (io_list->type == T_HEREDOC)
+                ft_dup(node->minishell, node->minishell->here_doc[0], STDIN_FILENO);
+            io_list = io_list->next;
+        }
+    }
+}
+
 // Function to check for echo, env, pwd
 void exec_command(t_node *node, t_minishell *minishell)
 {
@@ -48,24 +74,17 @@ void exec_command(t_node *node, t_minishell *minishell)
         builtin_type == CMD_ENV || builtin_type == CMD_PWD)
     {
         if (node->next_binop == T_PIPE)
-            pipe_handler(node, pipefd);
+            pipe(fd);
         pid = fork();
     }
     if (builtin_type != CMD_SIMPLE)
     {
-        if (pid == 0)
-        {
-            minishell->exit_status = exec_builtin(node, builtin_type);
-            exit(minishell->exit_status);
-        }
-        else
-        {
-            wait(&(minishell->exit_status));
-            printf("exit status is %d\n", minishell->exit_status);
-        }
+        exec_builtin(node, builtin_type);
     }
     else
+    {
         exec_simple_cmd(node, node->expanded_arg, minishell);
+    }
 }
 
 // RECURSIVE - traverse_tree
@@ -81,12 +100,6 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
     if (is_binop_node(ast))
     {
         traverse_tree(ast->left, minishell);
-        // Check condition
-        // if ((WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
-        //     || !(WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
-        //     || ast->next_binop == T_PIPE)
-        //         traverse_tree(ast->right, minishell);
-        printf("wifexited returns %i\n", WIFEXITED(minishell->exit_status));
         if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
             || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
             || ast->next_binop == T_PIPE)
