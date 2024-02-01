@@ -34,9 +34,7 @@ int	resize_envp(t_minishell *minishell, int size, int remove_index)
 
 	old_envp = minishell->envp;
 	minishell->envp_size = size;
-	//printf("\n\n\nnew envp size: %i, size: %i\n", minishell->envp_size, size);
-	//printf("remove_index: %i\n\n\n", remove_index);
-	minishell->envp = malloc((1000) * sizeof(char*));
+	minishell->envp = malloc((minishell->envp_size + 1) * sizeof(char*));
 	i = -1;
 	j = 0;
 	if (remove_index >= 0)
@@ -52,11 +50,7 @@ int	resize_envp(t_minishell *minishell, int size, int remove_index)
 	else
 	{
 		while (++i < size - 1)
-		{
 			minishell->envp[i] = old_envp[i];
-			//printf("new[%i]: %s\n", i, minishell->envp[i]);
-			//printf("old[%i]: %s\n\n\n", i, old_envp[i]);
-		}
 	}
 	minishell->envp[i] = NULL;
 	free(old_envp);
@@ -84,7 +78,6 @@ void	update_envp(t_minishell *minishell, char *var, char *value, char *command)
 		{
 			i = resize_envp(minishell, minishell->envp_size + 1, -1);
 			minishell->envp[i] = ft_strdup(value);
-			//printf("i: %i\nenvp[%i]: %s\n", i, i, minishell->envp[i]);
 			minishell->envp[i + 1] = NULL;
 		}
 	}

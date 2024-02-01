@@ -14,13 +14,12 @@
 
 void	free_data(t_minishell *minishell)
 {
-	int	i;
+	/*int	i;
 
-	/*free(minishell->command_list->flags);
-	free(minishell->command_list->arg);
-	free(minishell->command_list);*/
 	i = 0;
 	while (minishell->envp[i])
 		free(minishell->envp[i++]);
-	free(minishell->envp);
+	free(minishell->envp);*/
+	free_ast(&minishell->ast);
+	ft_free_token_list(&minishell->tokens);
 }

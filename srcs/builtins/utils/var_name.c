@@ -19,7 +19,7 @@ char	*extract_var_name(char *arg)
 
 	i = 0;
 	if (!ft_strchr(arg, '='))
-		return (arg);
+		return (ft_strdup(arg));
 	while (arg[i] && arg[i] != '=')
 		i++;
 	if (arg[i] == '=')

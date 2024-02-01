@@ -82,5 +82,7 @@ void    check_wildcard(char **node_value, char **node_expanded)
 		sort_entries(&match_list);
 		join_entries(match_list, &pattern.expanded_value);
 		expand_wildcard(node_value, node_expanded, &pattern);
+		free_match_list(&match_list);
 	}
+	free(pattern.start);
 }

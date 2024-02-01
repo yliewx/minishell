@@ -28,7 +28,7 @@ t_entry	*create_entry_node(char *name)
 	new->next = NULL;
 	return (new);
 }
-
+/*
 t_entry	*get_last_entry(t_entry **list)
 {
 	t_entry	*current;
@@ -38,9 +38,11 @@ t_entry	*get_last_entry(t_entry **list)
 		current = current->next;
 	return (current);
 }
-
+*/
 void	append_entry(t_entry **list, t_entry *new)
 {
+	t_entry	*last_entry;
+
 	if (!new)
 		return ;
 	if (!*list)
@@ -48,7 +50,10 @@ void	append_entry(t_entry **list, t_entry *new)
 		*list = new;
 		return ;
 	}
-	get_last_entry(list)->next = new;
+	last_entry = *list;
+	while (last_entry->next)
+		last_entry = last_entry->next;
+	last_entry->next = new;
 }
 
 void	sort_entries(t_entry **list)
@@ -73,4 +78,19 @@ void	sort_entries(t_entry **list)
 		}
 		current = current->next;
 	}
+}
+
+void	free_match_list(t_entry **list)
+{
+	t_entry	*current;
+	t_entry	*temp;
+
+	current = *list;
+	while (current && current->next)
+	{
+		temp = current->next;
+		free(current);
+		current = temp;
+	}
+	free(current);
 }
