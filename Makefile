@@ -15,7 +15,7 @@ BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	ft_export.c ft_pwd.c ft_unset.c \
 	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c \
 	utils/var_name.c
-EXP = expander.c wildcard.c expander_utils.c readdir_utils.c
+EXP = expander.c wildcard.c pattern.c expander_utils.c readdir_utils.c
 EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c exec_redir.c
 INIT = main.c main_avery.c
 UTILS = envp_dup.c envp_sort.c ft_split_argv.c signals.c free_data.c
