@@ -58,6 +58,7 @@ char	*after_equal_sign(char *arg);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/
+int	set_exit_success(t_minishell *minishell);
 int	cd_error(int error, char *arg, t_minishell *minishell);
 int	export_error(int error, char *arg, t_minishell *minishell);
 int	unset_error(int error, char *arg, t_minishell *minishell);

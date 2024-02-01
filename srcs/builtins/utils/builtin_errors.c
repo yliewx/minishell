@@ -12,10 +12,17 @@
 
 #include "minishell.h"
 
-void	set_error_exit_status(t_minishell *minishell, int error, int status)
+int	set_exit_success(t_minishell *minishell)
+{
+	minishell->exit_status = EXIT_SUCCESS;
+	return (0);
+}
+
+int	set_exit_error(t_minishell *minishell, int error, int status)
 {
 	minishell->minishell_err = error;
 	minishell->exit_status = status;
+	return (0);
 }
 
 int	cd_error(int error, char *arg, t_minishell *minishell)
@@ -28,7 +35,7 @@ int	cd_error(int error, char *arg, t_minishell *minishell)
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
-	set_error_exit_status(minishell, error, 1);
+	set_exit_error(minishell, error, EXIT_FAILURE);
 	return (1);
 }
 
@@ -48,8 +55,7 @@ int	export_error(int error, char *arg, t_minishell *minishell)
 		ft_putstr_fd(": invalid option\n", 2);
 		ft_putstr_fd("export: usage: export [name[=value] ...]\n", 2);
 	}
-	set_error_exit_status(minishell, error, 1);
-	return (1);
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
 int	unset_error(int error, char *arg, t_minishell *minishell)
@@ -60,6 +66,5 @@ int	unset_error(int error, char *arg, t_minishell *minishell)
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": invalid parameter name\n", 2);
 	}
-	set_error_exit_status(minishell, error, 1);
-	return (1);
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }

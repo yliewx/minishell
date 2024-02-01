@@ -32,6 +32,18 @@ void	update_pwd(t_minishell *minishell)
 	free(old_pwd);
 }
 
+int	cd_home(t_minishell *minishell)
+{
+	char	*home_path;
+	int		index;
+
+	index = search_envp_index(minishell->envp, "HOME=", 5);
+	home_path = after_equal_sign(minishell->envp[index]);
+	if (chdir(home_path) == -1)
+		return (cd_error(CD_NODIR, home_path, minishell));
+	return (set_exit_success(minishell));
+}
+
 int	ft_cd(t_minishell *minishell, t_node *node)
 {
 	int		i;
@@ -39,10 +51,12 @@ int	ft_cd(t_minishell *minishell, t_node *node)
 	i = 0;
 	while (node->expanded_arg[i])
 		i++;
+	if (i == 1)
+		return (cd_home(minishell));
 	if (i > 2)
 		return (cd_error(CD_ARG, NULL, minishell));
 	if (chdir(node->expanded_arg[1]) == -1)
 		return (cd_error(CD_NODIR, node->expanded_arg[1], minishell));
 	update_pwd(minishell);
-	return (minishell->exit_status = 0, 0);
+	return (set_exit_success(minishell));
 }

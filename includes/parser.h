@@ -19,7 +19,7 @@ typedef struct s_io_node
 {
     t_token_type type;
     char *value;
-    char **expanded_arg;
+    char *expanded_arg;
 	struct s_io_node	*next;
 }   t_io_node;
 
@@ -29,6 +29,7 @@ typedef struct s_node
     t_token_type type;
     t_token_type next_binop;
     char *value;
+    char *expanded;
     char **expanded_arg;
     t_io_node *io_list;
     struct s_node *left;

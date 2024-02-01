@@ -17,6 +17,6 @@ int	ft_exit(t_minishell *minishell)
 {
 	printf("exit\n");
 	free_data(minishell);
-	exit(1);
+	exit(EXIT_FAILURE);
 	return (0);
 }

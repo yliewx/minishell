@@ -53,18 +53,24 @@ void	append_entry(t_entry **list, t_entry *new)
 
 void	sort_entries(t_entry **list)
 {
-	t_entry	*node;
+	t_entry	*current;
+	t_entry	*temp;
 
-	node = *list;
-	while (node && node->next)
+	current = *list;
+	while (current && current->next)
 	{
-		if (ft_strncmp(node->name, node->next->name,
-			ft_strlen(node->name)) > 0)
+		temp = current;
+		while (temp && temp->next)
 		{
-			ft_swap(&node->name, &node->next->name);
-			node = *list;
+			if (ft_strncmp(temp->name, temp->next->name,
+			ft_strlen(temp->name)) > 0)
+			{
+				ft_swap(&temp->name, &temp->next->name);
+				temp = *list;
+			}
+			else
+				temp = temp->next;
 		}
-		else
-			node = node->next;
+		current = current->next;
 	}
 }

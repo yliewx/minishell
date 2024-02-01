@@ -106,6 +106,8 @@ char	**ft_split_argv(char *arg)
 	char	**child_argv;
 	int	token_count;
 
+	if (!arg)
+		return (NULL);
 	if (!ft_strchr(arg, '\'') && !ft_strchr(arg, '\"'))
 		return (ft_split(arg, ' '));
 	token_count = count_split_tokens(arg, 0, 0, ' ');

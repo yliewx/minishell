@@ -26,6 +26,8 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
         node->value = ft_strdup(cmd);
     else
         node->value = NULL;
+    node->expanded = NULL;
+    node->expanded_arg = NULL;
     node->type = type;
     node->minishell = minishell;
     node->left = NULL;
@@ -57,10 +59,13 @@ t_io_node *new_io_node(t_minishell *minishell, t_io_node **list)
     node = malloc(sizeof(t_io_node));
     if (!node)
         return (NULL);
+    if (minishell->curr_token->type == T_HEREDOC)
+        minishell->heredoc_count++;
     node->type = minishell->curr_token->type;
     node->next = NULL;
     ft_next_token(minishell);
     node->value = ft_strdup(minishell->curr_token->value);
+    node->expanded_arg = NULL;
     ft_next_token(minishell);
     if (!*list)
     {

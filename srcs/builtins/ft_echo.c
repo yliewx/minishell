@@ -31,7 +31,7 @@ int	ft_echo(t_node *node)
 		i++;
 	}
 	if (node->expanded_arg[1] && ft_strncmp(node->expanded_arg[1], "-n", 3) == 0)
-		return (node->minishell->exit_status = 0, 0);
+		return (set_exit_success(node->minishell));
 	printf("\n");
-	return (node->minishell->exit_status = 0, 0);
+	return (set_exit_success(node->minishell));
 }

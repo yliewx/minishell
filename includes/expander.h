@@ -17,6 +17,13 @@
 
 typedef struct s_minishell t_minishell;
 
+typedef struct s_pattern
+{
+	char	*start;
+	char	*expanded_value;
+	int		start_index;
+}	t_pattern;
+
 typedef struct s_entry
 {
 	char	*name;
@@ -25,13 +32,18 @@ typedef struct s_entry
 
 /*expander*/
 void	get_expanded_arg(t_node *node);
-void    check_wildcard(t_node *node, char **arg);
+void    check_wildcard(char **node_value, char **node_expanded);
 
 /*utils*/
 char	*replace_with_value(char *arg, char *value, int start, int total_len);
 char	*value_in_env(char **envp, char *var, int len);
 bool	is_varname(int c);
 bool    is_in_quote(char *c, char *arg, int quote);
+
+/*pattern*/
+void	extract_pattern(t_pattern *pattern, char *asterisk, char *arg);
+bool	match_pattern(t_pattern *pattern, char *curr_pattern, char *entry);
+bool	match_visibility(char *pattern, char *name);
 
 /*readdir_utils*/
 struct dirent	*ft_readdir(DIR *dir, struct dirent **entry);

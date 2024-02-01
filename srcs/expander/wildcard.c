@@ -12,62 +12,7 @@
 
 #include "minishell.h"
 
-bool	match_visibility(char *pattern, char *name)
-{
-	printf("pattern: %s, name: %s\n", pattern, name);
-	if (ft_strncmp(pattern, "..", 2) == 0)
-		return (ft_strncmp(name, "..", 2) == 0);
-	else if (pattern[0] == '.')
-		return (name[0] == '.');
-	else if (name[0] == '.')
-		return (false);
-	return (true);
-}
-
-/*
-echo *ft*c | wc -w //c must be the last letter of the name
-49
-echo *ft*c* | wc -w
-63
-*/
-bool	match_pattern_suffix(char *curr_pattern, char *entry, int j)
-{
-	if (curr_pattern[j] != '*'
-		&& (entry[ft_strlen(entry) - 1] != curr_pattern[j]))
-		return (false);
-	return (true);
-}
-
-bool	match_pattern(char *pattern_start, char *curr_pattern, char *entry)
-{
-	int	i;
-	int	j;
-
-	if (pattern_start == curr_pattern && *pattern_start != '*'
-		&& *pattern_start != *entry)
-		return (false);
-	while (curr_pattern && *curr_pattern == '*')
-		curr_pattern++;
-	i = 0;
-	while (entry[i])
-	{
-		j = 0;
-		while (curr_pattern[j] && curr_pattern[j] != '*')
-		{
-			if (entry[i + j] != curr_pattern[j])
-				break ;
-			j++;
-		}
-		if (!curr_pattern[j])
-			return (match_pattern_suffix(curr_pattern, entry, j - 1));
-		else if (curr_pattern[j] == '*')
-			return (match_pattern(pattern_start, curr_pattern + j, entry + i));
-		i++;
-	}
-	return (false);
-}
-
-void	find_match_in_dir(t_entry **match_list, char *pattern)
+void	find_match_in_dir(t_entry **match_list, t_pattern *pattern)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -77,80 +22,65 @@ void	find_match_in_dir(t_entry **match_list, char *pattern)
 	entry = NULL;
 	while (ft_readdir(dir, &entry))
 	{
-		printf("%s\n", entry->d_name);
-		if (match_visibility(pattern, entry->d_name)
-			&& match_pattern(pattern, pattern, entry->d_name))
+		if (match_visibility(pattern->start, entry->d_name)
+			&& match_pattern(pattern, pattern->start, entry->d_name))
 		{
-			printf(GREEN"%s is a match\n\n"RESET, entry->d_name);
-			new_match = create_entry_node(entry->d_name);
+			new_match = create_entry_node(ft_strdup(entry->d_name));
 			append_entry(match_list, new_match);
 		}
-		else
-			printf(RED"%s does not match\n\n"RESET, entry->d_name);
 	}
 	closedir(dir);
 }
 
-void	extract_pattern(char **pattern, char *arg, char *asterisk)
-{
-	int		start;
-	int		end;
-
-	start = asterisk - arg;
-	end = start;
-	while (arg[start - 1] && arg[start - 1] != ' ')
-		start--;
-	while (arg[end + 1] && arg[end + 1] != ' ')
-		end++;
-	*pattern = ft_substr(arg, start, end);
-}
-
-void	expand_wildcard(t_entry *match_list, t_node *node, char *pattern)
+void	join_entries(t_entry *match_list, char **expanded_value)
 {
 	char	*temp;
-	char	*expanded_value;
 
-	expanded_value = ft_calloc(1, sizeof(char));
+	*expanded_value = ft_calloc(1, sizeof(char));
 	while (match_list)
 	{
-		temp = expanded_value;
-		expanded_value = ft_strjoin(temp, match_list->name);
+		temp = *expanded_value;
+		*expanded_value = ft_strjoin(temp, match_list->name);
 		free(temp);
 		if (match_list->next)
 		{
-			temp = expanded_value;
-			expanded_value = ft_strjoin(temp, " ");
+			temp = *expanded_value;
+			*expanded_value = ft_strjoin(temp, " ");
 			free(temp);
 		}
 		match_list = match_list->next;
 	}
-	if (node || pattern)
-		printf("expanded value: %s\n", expanded_value);
 }
 
-void    check_wildcard(t_node *node, char **arg)
+void	expand_wildcard(char **node_value, char **node_expanded, t_pattern *pattern)
+{
+	char	*new_str;
+	int		new_len;
+
+	new_len = ft_strlen(*node_value) - ft_strlen(pattern->start)
+		+ ft_strlen(pattern->expanded_value);
+	new_str = replace_with_value(*node_value, pattern->expanded_value,
+		pattern->start_index, new_len);
+	*node_expanded = new_str;
+}
+
+void    check_wildcard(char **node_value, char **node_expanded)
 {
 	t_entry	*match_list;
+	t_pattern	pattern;
 	char	*asterisk;
-	char	*pattern;
 
-	asterisk = ft_strchr(*arg, '*');
-	if (!asterisk || is_in_quote(asterisk, *arg, '\'')
-		|| is_in_quote(asterisk, *arg, '\"') || !node)
+	asterisk = ft_strchr(*node_value, '*');
+	if (!asterisk || !node_value || is_in_quote(asterisk, *node_value, '\'')
+		|| is_in_quote(asterisk, *node_value, '\"'))
 		return ;
-	extract_pattern(&pattern, *arg, asterisk);
-	printf("pattern: %s (len: %li)\n", pattern, ft_strlen(pattern));
+	extract_pattern(&pattern, asterisk, *node_value);
 	match_list = NULL;
-	find_match_in_dir(&match_list, pattern);
-	//test print
-	sort_entries(&match_list);
-	int i = 0;
-	t_entry	*temp = match_list;
-	printf("\n\nAFTER SORT:\n\n");
-	while (temp)
+	find_match_in_dir(&match_list, &pattern);
+	if (match_list)
 	{
-		printf("entry[%i]: %s\n", i++, temp->name);
-		temp = temp->next;
+		sort_entries(&match_list);
+		join_entries(match_list, &pattern.expanded_value);
+		expand_wildcard(node_value, node_expanded, &pattern);
 	}
-	expand_wildcard(match_list, node, pattern);
 }

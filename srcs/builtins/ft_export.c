@@ -37,8 +37,7 @@ int	print_export(t_minishell *minishell)
 		free(var_name);
 		i++;
 	}
-	minishell->exit_status = 0;
-	return (1);
+	return (set_exit_success(minishell));
 }
 
 static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
@@ -64,20 +63,26 @@ static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 int	ft_export(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;
-	//char	*temp;
+	int		last_valid_arg;
 	int		i;
 
 	if (!node->expanded_arg[1])
 		return (print_export(minishell));
 	i = 1;
+	last_valid_arg = -1;
 	while (node->expanded_arg[i])
 	{
 		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
 		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
+		{
 			update_envp(minishell, var_name, node->expanded_arg[i], "export");
+			last_valid_arg = i;
+		}
 		free(var_name);
 		i++;
 	}
-	return (minishell->exit_status = 0, 0);
+	if (last_valid_arg != i - 1)
+		return (1);
+	return (set_exit_success(minishell));
 }
