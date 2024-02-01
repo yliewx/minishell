@@ -47,25 +47,21 @@ int redir_handler(t_node *node, int pid, int *pipefd)
         while (io_list)
         {
             if (open_handler(node->minishell, io_list, &fd) == -1)
-            {
-                perror("Error opening file\n");
                 return (-1);
-            }
             if (io_list->type == T_REDIR_L)
             {
-                printf("redir input to %s\n", io_list->value);
+                //printf("redir input to %s\n", io_list->value);
                 ft_dup(node->minishell, fd, STDIN_FILENO);
             }
             else if (io_list->type == T_REDIR_R)
             {
-                printf("redir output to %s\n", io_list->value);
+                //printf("redir output to %s\n", io_list->value);
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             }
             else if (io_list->type == T_APPEND)
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             else if (io_list->type == T_HEREDOC)
                 ft_dup(node->minishell, node->minishell->here_doc[0], STDIN_FILENO);
-            printf("io_list loop\n");
             io_list = io_list->next;
         }
     }
@@ -94,7 +90,8 @@ void exec_command(t_node *node, t_minishell *minishell)
             pipe(pipefd);
         pid = fork();
     }
-    redir_handler(node, pid, pipefd);
+    if (redir_handler(node, pid, pipefd) == -1)
+        exit(1);
     if (builtin_type != CMD_SIMPLE)
     {
         exec_builtin(node, builtin_type, pid);
