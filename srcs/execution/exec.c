@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-// Exec_simple_cmd
-    // Split and expand cmd
-    // Fork
-    // Exec
-
 // Heredoc -> send input to pipe
 
 // Is binop for ast
@@ -34,6 +29,7 @@ int binop_next_checker(t_token_type type)
     return (0);
 }
 
+// Look into output not consistently piped 
 int redir_handler(t_node *node, int pid, int *pipefd)
 {
     t_io_node *io_list;
@@ -51,11 +47,17 @@ int redir_handler(t_node *node, int pid, int *pipefd)
         while (io_list)
         {
             if (open_handler(node->minishell, io_list, &fd) == -1)
+            {
+                perror("Error opening file\n");
                 return (-1);
+            }
             if (io_list->type == T_REDIR_L)
                 ft_dup(node->minishell, fd, STDIN_FILENO);
             else if (io_list->type == T_REDIR_R)
+            {
+                printf("redirecting to %s\n", io_list->value);
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
+            }
             else if (io_list->type == T_APPEND)
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             else if (io_list->type == T_HEREDOC)
@@ -112,16 +114,10 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
     if (is_binop_node(ast))
     {
         traverse_tree(ast->left, minishell);
-        // if (!(WIFEXITED(minishell->exit_status) && ast->next_binop == T_AND) \
-        //     || (WIFEXITED(minishell->exit_status) && ast->next_binop == T_OR) \
-        //     || ast->next_binop == T_PIPE)
         if ((WIFEXITED(minishell->exit_status) && ast->type == T_AND) \
             || (!WIFEXITED(minishell->exit_status) && ast->type == T_OR)
             || ast->type == T_PIPE)
-        {
-            printf("traversing right node\n");
                 traverse_tree(ast->right, minishell);
-        }
     }
     else
         exec_command(ast, minishell);

@@ -28,6 +28,7 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
         node->value = NULL;
     node->type = type;
     node->minishell = minishell;
+    node->io_list = NULL;
     if (next_token)
     {
         if (is_binop(next_token))

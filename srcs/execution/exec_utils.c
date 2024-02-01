@@ -78,7 +78,10 @@ int ft_dup(t_minishell *minishell, int oldfd, int newfd)
 
     res = dup2(oldfd, newfd);
     if (res == -1)
+	{
+		perror("Error duping\n");
         minishell->minishell_err = DUP2_ERR;
+	}
     return (res);
 }
 
@@ -91,43 +94,13 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
     else if (io_node->type == T_REDIR_R)
         *fd = open(io_node->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (*fd == -1)
+	{
+		perror("Error opening file\n");
         minishell->minishell_err = OPEN_ERR;
+	}
     return (*fd);
 }
 
-// Closing pipes
-
-// Pipe handler
-    // Check t_token_type is pipe
-    // Check io_list
-/*
-void pipe_handler(t_node *node, int *pipefd)
-{
-    t_io_node *io_list;
-    int fd;
-
-    if (node->next_binop == T_PIPE)
-    {
-        pipe(pipefd);
-        redir_handler(node->minishell, STDOUT_FILENO, pipefd[1]);
-    }
-    io_list = node->io_list;
-    while (io_list)
-    {
-        if (open_handler(node->minishell, io_list, &fd) == -1)
-            return ;
-        if (io_list->type == T_REDIR_L)
-            redir_handler(node->minishell, STDIN_FILENO, fd);
-        else if (io_list->type == T_REDIR_R)
-            redir_handler(node->minishell, STDOUT_FILENO, fd);
-        else if (io_list->type == T_APPEND)
-            redir_handler(node->minishell, STDOUT_FILENO, fd);
-        else if (io_list->type == T_HEREDOC)
-            redir_handler(node->minishell, STDIN_FILENO, node->minishell->here_doc[0]);
-        io_list = io_list->next;
-    }
-}
-*/
 // Exec_simple_cmd
     // Split and expand cmd
     // Fork
@@ -140,9 +113,6 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
     command_path = NULL;
     if (pid == 0)
     {
-        //if (node->next_binop == T_PIPE)
-            // Dup2 for pipe
-        // Get path -> exec
         get_command_path(&command_path, argv[0], minishell->env_path);
         if (execve(command_path, argv, minishell->envp) == -1)
             perror("Execve() failed");
