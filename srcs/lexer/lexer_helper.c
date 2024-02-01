@@ -54,9 +54,9 @@ t_token **create_sym_token(t_token **token_list, char *line, int *i)
 		return (create_symbol(token_list, T_OR, i));
 	else if (!ft_strncmp(line + *i, "|", 1))
 		return (create_symbol(token_list, T_PIPE, i));
-	else if (!ft_strncmp(line + *i, "<<", 2))
-		return (create_symbol(token_list, T_APPEND, i));
 	else if (!ft_strncmp(line + *i, ">>", 2))
+		return (create_symbol(token_list, T_APPEND, i));
+	else if (!ft_strncmp(line + *i, "<<", 2))
 		return (create_symbol(token_list, T_HEREDOC, i));
 	else if (!ft_strncmp(line + *i, "&&", 2))
 		return (create_symbol(token_list, T_AND, i));

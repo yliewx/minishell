@@ -12,77 +12,19 @@
 
 #include "minishell.h"
 
-/*retrieve possible file paths with envp and ft_split (shell command env)*/
-char	**get_env_path(char **envp)
+// Is binop for ast
+int is_binop_node(t_node *node)
 {
-	char	**path;
-	char	*start_pos;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (envp[i] && (ft_strncmp(envp[i], "PATH", 4)) != 0)
-		i++;
-	start_pos = ft_strchr(envp[i], '=') + 1;
-	path = ft_split(start_pos, ':');
-	if (!path)
-		perror("Could not extract directory path\n");
-	j = 0;
-	while (path[j])
-	{
-		path[j] = ft_strjoin(path[j], "/");
-		j++;
-	}
-	return (path);
+    if (node->type == T_AND || node->type == T_OR || node->type == T_PIPE)
+        return (1);
+    return (0);
 }
 
-/*check every directory in PATH until the command is found
-- if no environment, just check common paths*/
-void	get_command_path(char **command_path, char *arg, char **path_array)
+int binop_next_checker(t_token_type type)
 {
-	char	*default_arr[4];
-	int		i;
-
-	i = 0;
-	if (!path_array)
-	{
-		default_arr[0] = "/bin/";
-		default_arr[1] = "/usr/bin/";
-		default_arr[2] = "/usr/local/bin/";
-		default_arr[3] = NULL;
-		path_array = default_arr;
-	}
-	while (path_array[i])
-	{
-		if (ft_strncmp(arg, "/", 1) == 0 || ft_strnstr(arg, "./", 3))
-			*command_path = arg;
-		else
-			*command_path = ft_strjoin(path_array[i], arg);
-		if (access(*command_path, X_OK) == 0)
-			return ;
-		free(*command_path);
-		i++;
-	}
-	if (!path_array[i])
-		perror("Command not found\n");
-}
-
-// Dup2 handler -> open infile
-    // handle if infile does not exists
-    // Create if outfile does not exist
-    // If append > O_APPEND
-    // If heredoc > refer to here_doc pipe
-int ft_dup(t_minishell *minishell, int oldfd, int newfd)
-{
-    int res;
-
-    res = dup2(oldfd, newfd);
-    if (res == -1)
-	{
-		perror("Error duping\n");
-        minishell->minishell_err = DUP2_ERR;
-	}
-    return (res);
+    if (type == T_AND || type == T_OR || type == T_PIPE)
+        return (1);
+    return (0);
 }
 
 int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
@@ -99,24 +41,4 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
         minishell->minishell_err = OPEN_ERR;
 	}
     return (*fd);
-}
-
-// Exec_simple_cmd
-    // Split and expand cmd
-    // Fork
-    // Exec
-void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
-{
-    char *command_path;
-
-    (void)node;
-    command_path = NULL;
-    if (pid == 0)
-    {
-        get_command_path(&command_path, argv[0], minishell->env_path);
-        if (execve(command_path, argv, minishell->envp) == -1)
-            perror("Execve() failed");
-    }
-    else
-        wait(&(minishell->exit_status));
 }

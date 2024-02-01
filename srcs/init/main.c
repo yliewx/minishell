@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	old_stdin = dup(STDIN_FILENO);
 	while (1)
 	{
+		minishell.heredoc_count = 0;
 		command = readline("Minishell:~$ ");
 		if (!command)
 			return (printf("exit\n"), 1);
@@ -40,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 			minishell.tokens = ft_lexer(command);
 			minishell.curr_token = minishell.tokens;
 			ft_parser(&minishell);
-			ft_exec(&minishell);
+			//ft_exec(&minishell);
 			dup2(old_stdin, STDIN_FILENO);
 			free(command);
 		}

@@ -68,6 +68,7 @@ typedef struct s_minishell
 	char	**env_path;
 	int		envp_size;
 	int 	here_doc[2];
+	int		heredoc_count;
 	int 	minishell_err;
 	int 	exit_status;
 }	t_minishell;

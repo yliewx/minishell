@@ -7,7 +7,7 @@ RM = rm -f
 # libft path and flags
 LIBFT = libft.a
 LIB_DIR = ./libft
-LIB_FLAGS = -L $(LIB_DIR) -lft
+LIB_FLAGS = -L $(LIB_DIR) -lft)
 INC = -I ./includes -lreadline
 
 # minishell targets
@@ -16,14 +16,14 @@ BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c \
 	utils/var_name.c
 EXP = expander.c wildcard.c expander_utils.c readdir_utils.c
-EXEC = exec.c exec_utils.c
+EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c exec_redir.c
 INIT = main.c main_avery.c
 UTILS = envp_dup.c envp_sort.c ft_split_argv.c signals.c free_data.c
 LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c
 PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
-EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
+EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC)
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
