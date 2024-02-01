@@ -28,6 +28,8 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
         node->value = NULL;
     node->type = type;
     node->minishell = minishell;
+    node->left = NULL;
+    node->right = NULL;
     node->io_list = NULL;
     if (next_token)
     {
@@ -56,6 +58,7 @@ t_io_node *new_io_node(t_minishell *minishell, t_io_node **list)
     if (!node)
         return (NULL);
     node->type = minishell->curr_token->type;
+    node->next = NULL;
     ft_next_token(minishell);
     node->value = ft_strdup(minishell->curr_token->value);
     ft_next_token(minishell);
