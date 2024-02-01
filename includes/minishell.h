@@ -59,6 +59,13 @@ typedef struct s_command
 	struct s_data		*data;
 }	t_command;
 
+typedef struct s_h_list
+{
+	char	*delimiter;
+	int		pipe[2];
+	struct s_h_list *next;
+} 	t_h_list;
+
 typedef struct s_minishell
 {
 	t_node *ast;

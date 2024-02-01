@@ -7,7 +7,7 @@ RM = rm -f
 # libft path and flags
 LIBFT = libft.a
 LIB_DIR = ./libft
-LIB_FLAGS = -L $(LIB_DIR) -lft)
+LIB_FLAGS = -L $(LIB_DIR) -lft
 INC = -I ./includes -lreadline
 
 # minishell targets
@@ -23,7 +23,7 @@ LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c
 PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
-EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC)
+EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))

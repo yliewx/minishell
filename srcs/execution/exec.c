@@ -37,8 +37,8 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
 
 t_node *ft_exec(t_minishell *minishell)
 {
-    if (minishell->is_heredoc == 1)
-       continue;
+    // if (minishell->is_heredoc == 1)
+    //    continue;
     traverse_tree(minishell->ast, minishell);
     return (minishell->ast);
 }

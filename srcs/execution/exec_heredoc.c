@@ -25,10 +25,10 @@ void	ft_heredoc(char *limiter, int *pipefd)
 				ft_strlen(line) - 1) == 0
 			&& ft_strlen(line) - 1 == ft_strlen(limiter))
 		{
-			free(line);
+			free(curr_line);
 			break ;
 		}
-		ft_putstr_fd(current_line, pipefd[1]);
-		free(current_line);
+		ft_putstr_fd(curr_line, pipefd[1]);
+		free(curr_line);
 	}
 }

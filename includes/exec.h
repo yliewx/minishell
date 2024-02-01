@@ -27,7 +27,7 @@ char	**get_env_path(char **envp);
 void	get_command_path(char **command_path, char *arg, char **path_array);
 
 // Exec redirect functions
-int     ft_dup(t_minishell *minishell, int oldfd, int newfd)
+int     ft_dup(t_minishell *minishell, int oldfd, int newfd);
 int     redir_handler(t_node *node, int pid, int *pipefd);
 
 // Exec util functions
