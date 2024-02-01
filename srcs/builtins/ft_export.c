@@ -22,6 +22,7 @@ but export "testvar= 123" succeeds
 int	print_export(t_minishell *minishell)
 {
 	char	*var_name;
+	char	*value;
 	int		i;
 
 	i = 0;
@@ -29,10 +30,14 @@ int	print_export(t_minishell *minishell)
 	while (minishell->envp[i])
 	{
 		var_name = extract_var_name(minishell->envp[i]);
-		if (ft_strncmp(var_name, "_=", 3) != 0)
+		if (var_name && ft_strncmp(var_name, "_=", 3) != 0)
 		{
-			printf("declare -x %s\"%s\"\n", var_name,
-				after_equal_sign(minishell->envp[i]));
+			printf("declare -x %s", var_name);
+			value = after_equal_sign(minishell->envp[i]);
+			if (value)
+				printf("\"%s\"\n", value);
+			else
+				printf("\n");
 		}
 		free(var_name);
 		i++;
