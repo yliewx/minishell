@@ -68,7 +68,10 @@ int redir_handler(t_node *node, int pid, int *pipefd)
     else
     {
         if (node->next_binop == T_PIPE)
+        {
             close(pipefd[1]);
+            ft_dup(node->minishell, pipefd[0], STDIN_FILENO);
+        }
     }
     return (0);
 }
@@ -91,7 +94,7 @@ void exec_command(t_node *node, t_minishell *minishell)
         pid = fork();
     }
     if (redir_handler(node, pid, pipefd) == -1)
-        exit(1);
+        return ;
     if (builtin_type != CMD_SIMPLE)
     {
         exec_builtin(node, builtin_type, pid);

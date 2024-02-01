@@ -50,23 +50,23 @@
 // }
 
 // Lexer main
-int	main(int argc, char **argv, char **envp)
-{
-	t_minishell minishell;
-	char *command;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_minishell minishell;
+// 	char *command;
 
-	if (argc > 1 && argv)
-	{
-		ft_putstr_fd("Program does not accept arguments.\n", 2);
-		return (0);
-	}
-	array_dup(&minishell, envp);
-	//testing
-	command = readline("Minishell:~$ ");
-	minishell.env_path = get_env_path(envp);
-	minishell.tokens = ft_lexer(command);
-	minishell.curr_token = minishell.tokens;
-	ft_parser(&minishell);
-	ft_exec(&minishell);
-	return (0);
-}
+// 	if (argc > 1 && argv)
+// 	{
+// 		ft_putstr_fd("Program does not accept arguments.\n", 2);
+// 		return (0);
+// 	}
+// 	array_dup(&minishell, envp);
+// 	//testing
+// 	command = readline("Minishell:~$ ");
+// 	minishell.env_path = get_env_path(envp);
+// 	minishell.tokens = ft_lexer(command);
+// 	minishell.curr_token = minishell.tokens;
+// 	ft_parser(&minishell);
+// 	ft_exec(&minishell);
+// 	return (0);
+// }

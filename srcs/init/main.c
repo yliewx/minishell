@@ -32,13 +32,14 @@ int	main(int argc, char **argv, char **envp)
 		command = readline("Minishell:~$ ");
 		if (!command)
 			return (printf("exit\n"), 1);
-		else if (command && command[0])
+		if (command && command[0])
 		{
 			add_history(command);
 			minishell.tokens = ft_lexer(command);
 			minishell.curr_token = minishell.tokens;
 			ft_parser(&minishell);
 			ft_exec(&minishell);
+			free(command);
 		}
 	}
 	return (0);
