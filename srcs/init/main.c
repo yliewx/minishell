@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		minishell.heredoc_count = 0;
+		minishell.heredoc_list = NULL;
 		command = readline("Minishell:~$ ");
 		if (!command)
 			return (printf("exit\n"), 1);
@@ -41,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 			minishell.tokens = ft_lexer(command);
 			minishell.curr_token = minishell.tokens;
 			ft_parser(&minishell);
+			print_heredoc(minishell.heredoc_list);
 			//ft_exec(&minishell);
 			dup2(old_stdin, STDIN_FILENO);
 			free(command);

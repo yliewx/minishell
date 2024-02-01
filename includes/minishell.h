@@ -59,22 +59,22 @@ typedef struct s_command
 	struct s_data		*data;
 }	t_command;
 
-typedef struct s_h_list
+typedef struct s_heredoc
 {
 	char	*delimiter;
-	int		pipe[2];
-	struct s_h_list *next;
-} 	t_h_list;
+	int		pipefd[2];
+	struct s_heredoc *next;
+} 	t_heredoc;
 
 typedef struct s_minishell
 {
 	t_node *ast;
 	t_token *tokens;
 	t_token *curr_token;
+	t_heredoc *heredoc_list;
 	char	**envp;
 	char	**env_path;
 	int		envp_size;
-	int 	here_doc[2];
 	int		heredoc_count;
 	int 	minishell_err;
 	int 	exit_status;

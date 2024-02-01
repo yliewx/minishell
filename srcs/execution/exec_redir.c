@@ -63,7 +63,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
             else if (io_list->type == T_APPEND)
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             else if (io_list->type == T_HEREDOC)
-                ft_dup(node->minishell, node->minishell->here_doc[0], STDIN_FILENO);
+                ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], STDIN_FILENO);
             io_list = io_list->next;
         }
     }
