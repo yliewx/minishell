@@ -16,6 +16,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 	char	*command;
+	int old_stdin;
 
 	if (argc > 1 && argv)
 	{
@@ -27,6 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	//testing
 	minishell.exit_status = 0;
 	init_signals(&minishell);
+	old_stdin = dup(STDIN_FILENO);
 	while (1)
 	{
 		command = readline("Minishell:~$ ");
@@ -39,8 +41,10 @@ int	main(int argc, char **argv, char **envp)
 			minishell.curr_token = minishell.tokens;
 			ft_parser(&minishell);
 			ft_exec(&minishell);
+			dup2(old_stdin, STDIN_FILENO);
 			free(command);
 		}
 	}
+	close(old_stdin);
 	return (0);
 }

@@ -35,6 +35,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
     t_io_node *io_list;
     int fd;
 
+    fd = -1;
     io_list = node->io_list;
     //printf("node %s entered redir_handler\n", node->value);
     if (pid == 0 || !is_fork_cmd(check_builtin(node)))
