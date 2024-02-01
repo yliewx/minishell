@@ -37,7 +37,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
 
     io_list = node->io_list;
     //printf("node %s entered redir_handler\n", node->value);
-    if (pid == 0 || !is_builtin_fork(check_builtin(node)))
+    if (pid == 0 || !is_fork_cmd(check_builtin(node)))
     {
         if (node->next_binop == T_PIPE)
         {
@@ -52,16 +52,20 @@ int redir_handler(t_node *node, int pid, int *pipefd)
                 return (-1);
             }
             if (io_list->type == T_REDIR_L)
+            {
+                printf("redir input to %s\n", io_list->value);
                 ft_dup(node->minishell, fd, STDIN_FILENO);
+            }
             else if (io_list->type == T_REDIR_R)
             {
-                printf("redirecting to %s\n", io_list->value);
+                printf("redir output to %s\n", io_list->value);
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             }
             else if (io_list->type == T_APPEND)
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             else if (io_list->type == T_HEREDOC)
                 ft_dup(node->minishell, node->minishell->here_doc[0], STDIN_FILENO);
+            printf("io_list loop\n");
             io_list = io_list->next;
         }
     }
@@ -84,7 +88,7 @@ void exec_command(t_node *node, t_minishell *minishell)
     builtin_type = -1;
     get_expanded_arg(node);
     builtin_type = check_builtin(node);
-    if (builtin_type == CMD_SIMPLE || is_builtin_fork(builtin_type))
+    if (is_fork_cmd(builtin_type))
     {
         if (node->next_binop == T_PIPE)
             pipe(pipefd);

@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-bool	is_builtin_fork(int type)
+bool	is_fork_cmd(int type)
 {
-	return (type == CMD_ECHO || type == CMD_ENV || type == CMD_PWD);
+	return (type == CMD_ECHO || type == CMD_ENV || type == CMD_PWD || type == CMD_SIMPLE);
 }
 
 int	check_builtin(t_node *node)
@@ -38,7 +38,7 @@ int	check_builtin(t_node *node)
 
 int	exec_builtin(t_node *node, int type, int pid)
 {
-	if (is_builtin_fork(type))
+	if (is_fork_cmd(type))
 	{
 		if (pid == 0)
 		{

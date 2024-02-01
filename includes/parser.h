@@ -19,6 +19,7 @@ typedef struct s_io_node
 {
     t_token_type type;
     char *value;
+    char **expanded_arg;
 	struct s_io_node	*next;
 }   t_io_node;
 
