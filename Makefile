@@ -33,7 +33,7 @@ EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 
 # builtins
 BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
-	ft_export.c ft_pwd.c ft_unset.c \
+	ft_export.c ft_pwd.c ft_unset.c utils/check_builtin_utils.c \
 	utils/builtin_errors.c utils/remove_quotes.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 

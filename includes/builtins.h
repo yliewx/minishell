@@ -51,6 +51,7 @@ int	ft_exit(t_minishell *minishell);
 
 /*builtin utils*/
 bool	is_fork_cmd(int type);
+bool	is_export_without_arg(t_node *node, int type);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/

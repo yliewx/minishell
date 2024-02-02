@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-bool	is_fork_cmd(int type)
-{
-	return (type == CMD_ECHO || type == CMD_ENV || type == CMD_PWD || type == CMD_SIMPLE);
-}
-
 int	check_builtin(t_node *node)
 {
 	if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)
