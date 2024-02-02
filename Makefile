@@ -11,24 +11,42 @@ LIB_FLAGS = -L $(LIB_DIR) -lft
 INC = -I ./includes -lreadline
 
 # minishell targets
+# init
+INIT = main.c main_avery.c
+INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+
+# lexer
+LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c
+LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
+
+# parser
+PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
+PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
+
+# expander
+EXP = expander.c wildcard.c pattern.c expander_utils.c dir_list_utils.c
+EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
+
+# execution
+EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c exec_redir.c
+EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
+
+# builtins
 BUILTIN = check_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	ft_export.c ft_pwd.c ft_unset.c \
-	utils/builtin_errors.c utils/envp_utils.c utils/remove_quotes.c \
-	utils/var_name.c
-EXP = expander.c wildcard.c pattern.c expander_utils.c readdir_utils.c
-EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c exec_redir.c
-INIT = main.c main_avery.c
-UTILS = envp_dup.c envp_sort.c ft_split_argv.c signals.c free_data.c
-LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c
-PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
+	utils/builtin_errors.c utils/remove_quotes.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
-EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
-EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
-INIT_SRCS = $(addprefix srcs/init/, $(INIT))
+
+# environment
+ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
+ENV_SRCS = $(addprefix srcs/env/, $(ENV))
+
+# misc utils
+UTILS = ft_split_argv.c signals.c free_data.c
 UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
-LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
-PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
-SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) $(LEXER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS)
+
+SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) \
+	$(LEXER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS) $(ENV_SRCS)
 
 # colours
 GREEN = \033[0;32m

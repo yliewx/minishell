@@ -41,7 +41,6 @@ enum e_builtin_err
 /*builtins*/
 int	check_builtin(t_node *node);
 int	exec_builtin(t_node *node, int type, int pid);
-bool	is_fork_cmd(int type);
 int	ft_echo(t_node *node);
 int	ft_cd(t_minishell *minishell, t_node *node);
 int	ft_pwd(t_minishell *minishell);
@@ -50,11 +49,8 @@ int	ft_unset(t_minishell *minishell, t_node *node);
 int	ft_env(t_minishell *minishell);
 int	ft_exit(t_minishell *minishell);
 
-/*builtin_utils*/
-void	update_envp(t_minishell *minishell, char *var, char *value, char *command);
-int	search_envp_index(char **envp, char *var, int len);
-char	*extract_var_name(char *arg);
-char	*after_equal_sign(char *arg);
+/*builtin utils*/
+bool	is_fork_cmd(int type);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/

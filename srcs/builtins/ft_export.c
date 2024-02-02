@@ -34,10 +34,13 @@ int	print_export(t_minishell *minishell)
 		{
 			printf("declare -x %s", var_name);
 			value = after_equal_sign(minishell->envp[i]);
-			if (value)
+			if (value[0])
 				printf("\"%s\"\n", value);
 			else
+			{
+				free(value);
 				printf("\n");
+			}
 		}
 		free(var_name);
 		i++;

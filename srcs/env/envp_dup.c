@@ -23,7 +23,7 @@ char	*init_oldpwd(void)
 	return (oldpwd);
 }
 
-void	array_dup(t_minishell *minishell, char **envp)
+void	envp_dup(t_minishell *minishell, char **envp)
 {
 	int	i;
 

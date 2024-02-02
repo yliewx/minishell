@@ -35,12 +35,11 @@ void	update_pwd(t_minishell *minishell)
 int	cd_home(t_minishell *minishell)
 {
 	char	*home_path;
-	int		index;
 
-	index = search_envp_index(minishell->envp, "HOME=", 5);
-	home_path = after_equal_sign(minishell->envp[index]);
+	home_path = value_in_env(minishell->envp, "HOME=", 5);
 	if (chdir(home_path) == -1)
 		return (cd_error(CD_NODIR, home_path, minishell));
+	update_pwd(minishell);
 	return (set_exit_success(minishell));
 }
 

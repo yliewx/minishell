@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_env.c                                       :+:      :+:    :+:   */
+/*   update_envp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,20 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	search_envp_index(char **envp, char *var, int len)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], var, len) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 int	resize_envp(t_minishell *minishell, int size, int remove_index)
 {

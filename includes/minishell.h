@@ -31,6 +31,7 @@
 # include "./builtins.h"
 # include "./expander.h"
 # include "./exec.h"
+# include "./env.h"
 
 /*text colour*/
 
@@ -38,26 +39,6 @@
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
 # define RESET "\033[0m"
-
-// command table struct
-/* nodes for linked list
-- input/output fds
-- command
-- pointer to the next command
-- pointer to t_data
-*/
-typedef struct s_command
-{
-	char	*token;
-	char	**argv;
-	/*char	*command;
-	char	*flags;
-	char	*arg;*/
-	int	input_fd;
-	int	output_fd;
-	struct s_command	*next;
-	struct s_data		*data;
-}	t_command;
 
 typedef struct s_heredoc
 {
@@ -99,8 +80,6 @@ enum e_minishell_err
 };
 
 /*utils*/
-void	array_dup(t_minishell *minishell, char **envp);
-void	sort_envp(char **envp, int start, int end);
 void	ft_swap(char **a, char **b);
 void	free_data(t_minishell *minishell);
 char	**ft_split_argv(char *arg);

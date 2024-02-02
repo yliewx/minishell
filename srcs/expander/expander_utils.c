@@ -18,16 +18,6 @@ bool	is_varname(int c)
 		|| c == '_');
 }
 
-char	*value_in_env(char **envp, char *var, int len)
-{
-	int	i;
-
-	i = search_envp_index(envp, var, len);
-	if (i >= 0)
-		return (envp[i] + len + 1);
-	return (ft_strdup(""));
-}
-
 char	*replace_with_value(char *arg, char *value, int start, int total_len)
 {
 	char	*new_str;
