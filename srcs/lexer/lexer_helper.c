@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+// t_token **create_str_token(t_token **token_list, char *line, int i, int j)
+// {
+// 	t_token *token;
+// 	char *str;
+// 	int end;
+
+// 	end = i;
+// 	str = malloc(sizeof(char) * (i - j + 1));
+// 	if (!str)
+// 		return (NULL);
+// 	while (line[end - 1] == ' ')
+// 		end--;
+// 	ft_strlcpy(str, &line[i - j], end - (i - j) + 1);
+// 	token = create_node(str, T_STRING);
+// 	if (!token)
+// 		return (free(str), NULL);
+// 	token_add_back(token_list, token);
+// 	return(token_list);
+// }
+
 t_token **create_str_token(t_token **token_list, char *line, int i, int j)
 {
 	t_token *token;
@@ -19,12 +39,12 @@ t_token **create_str_token(t_token **token_list, char *line, int i, int j)
 	int end;
 
 	end = i;
-	str = malloc(sizeof(char) * (i - j + 1));
+	str = malloc(sizeof(char) * (j + 1));
 	if (!str)
 		return (NULL);
 	while (line[end - 1] == ' ')
 		end--;
-	ft_strlcpy(str, &line[i - j], end - (i - j) + 1);
+	ft_strlcpy(str, &line[i - j], j - (i - end) + 1);
 	token = create_node(str, T_STRING);
 	if (!token)
 		return (free(str), NULL);

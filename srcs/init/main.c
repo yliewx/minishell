@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			minishell.curr_token = minishell.tokens;
 			ft_parser(&minishell);
 			print_heredoc(minishell.heredoc_list);
-			//ft_exec(&minishell);
+			ft_exec(&minishell);
 			dup2(old_stdin, STDIN_FILENO);
 			free(command);
 		}
