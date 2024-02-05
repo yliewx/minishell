@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// Print tree
-
 // parse_expression(min_prec)
 // Lookahead = peek next token
     // Get left term with compute_node()
