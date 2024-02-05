@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/* Runs lexer function on command
+Iterates through command line
+Skips spaces and finds next token to tokenize
+After tokenization, runs quote checker to check for unclosed quotes
+*/
 t_token *ft_lexer(char *line)
 {
 	t_token *token_list;
