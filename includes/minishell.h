@@ -62,26 +62,10 @@ typedef struct s_minishell
 	int 	exit_status;
 }	t_minishell;
 
-enum e_minishell_err
-{
-	SYNTAX_ERR,
-	MEM_ERR,
-	OPEN_ERR,
-	DUP2_ERR,
-	PIPE_ERR,
-	FORK_ERR,
-	EXEC_ERR
-};
-
 /*utils*/
 void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
-
-/*free data*/
-void	free_data(t_minishell *minishell);
-void	free_data_and_exit(t_minishell *minishell);
-void	free_arrays(char ***array);
 
 #endif

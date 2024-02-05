@@ -10,6 +10,8 @@ LIB_DIR = ./libft
 LIB_FLAGS = -L $(LIB_DIR) -lft
 INC = -I ./includes -lreadline
 
+#------------------------------------------------------------------------
+
 # minishell targets
 # init
 INIT = main.c main_avery.c
@@ -24,11 +26,13 @@ PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
 PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 
 # expander
-EXP = expander.c wildcard.c pattern.c expander_utils.c dir_list_utils.c
+EXP = expander.c wildcard.c pattern.c expander_utils.c dir_list_utils.c \
+	ft_split_argv.c
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 
 # execution
-EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c exec_redir.c
+EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c \
+	exec_redir.c
 EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 
 # builtins
@@ -41,12 +45,15 @@ BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
 ENV_SRCS = $(addprefix srcs/env/, $(ENV))
 
-# misc utils
-UTILS = ft_split_argv.c signals.c free_data.c
-UTILS_SRCS = $(addprefix srcs/misc_utils/, $(UTILS))
+# error utils
+ERR = signals.c free_data.c
+ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 
-SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(UTILS_SRCS) \
+# all srcs
+SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(ERR_SRCS) \
 	$(LEXER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS) $(ENV_SRCS)
+
+#------------------------------------------------------------------------
 
 # colours
 GREEN = \033[0;32m
@@ -54,6 +61,8 @@ B_GREEN = \033[1;32m
 BROWN = \033[0;33m
 B_BROWN = \033[1;33m
 END = \033[0m
+
+#------------------------------------------------------------------------
 
 # RULES
 # all = create library from sub-make
@@ -80,6 +89,8 @@ fclean: clean
 	@echo "$(B_GREEN)Removed $(NAME) and $(LIBFT).$(END)"
 
 re: fclean all
+
+#------------------------------------------------------------------------
 
 # declare phony
 .PHONY: all clean fclean re

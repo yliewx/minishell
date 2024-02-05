@@ -17,6 +17,7 @@ char	**get_env_path(char **envp)
 {
 	char	**path;
 	char	*start_pos;
+	char	*temp;
 	int		i;
 	int		j;
 
@@ -30,7 +31,9 @@ char	**get_env_path(char **envp)
 	j = 0;
 	while (path[j])
 	{
-		path[j] = ft_strjoin(path[j], "/");
+		temp = path[j];
+		path[j] = ft_strjoin(temp, "/");
+		free(temp);
 		j++;
 	}
 	return (path);

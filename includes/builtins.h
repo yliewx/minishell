@@ -29,15 +29,6 @@ enum e_command_type
 	CMD_UNSET,
 };
 
-enum e_builtin_err
-{
-	EXPORT_OPTION = 10,
-	EXPORT_IDENTIFIER,
-	UNSET_PARAM,
-	CD_ARG,
-	CD_NODIR,
-};
-
 /*builtins*/
 int	check_builtin(t_node *node);
 int	exec_builtin(t_node *node, int type, int pid);
