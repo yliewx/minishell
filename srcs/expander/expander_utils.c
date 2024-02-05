@@ -51,26 +51,3 @@ char	*replace_with_value(char *arg, char *value, int start, int total_len)
 	new_str[i] = '\0';
 	return (new_str);
 }
-
-/*echo "hello world '$HOME'"
-	hello world '/home/[path]'
-echo 'hello world "$HOME"'
-	hello world "$HOME"
-*/
-bool    is_in_quote(char *c, char *arg, int quote)
-{
-	char	*start_quote;
-	char	*end_quote;
-
-	start_quote = ft_strchr(arg, quote);
-	end_quote = ft_strrchr(arg, quote);
-	if (!start_quote || !end_quote)
-		return (false);
-	if (quote == '\'')
-    {
-		if (is_in_quote(start_quote, arg, '\"')
-			&& (c > start_quote && c < end_quote))
-            return (false);
-    }
-    return (c > start_quote && c < end_quote);
-}

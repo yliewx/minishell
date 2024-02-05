@@ -43,6 +43,10 @@ enum e_builtin_err
 int		set_exit_success(t_minishell *minishell);
 int		set_exit_error(t_minishell *minishell, int error, int status);
 
+/*errors*/
+int	expander_error(int error, char *arg, t_minishell *minishell);
+bool 	is_ambiguous_redir(t_io_node *io_node);
+
 /*free data*/
 void	free_data(t_minishell *minishell);
 void	free_data_and_exit(t_minishell *minishell);

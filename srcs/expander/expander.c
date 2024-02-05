@@ -67,19 +67,24 @@ void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start)
 {
 	int	next_start_pos;
 
+	if (var_start)
+		printf("\n\nvar_start 1: %s\n", var_start);
+	printf("current arg: %s\n\n", *arg);
 	if (!var_start || !var_start[0])
 		return ;
 	var_start = ft_strchr(var_start, '$');
 	if (!var_start)
 		return ;
-	if (is_in_quote(var_start, *arg, '\''))
-		var_start = ft_strrchr(var_start, '\'');
-	while (var_start[1] && var_start[1] == '$')
+	if (skip_quotes(var_start, *arg))
+		var_start = get_end_quote(var_start + 1, '\'');
+	printf("var_start 2: %s\n", var_start);
+	while (var_start && var_start[1] && var_start[1] == '$')
 		var_start++;
 	if (var_start && var_start[0] == '$')
 	{
 		next_start_pos = ft_expand(minishell, arg, var_start);
-		var_start = *arg + next_start_pos;
+		if (next_start_pos > 0)
+			var_start = *arg + next_start_pos;
 	}
 	check_expandable_var(minishell, arg, var_start);
 }
@@ -99,6 +104,10 @@ void	get_expanded_arg(t_node *node)
 	{
 		check_expandable_var(node->minishell, &node->io_list->value,
 			node->io_list->value);
-		check_wildcard(&node->io_list->value, &node->io_list->expanded_arg);
+		if (is_ambiguous_redir(node->io_list))
+			expander_error(AMBIG_REDIR_ERR, node->io_list->value,
+				node->minishell);
+		else
+			check_wildcard(&node->io_list->value, &node->io_list->expanded_arg);
 	}
 }

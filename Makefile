@@ -27,7 +27,7 @@ PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 
 # expander
 EXP = expander.c wildcard.c pattern.c expander_utils.c dir_list_utils.c \
-	ft_split_argv.c
+	ft_split_argv.c check_quotes_utils.c
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 
 # execution
@@ -46,7 +46,7 @@ ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
 ENV_SRCS = $(addprefix srcs/env/, $(ENV))
 
 # error utils
-ERR = set_exit_status.c signals.c free_data.c
+ERR = set_exit_status.c expander_error.c signals.c free_data.c
 ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 
 # all srcs

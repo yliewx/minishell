@@ -71,14 +71,11 @@ void    check_wildcard(char **node_value, char **node_expanded)
 	char	*asterisk;
 
 	asterisk = ft_strchr(*node_value, '*');
-	if (!asterisk || !node_value || is_in_quote(asterisk, *node_value, '\'')
-		|| is_in_quote(asterisk, *node_value, '\"'))
+	if (!asterisk || !node_value
+		|| is_in_quote(asterisk, '\'')
+		|| is_in_quote(asterisk, '\"'))
 		return ;
 	extract_pattern(&pattern, asterisk, *node_value);
-	if (ft_strncmp(pattern.start, "*", 2) == 0)
-	{
-		return ;
-	}
 	match_list = NULL;
 	find_match_in_dir(&match_list, &pattern);
 	if (match_list)
