@@ -118,3 +118,40 @@ int find_next_token(t_token **token_list, char *line, int *i)
 	}
 	return (*i);
 }
+
+int quotes_checker(t_token *token_list)
+{
+	t_token *lst;
+	int i;
+	char *end_quote;
+
+	lst = token_list;
+	while (lst)
+	{
+		i = -1;
+		if (lst->value)
+		{
+			while (lst->value[++i])
+			{
+				if (lst->value[i] == '\'' || lst->value[i] == '\"')
+				{
+					if (lst->value[i] == '\'')
+						end_quote = ft_strrchr(&lst->value[i], '\'');
+					else if (lst->value[i] == '\"')
+						end_quote = ft_strrchr(&lst->value[i], '\"');
+					if (end_quote == &(lst->value[i]))
+					{
+						ft_putstr_fd("Error: Unclosed quote found in: ", 2);
+						ft_putstr_fd(lst->value, 2);
+						ft_putstr_fd("\n", 2);
+						return (-1);
+					}
+					else
+						i = end_quote - lst->value;
+				}
+			}
+		}
+		lst = lst->next;
+	}
+	return (0);
+}

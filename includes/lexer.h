@@ -44,6 +44,7 @@ t_token **create_str_token(t_token **token_list, char *line, int i, int j);
 t_token **create_symbol(t_token **token_list, t_token_type sym_type, int *i);
 t_token **create_sym_token(t_token **token_list, char *line, int *i);
 int find_next_token(t_token **token_list, char *line, int *i);
+int quotes_checker(t_token *token_list);
 
 // Lexer list functions
 t_token *create_node(char *content, t_token_type type);

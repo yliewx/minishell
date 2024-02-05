@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_putstr_fd("Program does not accept arguments.\n", 2);
 		return (0);
 	}
-	array_dup(&minishell, envp);
+	envp_dup(&minishell, envp);
 	minishell.env_path = get_env_path(envp);
 	//testing
 	minishell.exit_status = 0;
@@ -40,12 +40,15 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(command);
 			minishell.tokens = ft_lexer(command);
-			minishell.curr_token = minishell.tokens;
-			ft_parser(&minishell);
-			print_heredoc(minishell.heredoc_list);
-			ft_exec(&minishell);
-			dup2(old_stdin, STDIN_FILENO);
-			free(command);
+			if (minishell.tokens)
+			{
+				minishell.curr_token = minishell.tokens;
+				ft_parser(&minishell);
+				//print_heredoc(minishell.heredoc_list);
+				ft_exec(&minishell);
+			}
+				dup2(old_stdin, STDIN_FILENO);
+				free(command);
 		}
 	}
 	close(old_stdin);

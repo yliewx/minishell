@@ -28,6 +28,8 @@ t_token *ft_lexer(char *line)
 			break ;
 		}
 	}
+	if (quotes_checker(token_list) == -1)
+		ft_free_token_list(&token_list);
 	//print_token_list(token_list);
 	return (token_list);
 }
