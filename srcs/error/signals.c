@@ -15,6 +15,8 @@
 /*possible cases to handle:
 - heredoc interruption?
 - sigint when command is in the middle of executing?*/
+
+// Re-initialize minishell
 void	sigint_handler(int signum)
 {
 	(void)signum;

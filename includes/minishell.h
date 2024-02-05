@@ -68,5 +68,11 @@ void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
+int 	arg_checker(int argc, char **argv);
+int ft_minishell(t_minishell *minishell);
+
+// Init functions
+void init_minishell(t_minishell *minishell);
+void	init_env(t_minishell *minishell, char **envp);
 
 #endif
