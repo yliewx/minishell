@@ -22,4 +22,14 @@ int arg_checker(int argc, char **argv)
     return (0);
 }
 
+char *ft_cmd_line(char *user)
+{
+	if (user)
+	{
+		ft_putstr_fd(user, 1);
+		ft_putstr_fd("@", 1);
+	}
+	return (readline("Minishell:~$ "));
+}
+
 

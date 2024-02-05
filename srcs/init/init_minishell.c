@@ -23,4 +23,8 @@ void init_minishell(t_minishell *minishell)
     minishell->heredoc_count = 0;
     minishell->minishell_err = 0;
     minishell->exit_status = 0;
+    if (minishell->envp)
+    	minishell->user = value_in_env(minishell->envp, "USER", 4);
+    else
+        minishell->user = NULL;
 }

@@ -14,15 +14,11 @@
 
 int ft_minishell(t_minishell *minishell)
 {
-	char *user;
 	char *command;
 
-	user = value_in_env(minishell->envp, "USER", 4);
 	while (1)
 	{
-		ft_putstr_fd(user, 1);
-		ft_putstr_fd("@", 1);
-		command = readline("Minishell:~$ ");
+		command = ft_cmd_line(minishell->user);
 		if (!command)
 			return (printf("exit\n"), 1);
 		if (command && command[0])

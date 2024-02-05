@@ -56,6 +56,7 @@ typedef struct s_minishell
 	t_heredoc *heredoc_list;
 	char	**envp;
 	char	**env_path;
+	char	*user;
 	int		envp_size;
 	int		old_stdin;
 	int		heredoc_count;
@@ -69,7 +70,8 @@ char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
 int 	arg_checker(int argc, char **argv);
-int ft_minishell(t_minishell *minishell);
+int 	ft_minishell(t_minishell *minishell);
+char	*ft_cmd_line(char *user);
 
 // Init functions
 void init_minishell(t_minishell *minishell);
