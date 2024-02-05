@@ -53,7 +53,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
     fd = -1;
     io_list = node->io_list;
     //printf("node %s entered redir_handler, next binop type is %i\n", node->value, node->next_binop);
-    if (pid == 0 || !is_fork_cmd(check_builtin(node)))
+    if (pid == 0 || !is_fork_cmd(node, check_builtin(node)))
     {
         if (node->next_binop == T_PIPE)
         {

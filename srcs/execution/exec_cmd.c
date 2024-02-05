@@ -45,12 +45,10 @@ void exec_command(t_node *node, t_minishell *minishell)
     builtin_type = -1;
     get_expanded_arg(node);
     builtin_type = check_builtin(node);
-    if (is_fork_cmd(builtin_type))
-    {
-        if (node->next_binop == T_PIPE)
+    if (node->next_binop == T_PIPE)
             pipe(pipefd);
+    if (is_fork_cmd(node, builtin_type))
         pid = fork();
-    }
     if (redir_handler(node, pid, pipefd) == -1)
         return ;
     if (builtin_type != CMD_SIMPLE)
