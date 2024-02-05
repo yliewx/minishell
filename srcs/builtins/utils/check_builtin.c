@@ -5,12 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 17:15:42 by yliew             #+#    #+#             */
-/*   Updated: 2024/01/11 17:15:50 by yliew            ###   ########.fr       */
+/*   Created: 2024/02/02 16:16:24 by yliew             #+#    #+#             */
+/*   Updated: 2024/02/02 16:16:26 by yliew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_export_without_arg(t_node *node, int type)
+{
+	return (type == CMD_EXPORT && !node->expanded_arg[1]);
+}
+
+bool	is_fork_cmd(t_node *node, int type)
+{
+	return (type == CMD_ECHO || type == CMD_ENV || type == CMD_PWD
+		|| type == CMD_SIMPLE || is_export_without_arg(node, type));
+}
 
 int	check_builtin(t_node *node)
 {
@@ -29,35 +40,4 @@ int	check_builtin(t_node *node)
 	else if (ft_strncmp(node->expanded_arg[0], "exit", 5) == 0)
 		return (CMD_EXIT);
 	return (CMD_SIMPLE);
-}
-
-int	exec_builtin(t_node *node, int type, int pid)
-{
-	if (is_fork_cmd(type))
-	{
-		if (pid == 0)
-		{
-			if (type == CMD_ECHO)
-				ft_echo(node);
-			else if (type == CMD_PWD)
-				ft_pwd(node->minishell);
-			else if (type == CMD_ENV)
-				ft_env(node->minishell);
-			exit(node->minishell->exit_status);
-		}
-		else
-			wait(&(node->minishell->exit_status));
-	}
-	else
-	{
-		if (type == CMD_CD)
-			ft_cd(node->minishell, node);
-		else if (type == CMD_EXPORT)
-			ft_export(node->minishell, node);
-		else if (type == CMD_UNSET)
-			ft_unset(node->minishell, node);
-		else if (type == CMD_EXIT)
-			ft_exit(node->minishell);
-	}
-	return (1);
 }

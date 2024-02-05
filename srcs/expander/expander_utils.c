@@ -12,10 +12,18 @@
 
 #include "minishell.h"
 
-bool	is_varname(int c)
+bool	is_var_name(int c)
 {
 	return (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		|| c == '_');
+}
+
+char	*get_var_name(char *var_start, int *var_len)
+{
+	*var_len = 1;
+	while (var_start[*var_len] && is_var_name(var_start[*var_len]))
+		(*var_len)++;
+	return (ft_substr(var_start, 0, *var_len));
 }
 
 char	*replace_with_value(char *arg, char *value, int start, int total_len)
@@ -32,7 +40,7 @@ char	*replace_with_value(char *arg, char *value, int start, int total_len)
 		start++;
 	else
 	{
-		while (arg[start] && is_varname(arg[start]))
+		while (arg[start] && is_var_name(arg[start]))
 			start++;
 	}
 	j = 0;

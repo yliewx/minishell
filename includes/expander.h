@@ -36,7 +36,8 @@ void    check_wildcard(char **node_value, char **node_expanded);
 
 /*utils*/
 char	*replace_with_value(char *arg, char *value, int start, int total_len);
-bool	is_varname(int c);
+char	*get_var_name(char *var_start, int *var_len);
+bool	is_var_name(int c);
 bool    is_in_quote(char *c, char *arg, int quote);
 
 /*pattern*/
