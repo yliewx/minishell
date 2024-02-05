@@ -32,6 +32,7 @@
 # include "./expander.h"
 # include "./exec.h"
 # include "./env.h"
+# include "./error.h"
 
 /*text colour*/
 

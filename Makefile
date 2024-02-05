@@ -14,7 +14,7 @@ INC = -I ./includes -lreadline
 
 # minishell targets
 # init
-INIT = main.c main_avery.c
+INIT = main.c
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
 # lexer
