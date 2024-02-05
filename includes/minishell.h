@@ -56,17 +56,11 @@ typedef struct s_minishell
 	char	**envp;
 	char	**env_path;
 	int		envp_size;
+	int		old_stdin;
 	int		heredoc_count;
 	int 	minishell_err;
 	int 	exit_status;
 }	t_minishell;
-
-typedef struct s_history
-{
-	char				*input;
-	struct s_history	*next;
-	struct	s_data		*data;
-}	t_history;
 
 enum e_minishell_err
 {
