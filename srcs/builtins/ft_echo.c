@@ -18,7 +18,10 @@ int	ft_echo(t_node *node)
 
 	i = 1;
 	if (!node->expanded_arg[i])
+	{
 		printf("\n");
+		return (set_exit_success(node->minishell));
+	}
 	while (node->expanded_arg[i])
 	{
 		remove_quotes(&node->expanded_arg[i]);

@@ -24,10 +24,23 @@ void ft_free_io_list(t_io_node **list)
     {
         next = curr->next;
         free(curr->value);
+        free(curr->expanded_arg);
         free(curr);
         curr = next;
     }
     *list = NULL;
+}
+
+/*free(): double free detected in tcache 2
+zsh: IOT instruction (core dumped)*/
+void    free_node_value(t_node *node)
+{
+    if (node->value)
+        free(node->value);
+    if (node->expanded)
+        free(node->expanded);
+    if (node->expanded_arg)
+        free_arrays(&node->expanded_arg);
 }
 
 void free_ast_nodes(t_node *node)
@@ -38,10 +51,9 @@ void free_ast_nodes(t_node *node)
         free_ast_nodes(node->left);
     if (node->right)
         free_ast_nodes(node->right);
-    if (node->value)
-        free(node->value);
     if (node->io_list)
         ft_free_io_list(&node->io_list);
+    free_node_value(node);
     free(node);
 }
 

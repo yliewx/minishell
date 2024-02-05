@@ -12,14 +12,29 @@
 
 #include "minishell.h"
 
-void	free_data(t_minishell *minishell)
+/*- only free envp when exiting minishell program
+- free ast and token list after every iteration of the minishell loop*/
+void	free_arrays(char ***array)
 {
-	/*int	i;
+	int	i;
 
 	i = 0;
-	while (minishell->envp[i])
-		free(minishell->envp[i++]);
-	free(minishell->envp);*/
+	if (!array | !*array)
+		return ;
+	while ((*array)[i])
+		free((*array)[i++]);
+	free(*array);
+}
+
+void	free_data(t_minishell *minishell)
+{
 	free_ast(&minishell->ast);
 	ft_free_token_list(&minishell->tokens);
+}
+
+void	free_data_and_exit(t_minishell *minishell)
+{
+	free_data(minishell);
+	free_arrays(&minishell->envp);
+	free_arrays(&minishell->env_path);
 }

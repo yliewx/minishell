@@ -81,9 +81,13 @@ enum e_minishell_err
 
 /*utils*/
 void	ft_swap(char **a, char **b);
-void	free_data(t_minishell *minishell);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
+
+/*free data*/
+void	free_data(t_minishell *minishell);
+void	free_data_and_exit(t_minishell *minishell);
+void	free_arrays(char ***array);
 
 #endif
