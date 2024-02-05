@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-int	set_exit_success(t_minishell *minishell)
-{
-	minishell->exit_status = EXIT_SUCCESS;
-	return (0);
-}
-
-int	set_exit_error(t_minishell *minishell, int error, int status)
-{
-	minishell->minishell_err = error;
-	minishell->exit_status = status;
-	return (0);
-}
-
 int	cd_error(int error, char *arg, t_minishell *minishell)
 {
 	ft_putstr_fd("minishell: cd: ", 2);

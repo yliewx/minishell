@@ -39,6 +39,10 @@ enum e_builtin_err
 	CD_NODIR,
 };
 
+/*set exit status*/
+int	set_exit_success(t_minishell *minishell);
+int	set_exit_error(t_minishell *minishell, int error, int status);
+
 /*free data*/
 void	free_data(t_minishell *minishell);
 void	free_data_and_exit(t_minishell *minishell);

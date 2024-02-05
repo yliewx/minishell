@@ -46,7 +46,6 @@ bool	is_export_without_arg(t_node *node, int type);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/
-int	set_exit_success(t_minishell *minishell);
 int	cd_error(int error, char *arg, t_minishell *minishell);
 int	export_error(int error, char *arg, t_minishell *minishell);
 int	unset_error(int error, char *arg, t_minishell *minishell);
