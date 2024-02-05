@@ -20,7 +20,7 @@ void    exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int p
 void    exec_command(t_node *node, t_minishell *minishell);
 
 // Exec heredoc functions
-void	ft_heredoc(char *limiter, int *pipefd);
+void	ft_heredoc(t_heredoc *list);
 
 // Exec path functions
 char	**get_env_path(char **envp);

@@ -29,6 +29,7 @@ typedef struct s_node
 {
     t_token_type type;
     t_token_type next_binop;
+    int is_heredoc;
     char *value;
     char *expanded;
     char **expanded_arg;
@@ -47,6 +48,7 @@ int is_binop(t_token *token);
 int is_redir(t_minishell *minishell);
 int get_token_prec(t_token *token);
 t_token *lookahead(t_minishell *minishell);
+t_token *next_binop(t_minishell *minishell);
 
 // Parser helper functions
 void set_parse_err(int parse_err, t_minishell *minishell);

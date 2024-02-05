@@ -30,6 +30,20 @@ int ft_dup(t_minishell *minishell, int oldfd, int newfd)
     return (res);
 }
 
+// Function to remove node of heredoc_list
+void remove_heredoc_node(t_heredoc **list)
+{
+    t_heredoc *to_free;
+
+    to_free = *list;
+    if (to_free)
+    {
+        *list = (*list)->next;
+        free(to_free->delimiter);
+        free(to_free);
+    }
+}
+
 // Look into output not consistently piped 
 int redir_handler(t_node *node, int pid, int *pipefd)
 {
@@ -38,7 +52,7 @@ int redir_handler(t_node *node, int pid, int *pipefd)
 
     fd = -1;
     io_list = node->io_list;
-    //printf("node %s entered redir_handler\n", node->value);
+    //printf("node %s entered redir_handler, next binop type is %i\n", node->value, node->next_binop);
     if (pid == 0 || !is_fork_cmd(check_builtin(node)))
     {
         if (node->next_binop == T_PIPE)
@@ -63,7 +77,10 @@ int redir_handler(t_node *node, int pid, int *pipefd)
             else if (io_list->type == T_APPEND)
                 ft_dup(node->minishell, fd, STDOUT_FILENO);
             else if (io_list->type == T_HEREDOC)
+            {
+                close(node->minishell->heredoc_list->pipefd[1]);
                 ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], STDIN_FILENO);
+            }
             io_list = io_list->next;
         }
     }
@@ -73,6 +90,12 @@ int redir_handler(t_node *node, int pid, int *pipefd)
         {
             close(pipefd[1]);
             ft_dup(node->minishell, pipefd[0], STDIN_FILENO);
+        }
+        if (node->is_heredoc == 1)
+        {
+            close(node->minishell->heredoc_list->pipefd[1]);
+            close(node->minishell->heredoc_list->pipefd[0]);
+            remove_heredoc_node(&(node->minishell->heredoc_list));
         }
     }
     return (0);

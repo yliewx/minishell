@@ -49,3 +49,14 @@ t_token *lookahead(t_minishell *minishell)
         token = minishell->curr_token->next;
     return (token);
 }
+
+t_token *next_binop(t_minishell *minishell)
+{
+    t_token *token;
+    
+    token = NULL;
+    token = minishell->curr_token;
+    while (!is_binop(token))
+        token = token->next;
+    return (token);
+}

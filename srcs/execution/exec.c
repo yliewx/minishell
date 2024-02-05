@@ -22,6 +22,8 @@
         // Exec and set status
 t_node *traverse_tree(t_node *ast, t_minishell *minishell)
 {
+    if (!ast)
+        return (ast);
     if (is_binop_node(ast))
     {
         traverse_tree(ast->left, minishell);
@@ -37,8 +39,8 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
 
 t_node *ft_exec(t_minishell *minishell)
 {
-    // if (minishell->is_heredoc == 1)
-    //    continue;
+    if (minishell->heredoc_count >= 1)
+       ft_heredoc(minishell->heredoc_list);
     traverse_tree(minishell->ast, minishell);
     return (minishell->ast);
 }

@@ -35,6 +35,8 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
         *fd = open(io_node->value, O_RDONLY);
     else if (io_node->type == T_REDIR_R)
         *fd = open(io_node->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    else if (io_node->type == T_HEREDOC)
+        return (0);
     if (*fd == -1)
 	{
 		perror("Error opening file\n");

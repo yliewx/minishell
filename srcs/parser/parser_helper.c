@@ -43,6 +43,7 @@ t_node *ft_cmd(t_minishell *minishell)
     t_node *node;
     
     node = NULL;
+    //node->is_heredoc = 0;
     if (is_binop(minishell->curr_token) || minishell->curr_token->type == T_CLOSE)
         return (set_parse_err(1, minishell), NULL);
     else if (minishell->curr_token->type == T_OPEN)
@@ -67,7 +68,11 @@ t_node *ft_cmd(t_minishell *minishell)
             //printf("ft_cmd after: current token is %s\n", minishell->curr_token->value);
         }
         while (minishell->curr_token && is_redir(minishell))
+        {
+            if (minishell->curr_token->type == T_HEREDOC)
+                node->is_heredoc = 1;
             new_io_node(minishell, &(node->io_list));
+        }
     }
     return (node);
 }

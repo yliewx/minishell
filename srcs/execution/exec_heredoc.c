@@ -13,22 +13,30 @@
 #include "minishell.h"
 
 // Heredoc -> send input to pipe
-void	ft_heredoc(char *limiter, int *pipefd)
+void	ft_heredoc(t_heredoc *list)
 {
+	t_heredoc *curr_node;
 	char	*curr_line;
-    char    *line;
 
-	while (1)
+	curr_node = list;
+	if (!curr_node)
+		return ;
+	while (curr_node)
 	{
-		curr_line = readline("heredoc> ");
-		if (ft_strncmp(line, limiter,
-				ft_strlen(line) - 1) == 0
-			&& ft_strlen(line) - 1 == ft_strlen(limiter))
+		pipe(curr_node->pipefd);
+		while (1)
 		{
+			curr_line = readline("> ");
+			if (!ft_strncmp(curr_line, curr_node->delimiter, ft_strlen(curr_line)) \
+				&& (ft_strlen(curr_line) == ft_strlen(curr_node->delimiter)))
+			{
+				free(curr_line);
+				break ;
+			}
+			ft_putstr_fd(curr_line, curr_node->pipefd[1]);
+			ft_putstr_fd("\n", curr_node->pipefd[1]);
 			free(curr_line);
-			break ;
 		}
-		ft_putstr_fd(curr_line, pipefd[1]);
-		free(curr_line);
+		curr_node = curr_node->next;
 	}
 }
