@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// Print token list - For tests
+// Print token list - For testing
 void print_token_list(t_token *token_list)
 {
 	while(token_list)
@@ -23,13 +23,14 @@ void print_token_list(t_token *token_list)
 	}
 }
 
+// Skips space
 void skip_spaces(char *line, int *i)
 {
 	while (line[*i] && line[*i] == ' ')
 		(*i)++;
 }
 
-// Checks if is symbol
+// Checks if symbol found
 int is_symbol(char c)
 {
 	if (c == '|' || c == '&' || c == '<' || c == '>' || c == '(' || c == ')')

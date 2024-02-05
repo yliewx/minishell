@@ -40,8 +40,8 @@ enum e_builtin_err
 };
 
 /*set exit status*/
-int	set_exit_success(t_minishell *minishell);
-int	set_exit_error(t_minishell *minishell, int error, int status);
+int		set_exit_success(t_minishell *minishell);
+int		set_exit_error(t_minishell *minishell, int error, int status);
 
 /*free data*/
 void	free_data(t_minishell *minishell);

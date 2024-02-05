@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// Create node
+/* Function to init and create node */
 t_token *create_node(char *content, t_token_type type)
 {
 	t_token *node;
@@ -27,6 +27,7 @@ t_token *create_node(char *content, t_token_type type)
 	return (node);
 }
 
+/* Function to get last token */
 t_token	*token_last(t_token *lst)
 {
 	while (lst)
@@ -38,7 +39,7 @@ t_token	*token_last(t_token *lst)
 	return (lst);
 }
 
-// Lst add back function
+/* Function to add node to back of list */
 void token_add_back(t_token **token_list, t_token *new)
 {
 	t_token *last;
