@@ -56,7 +56,7 @@ t_token *next_binop(t_minishell *minishell)
     
     token = NULL;
     token = minishell->curr_token;
-    while (!is_binop(token))
+    while (token && !is_binop(token))
         token = token->next;
     return (token);
 }
