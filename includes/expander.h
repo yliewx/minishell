@@ -38,7 +38,9 @@ void    check_wildcard(char **node_value, char **node_expanded);
 char	*replace_with_value(char *arg, char *value, int start, int total_len);
 char	*get_var_name(char *var_start, int *var_len);
 bool	is_var_name(int c);
-bool    is_in_quote(char *c, char *arg, int quote);
+bool    is_in_quote(char *c, int quote);
+bool	skip_quotes(char *c, char *full_arg);
+char	*get_end_quote(char *c, int quote);
 
 /*pattern*/
 void	extract_pattern(t_pattern *pattern, char *asterisk, char *arg);
