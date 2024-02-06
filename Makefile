@@ -48,7 +48,7 @@ ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
 ENV_SRCS = $(addprefix srcs/env/, $(ENV))
 
 # error utils
-ERR = set_exit_status.c error_expander.c error_builtin.c \
+ERR = set_exit_status.c error_expander.c error_builtin.c error_exec.c \
 	signals.c free_data.c print_error.c
 ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 

@@ -24,9 +24,14 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
     command_path = NULL;
     if (pid == 0)
     {
-        get_command_path(&command_path, argv[0], minishell->env_path);
+        get_command_path(&command_path, argv[0], minishell);
+        if (minishell->minishell_err != NO_ERR)
+            return ;
         if (execve(command_path, argv, minishell->envp) == -1)
-            perror("Execve() failed");
+        {
+            exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
+            exit(EXIT_FAILURE);
+        }
     }
     else
 	{
@@ -44,9 +49,11 @@ void exec_command(t_node *node, t_minishell *minishell)
     pid = -1;
     builtin_type = -1;
     get_expanded_arg(node);
+    if (minishell->minishell_err != NO_ERR)
+        return ;
     builtin_type = check_builtin(node);
     if (node->next_binop == T_PIPE)
-            pipe(pipefd);
+        pipe(pipefd);
     if (is_fork_cmd(node, builtin_type))
         pid = fork();
     if (redir_handler(node, pid, pipefd) == -1)

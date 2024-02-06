@@ -24,7 +24,7 @@ void	ft_heredoc(t_heredoc *list);
 
 // Exec path functions
 char	**get_env_path(char **envp);
-void	get_command_path(char **command_path, char *arg, char **path_array);
+void	get_command_path(char **command_path, char *arg, t_minishell *minishell);
 
 // Exec redirect functions
 int     ft_dup(t_minishell *minishell, int oldfd, int newfd);

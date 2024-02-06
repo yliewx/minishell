@@ -41,31 +41,31 @@ char	**get_env_path(char **envp)
 
 /*check every directory in PATH until the command is found
 - if no environment, just check common paths*/
-void	get_command_path(char **command_path, char *arg, char **path_array)
+void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 {
 	char	*default_arr[4];
 	int		i;
 
 	i = 0;
-	if (!path_array)
+	if (!minishell->env_path)
 	{
 		default_arr[0] = "/bin/";
 		default_arr[1] = "/usr/bin/";
 		default_arr[2] = "/usr/local/bin/";
 		default_arr[3] = NULL;
-		path_array = default_arr;
+		minishell->env_path = default_arr;
 	}
-	while (path_array[i])
+	while (minishell->env_path[i])
 	{
 		if (ft_strncmp(arg, "/", 1) == 0 || ft_strnstr(arg, "./", 3))
 			*command_path = arg;
 		else
-			*command_path = ft_strjoin(path_array[i], arg);
+			*command_path = ft_strjoin(minishell->env_path[i], arg);
 		if (access(*command_path, X_OK) == 0)
 			return ;
 		free(*command_path);
 		i++;
 	}
-	if (!path_array[i])
-		perror("Command not found\n");
+	if (!minishell->env_path[i])
+		exec_error(CMD_NOT_FOUND_ERR, arg, minishell);
 }

@@ -39,7 +39,8 @@ int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
         return (0);
     if (*fd == -1)
 	{
-		perror("Error opening file\n");
+		//perror("Error opening file\n");
+        ft_putstr_fd("Error opening file\n", 2);
         minishell->minishell_err = OPEN_ERR;
 	}
     return (*fd);
