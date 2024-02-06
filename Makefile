@@ -23,7 +23,8 @@ LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c \
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 
 # parser
-PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
+PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c \
+	parser_cmd.c free_ast.c
 PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 
 # expander

@@ -43,7 +43,10 @@ t_token_type get_prev_type(t_token *token_list)
 	t_token *last;
 
 	last = token_last(token_list);
-	return (last->prev->type);
+	if (!(last->prev))
+		return (T_STRING);
+	else
+		return (last->prev->type);
 }
 
 

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// Checks if curr token is binary op
+// Checks if curr token is binop
 int is_binop(t_token *token)
 {
     if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
@@ -50,6 +50,7 @@ t_token *lookahead(t_minishell *minishell)
     return (token);
 }
 
+// Function to get the next binop token
 t_token *next_binop(t_minishell *minishell)
 {
     t_token *token;

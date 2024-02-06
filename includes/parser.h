@@ -43,7 +43,7 @@ typedef struct s_node
 
 // Parser main
 t_node *ft_parser(t_minishell *minishell);
-t_node *ft_expression(t_minishell *minishell, int min_prec);
+t_node *ft_ast(t_minishell *minishell, int min_prec);
 
 // Parser utils
 int is_binop(t_token *token);
@@ -59,9 +59,9 @@ t_node *ft_cmd(t_minishell *minishell);
 t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node *right);
 
 // Node functions
+void node_init(t_node *node, char *cmd);
 t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell);
 t_io_node *new_io_node(t_minishell *minishell, t_io_node **list);
-void print_heredoc(t_heredoc *heredoc_list);
 int heredoc_node(char *delimiter, t_heredoc **heredoc_list);
 
 // Free ast functions
