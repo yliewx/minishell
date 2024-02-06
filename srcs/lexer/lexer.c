@@ -19,19 +19,17 @@ After tokenization, runs quote checker to check for unclosed quotes
 */
 t_token *ft_lexer(t_minishell *minishell, char *line)
 {
-	t_token *token_list;
 	int i;
 
 	i = 0;
-	token_list = NULL;
 	while (line[i])
 	{
 		skip_spaces(line, &i);
-		if (find_next_token(minishell, &token_list, line, &i) == -1)
+		if (find_next_token(minishell, line, &i) == -1)
 			return (NULL);
 	}
-	if (quotes_checker(token_list) == -1)
-		ft_free_token_list(&token_list);
+	if (quotes_checker(minishell, minishell->tokens) == -1)
+		return (NULL);
 	// print_token_list(token_list);
-	return (token_list);
+	return (minishell->tokens);
 }

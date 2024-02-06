@@ -44,14 +44,16 @@ typedef struct s_token
 t_token *ft_lexer(t_minishell *minishell, char *line);
 
 // Lexer symbol
-t_token **sym_handler(t_minishell *minishell, t_token **token_list, char *line, int *i);
-
-// Lexer helper functions
-t_token **create_str_token(t_token **token_list, char *line, int i, int j);
+t_token *sym_handler(t_minishell *minishell, char *line, int *i);
 t_token **create_symbol(t_token **token_list, char *val, t_token_type sym_type, int *i);
 t_token **create_sym_token(t_token **token_list, char *line, int *i);
-int find_next_token(t_minishell *minishell, t_token **token_list, char *line, int *i);
-int quotes_checker(t_token *token_list);
+
+// Lexer string functions
+t_token *create_str_token(t_minishell *minishell, char *line, int i, int j);
+
+// Lexer helper functions
+int find_next_token(t_minishell *minishell, char *line, int *i);
+int quotes_checker(t_minishell *minishell, t_token *token_list);
 
 // Lexer list functions
 t_token *create_node(char *content, t_token_type type);

@@ -61,9 +61,9 @@ t_token **create_sym_token(t_token **token_list, char *line, int *i)
 	return (NULL);
 }
 
-t_token **sym_handler(t_minishell *minishell, t_token **token_list, char *line, int *i)
+t_token *sym_handler(t_minishell *minishell, char *line, int *i)
 {
-    if (!create_sym_token(token_list, line, i))
+    if (!create_sym_token(&minishell->tokens, line, i))
     {
         if (!minishell->minishell_err)
         {
@@ -71,11 +71,11 @@ t_token **sym_handler(t_minishell *minishell, t_token **token_list, char *line, 
 			    print_char_err(minishell, line[*i]), NULL);
         }
     }
-    if (get_prev_type(*token_list) != T_STRING && get_prev_type(*token_list) != T_OPEN \
-        && get_prev_type(*token_list) != T_CLOSE)
+    if (get_prev_type(minishell->tokens) != T_STRING && get_prev_type(minishell->tokens) != T_OPEN \
+        && get_prev_type(minishell->tokens) != T_CLOSE)
     {
         return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_str_err(minishell, (token_last(*token_list))->value), NULL);
+			print_str_err(minishell, (token_last(minishell->tokens))->value), NULL);
     }
-    return (token_list);
+    return (minishell->tokens);
 }
