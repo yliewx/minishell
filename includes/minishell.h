@@ -74,7 +74,7 @@ int 	ft_minishell(t_minishell *minishell);
 char	*ft_cmd_line(char *user);
 
 // Init functions
-void 	init_minishell(t_minishell *minishell);
+void init_minishell(t_minishell *minishell, bool start);
 void	init_env(t_minishell *minishell, char **envp);
 
 #endif

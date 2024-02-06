@@ -28,13 +28,10 @@ t_token *ft_lexer(t_minishell *minishell, char *line)
 	{
 		skip_spaces(line, &i);
 		if (find_next_token(minishell, &token_list, line, &i) == -1)
-		{
-			ft_free_token_list(&token_list);
-			break ;
-		}
+			return (NULL);
 	}
 	if (quotes_checker(token_list) == -1)
 		ft_free_token_list(&token_list);
-	//print_token_list(token_list);
+	// print_token_list(token_list);
 	return (token_list);
 }

@@ -44,7 +44,8 @@ int		set_exit_success(t_minishell *minishell);
 int		set_exit_error(t_minishell *minishell, int error, int status);
 
 /*print error messages*/
-void print_error(t_minishell *minishell, char c);
+void 	print_char_err(t_minishell *minishell, char c);
+void 	print_str_err(t_minishell *minishell, char *str);
 
 /*errors*/
 int	expander_error(int error, char *arg, t_minishell *minishell);

@@ -38,4 +38,12 @@ int is_symbol(char c)
 	return (0);
 }
 
+t_token_type get_prev_type(t_token *token_list)
+{
+	t_token *last;
+
+	last = token_last(token_list);
+	return (last->prev->type);
+}
+
 

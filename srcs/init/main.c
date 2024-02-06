@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp)
 	if (arg_checker(argc, argv) == -1)
 		return (1);
 	init_env(&minishell, envp);
-	init_minishell(&minishell);
+	init_minishell(&minishell, true);
 	ft_minishell(&minishell);
 	return (0);
 }

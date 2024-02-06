@@ -49,11 +49,8 @@ int find_next_token(t_minishell *minishell, t_token **token_list, char *line, in
 	}
 	if (is_symbol(line[*i]) && j == 0)
 	{
-		if (!create_sym_token(token_list, line, i))
-		{
-			if (!minishell->minishell_err)
-				return (set_exit_error(minishell, SYNTAX_ERR, *i), print_error(minishell, line[*i]), -1);
-		}
+		if (!sym_handler(minishell, token_list, line, i))
+			return (-1);
 	}
 	else
 	{

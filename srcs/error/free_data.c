@@ -42,6 +42,5 @@ void	free_data_and_exit(t_minishell *minishell)
 void	ft_reinit(t_minishell *minishell)
 {
 	free_data(minishell);
-	close(minishell->old_stdin);
-	init_minishell(minishell);	
+	init_minishell(minishell, false);	
 }
