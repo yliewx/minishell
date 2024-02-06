@@ -56,4 +56,6 @@ void	free_data(t_minishell *minishell);
 void	free_data_and_exit(t_minishell *minishell);
 void	free_arrays(char ***array);
 
+void	ft_reinit(t_minishell *minishell);
+
 #endif

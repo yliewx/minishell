@@ -68,7 +68,7 @@ t_token **sym_handler(t_minishell *minishell, t_token **token_list, char *line, 
         if (!minishell->minishell_err)
         {
             return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_char_err(minishell, line[*i]), NULL);
+			    print_char_err(minishell, line[*i]), NULL);
         }
     }
     if (get_prev_type(*token_list) != T_STRING && get_prev_type(*token_list) != T_OPEN \

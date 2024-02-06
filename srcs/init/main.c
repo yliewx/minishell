@@ -33,6 +33,7 @@ int ft_minishell(t_minishell *minishell)
 			}
 			dup2(minishell->old_stdin, STDIN_FILENO);
 			free(command);
+			ft_reinit(minishell);
 		}
 	}
 	close(minishell->old_stdin);
