@@ -28,6 +28,8 @@ enum e_minishell_err
 	FORK_ERR,
 	EXEC_ERR,
 	AMBIG_REDIR_ERR,
+	CMD_NOT_FOUND_ERR,
+	FILE_NOT_FOUND_ERR,
 };
 
 enum e_builtin_err
@@ -48,6 +50,7 @@ void 	print_char_err(t_minishell *minishell, char c);
 void 	print_str_err(t_minishell *minishell, char *str);
 
 /*errors*/
+int	exec_error(int error, char *arg, t_minishell *minishell);
 int	expander_error(int error, char *arg, t_minishell *minishell);
 bool 	is_ambiguous_redir(t_io_node *io_node);
 
