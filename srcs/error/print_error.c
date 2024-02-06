@@ -21,8 +21,6 @@ void print_char_err(t_minishell *minishell, char c)
         write(2, &c, 1);
         ft_putstr_fd("'\n", 2);
     }
-    else if (minishell->minishell_err == MEM_ERR)
-        ft_putstr_fd("error allocating memory\n", 2);
 }
 
 void print_str_err(t_minishell *minishell, char *str)
@@ -34,4 +32,6 @@ void print_str_err(t_minishell *minishell, char *str)
         ft_putstr_fd(str, 2);        
         ft_putstr_fd("'\n", 2);
     }
+    else if (minishell->minishell_err == MEM_ERR)
+        ft_putstr_fd("error allocating memory\n", 2);
 }
