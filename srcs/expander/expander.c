@@ -67,9 +67,6 @@ void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start)
 {
 	int	next_start_pos;
 
-	if (var_start)
-		printf("\n\nvar_start 1: %s\n", var_start);
-	printf("current arg: %s\n\n", *arg);
 	if (!var_start || !var_start[0])
 		return ;
 	var_start = ft_strchr(var_start, '$');
@@ -77,7 +74,6 @@ void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start)
 		return ;
 	if (skip_quotes(var_start, *arg))
 		var_start = get_end_quote(var_start + 1, '\'');
-	printf("var_start 2: %s\n", var_start);
 	while (var_start && var_start[1] && var_start[1] == '$')
 		var_start++;
 	if (var_start && var_start[0] == '$')
