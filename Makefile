@@ -27,8 +27,9 @@ PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c free_ast.c
 PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 
 # expander
-EXP = expander.c wildcard.c pattern.c expander_utils.c dir_list_utils.c \
-	ft_split_argv.c check_quotes_utils.c
+EXP = expander.c expand_var.c wildcard.c pattern.c \
+	utils/expand_quotes.c utils/expand_var_utils.c \
+	utils/ft_split_argv.c utils/readdir_utils.c
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 
 # execution
@@ -39,7 +40,7 @@ EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 # builtins
 BUILTIN = exec_builtin.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 	ft_export.c ft_pwd.c ft_unset.c utils/check_builtin.c \
-	utils/builtin_errors.c utils/remove_quotes.c
+	utils/remove_quotes.c
 BUILTIN_SRCS = $(addprefix srcs/builtins/, $(BUILTIN))
 
 # environment
@@ -47,7 +48,8 @@ ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
 ENV_SRCS = $(addprefix srcs/env/, $(ENV))
 
 # error utils
-ERR = set_exit_status.c expander_error.c signals.c free_data.c print_error.c
+ERR = set_exit_status.c error_expander.c error_builtin.c \
+	signals.c free_data.c print_error.c
 ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 
 # all srcs
