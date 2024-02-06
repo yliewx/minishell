@@ -16,60 +16,63 @@
 Create node with symbol type
 Add to token_list 
 Adds to i iterator based on token type */
-t_token **create_symbol(t_token **token_list, char *val, t_token_type sym_type, int *i)
+t_token *create_symbol(t_minishell *minishell, char *val, t_token_type sym_type, int *i)
 {
 	t_token *token;
     char *symbol_value;
 
     symbol_value = ft_strdup(val);
     if (!symbol_value)
-        return (NULL);
+        return (set_exit_error(minishell, MEM_ERR, 1), \
+			print_str_err(minishell, NULL), NULL);
     token = create_node(symbol_value, sym_type);
 	if (!token)
-		return (NULL);
-	token_add_back(token_list, token);
+        return (set_exit_error(minishell, MEM_ERR, 1), \
+			print_str_err(minishell, NULL), NULL);
+	token_add_back(&minishell->tokens, token);
 	if (sym_type == T_OR || sym_type == T_AND || sym_type == T_APPEND || sym_type == T_HEREDOC)
 		*i += 2;
 	else
 		*i += 1;
-	return (token_list);
+	return (minishell->tokens);
 }
 
 /* Checks for symbol type using strncmp
 If valid, create symbol token
 Else write err and return NULL */
-t_token **create_sym_token(t_token **token_list, char *line, int *i)
+t_token *create_sym_token(t_minishell *minishell, char *line, int *i)
 {
 	if (!ft_strncmp(line + *i, "||", 2))
-		return (create_symbol(token_list, "||", T_OR, i));
+		return (create_symbol(minishell, "||", T_OR, i));
 	else if (!ft_strncmp(line + *i, "|", 1))
-		return (create_symbol(token_list, "|", T_PIPE, i));
+		return (create_symbol(minishell, "|", T_PIPE, i));
 	else if (!ft_strncmp(line + *i, ">>", 2))
-		return (create_symbol(token_list, ">>", T_APPEND, i));
+		return (create_symbol(minishell, ">>", T_APPEND, i));
 	else if (!ft_strncmp(line + *i, "<<", 2))
-		return (create_symbol(token_list, "<<", T_HEREDOC, i));
+		return (create_symbol(minishell, "<<", T_HEREDOC, i));
 	else if (!ft_strncmp(line + *i, "&&", 2))
-		return (create_symbol(token_list, "&&", T_AND, i));
+		return (create_symbol(minishell, "&&", T_AND, i));
 	else if (!ft_strncmp(line + *i, "<", 1))
-		return (create_symbol(token_list, "<", T_REDIR_L, i));
+		return (create_symbol(minishell, "<", T_REDIR_L, i));
 	else if (!ft_strncmp(line + *i, ">", 1))
-		return (create_symbol(token_list, ">", T_REDIR_R, i));
+		return (create_symbol(minishell, ">", T_REDIR_R, i));
 	else if (!ft_strncmp(line + *i, "(", 1))
-		return (create_symbol(token_list, "(", T_OPEN, i));
+		return (create_symbol(minishell, "(", T_OPEN, i));
 	else if (!ft_strncmp(line + *i, ")", 1))
-		return (create_symbol(token_list, ")", T_CLOSE, i));
+		return (create_symbol(minishell, ")", T_CLOSE, i));
 	return (NULL);
 }
 
 t_token *sym_handler(t_minishell *minishell, char *line, int *i)
 {
-    if (!create_sym_token(&minishell->tokens, line, i))
+    if (!create_sym_token(minishell, line, i))
     {
         if (!minishell->minishell_err)
         {
             return (set_exit_error(minishell, SYNTAX_ERR, 1), \
 			    print_char_err(minishell, line[*i]), NULL);
         }
+		return (NULL);
     }
     if (get_prev_type(minishell->tokens) != T_STRING && get_prev_type(minishell->tokens) != T_OPEN \
         && get_prev_type(minishell->tokens) != T_CLOSE)
