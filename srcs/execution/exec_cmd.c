@@ -26,7 +26,7 @@ void exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid)
     {
         get_command_path(&command_path, argv[0], minishell);
         if (minishell->minishell_err != NO_ERR)
-            return ;
+            exit(EXIT_FAILURE);
         if (execve(command_path, argv, minishell->envp) == -1)
         {
             exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
