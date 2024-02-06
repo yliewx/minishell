@@ -46,6 +46,8 @@ void	sort_envp(char **envp, int start, int end)
 {
 	int	pivot;
 
+	if (!envp || !*envp)
+		return ;
 	pivot = partition_array(envp, start, end);
 	if (start < pivot - 1)
 		sort_envp(envp, start, pivot - 1);

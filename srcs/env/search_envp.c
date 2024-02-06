@@ -17,7 +17,7 @@ int	search_envp_index(char **envp, char *var, int len)
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0)
 			return (i);

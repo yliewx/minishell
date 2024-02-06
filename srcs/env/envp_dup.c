@@ -29,6 +29,8 @@ void	envp_dup(t_minishell *minishell, char **envp)
 
 	i = -1;
 	minishell->envp_size = 0;
+	if (!envp || !*envp)
+		return ;
 	while (envp[minishell->envp_size])
 		minishell->envp_size++;
 	if (search_envp_index(envp, "OLDPWD=", 7) == -1)

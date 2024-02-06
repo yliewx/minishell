@@ -17,6 +17,8 @@ int	ft_env(t_minishell *minishell)
 	int	i;
 
 	i = 0;
+	if (!minishell->envp)
+		return (set_exit_success(minishell));
 	while (minishell->envp[i])
 	{
 		printf("%s\n", minishell->envp[i]);

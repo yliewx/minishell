@@ -26,6 +26,8 @@ int	print_export(t_minishell *minishell)
 	int		i;
 
 	i = 0;
+	if (!minishell->envp)
+		return (set_exit_success(minishell));
 	sort_envp(minishell->envp, 0, minishell->envp_size - 1);
 	while (minishell->envp[i])
 	{

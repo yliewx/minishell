@@ -17,7 +17,7 @@ void	init_env(t_minishell *minishell, char **envp)
 	minishell->envp = NULL;
 	minishell->env_path = NULL;
 	minishell->envp_size = 0;
-	if (envp)
+	if (*envp)
 	{
 		envp_dup(minishell, envp);
 		minishell->env_path = get_env_path(envp);
