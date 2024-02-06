@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+void node_init(t_node *node, char *cmd)
+{
+    node->expanded = NULL;
+    node->expanded_arg = NULL;
+    node->left = NULL;
+    node->right = NULL;
+    node->io_list = NULL;
+    if (cmd)
+        node->value = ft_strdup(cmd);
+    else
+        node->value = NULL;
+}
+
 // Create ast nodes
 t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 {
@@ -23,17 +36,9 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
     node = malloc(sizeof(t_node) * 1);
     if (!node)
         return (NULL);
-    if (cmd)
-        node->value = ft_strdup(cmd);
-    else
-        node->value = NULL;
-    node->expanded = NULL;
-    node->expanded_arg = NULL;
+    node_init(node, cmd);
     node->type = type;
     node->minishell = minishell;
-    node->left = NULL;
-    node->right = NULL;
-    node->io_list = NULL;
     if (next_token)
     {
         next_binop_node = next_binop(minishell);
@@ -57,7 +62,7 @@ t_io_node *new_io_node(t_minishell *minishell, t_io_node **list)
 
     next_token = lookahead(minishell);
     if (!next_token || next_token->type != T_STRING)
-        return (set_parse_err(1, minishell), NULL);
+        return (NULL);
     node = malloc(sizeof(t_io_node));
     if (!node)
         return (NULL);
@@ -82,16 +87,6 @@ t_io_node *new_io_node(t_minishell *minishell, t_io_node **list)
         last = last->next;
     last->next = node;
     return (node);
-}
-
-// Test: Print heredoc_node function
-void print_heredoc(t_heredoc *heredoc_list)
-{
-    while (heredoc_list)
-    {
-        printf("delimiter is %s\n", heredoc_list->delimiter);
-        heredoc_list = heredoc_list->next;
-    }
 }
 
 int heredoc_node(char *delimiter, t_heredoc **heredoc_list)

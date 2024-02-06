@@ -31,8 +31,6 @@ void ft_free_io_list(t_io_node **list)
     *list = NULL;
 }
 
-/*free(): double free detected in tcache 2
-zsh: IOT instruction (core dumped)*/
 void    free_node_value(t_node *node)
 {
     if (node->value)
