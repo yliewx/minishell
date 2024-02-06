@@ -17,7 +17,7 @@ Iterates through command line
 Skips spaces and finds next token to tokenize
 After tokenization, runs quote checker to check for unclosed quotes
 */
-t_token *ft_lexer(char *line)
+t_token *ft_lexer(t_minishell *minishell, char *line)
 {
 	t_token *token_list;
 	int i;
@@ -27,7 +27,7 @@ t_token *ft_lexer(char *line)
 	while (line[i])
 	{
 		skip_spaces(line, &i);
-		if (find_next_token(&token_list, line, &i) == -1)
+		if (find_next_token(minishell, &token_list, line, &i) == -1)
 		{
 			ft_free_token_list(&token_list);
 			break ;

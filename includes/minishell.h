@@ -50,7 +50,7 @@ typedef struct s_heredoc
 
 typedef struct s_minishell
 {
-	t_node *ast;
+	t_node	*ast;
 	t_token *tokens;
 	t_token *curr_token;
 	t_heredoc *heredoc_list;
@@ -74,7 +74,7 @@ int 	ft_minishell(t_minishell *minishell);
 char	*ft_cmd_line(char *user);
 
 // Init functions
-void init_minishell(t_minishell *minishell);
+void 	init_minishell(t_minishell *minishell);
 void	init_env(t_minishell *minishell, char **envp);
 
 #endif

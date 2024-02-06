@@ -16,6 +16,8 @@
 typedef struct s_minishell t_minishell;
 typedef struct s_heredoc t_heredoc;
 
+# include "minishell.h"
+
 typedef struct s_io_node
 {
     t_token_type type;

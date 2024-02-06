@@ -38,3 +38,10 @@ void	free_data_and_exit(t_minishell *minishell)
 	free_arrays(&minishell->envp);
 	free_arrays(&minishell->env_path);
 }
+
+void	ft_reinit(t_minishell *minishell)
+{
+	free_data(minishell);
+	close(minishell->old_stdin);
+	init_minishell(minishell);	
+}

@@ -13,6 +13,10 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+typedef struct s_minishell t_minishell;
+
+# include "minishell.h"
+
 typedef enum e_token_type
 {
 	T_STRING,
@@ -37,13 +41,13 @@ typedef struct s_token
 }	t_token;
 
 // Main
-t_token *ft_lexer(char *line);
+t_token *ft_lexer(t_minishell *minishell, char *line);
 
 // Lexer helper functions
 t_token **create_str_token(t_token **token_list, char *line, int i, int j);
 t_token **create_symbol(t_token **token_list, t_token_type sym_type, int *i);
 t_token **create_sym_token(t_token **token_list, char *line, int *i);
-int find_next_token(t_token **token_list, char *line, int *i);
+int find_next_token(t_minishell *minishell, t_token **token_list, char *line, int *i);
 int quotes_checker(t_token *token_list);
 
 // Lexer list functions

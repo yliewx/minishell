@@ -18,7 +18,8 @@ INIT = main.c init_utils.c init_minishell.c init_env.c
 INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
 # lexer
-LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c
+LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c \
+	lexer_symbol.c
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 
 # parser
@@ -46,7 +47,7 @@ ENV = envp_dup.c sort_envp.c update_envp.c search_envp.c
 ENV_SRCS = $(addprefix srcs/env/, $(ENV))
 
 # error utils
-ERR = set_exit_status.c expander_error.c signals.c free_data.c
+ERR = set_exit_status.c expander_error.c signals.c free_data.c print_error.c
 ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 
 # all srcs

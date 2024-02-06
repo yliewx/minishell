@@ -24,7 +24,7 @@ int ft_minishell(t_minishell *minishell)
 		if (command && command[0])
 		{
 			add_history(command);
-			minishell->tokens = ft_lexer(command);
+			minishell->tokens = ft_lexer(minishell, command);
 			if (minishell->tokens)
 			{
 				minishell->curr_token = minishell->tokens;
