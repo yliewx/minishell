@@ -55,12 +55,9 @@ void	join_entries(t_entry *match_list, char **expanded_value)
 void	expand_wildcard(char **node_expanded, t_pattern *pattern)
 {
 	char	*new_str;
-	int		new_len;
 
-	new_len = ft_strlen(*node_expanded) - ft_strlen(pattern->start)
-		+ ft_strlen(pattern->expanded_value);
-	new_str = replace_with_value(*node_expanded, pattern->expanded_value,
-		pattern->start_index, new_len);
+	new_str = replace_var_with_value(*node_expanded, pattern->expanded_value,
+		pattern->start_index, ft_strlen(pattern->start));
 	free(*node_expanded);
 	*node_expanded = new_str;
 }

@@ -26,13 +26,13 @@ char	*get_var_name(char *var_start, int *var_len)
 	return (ft_substr(var_start, 0, *var_len));
 }
 
-char	*replace_with_value(char *arg, char *value, int start, int total_len)
+char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 {
 	char	*new_str;
 	int	i;
 	int	j;
 
-	new_str = malloc((total_len + 1) * sizeof(char));
+	new_str = ft_calloc(total_len + 1, sizeof(char));
 	i = -1;
 	while (++i < start)
 		new_str[i] = arg[i];
@@ -50,4 +50,12 @@ char	*replace_with_value(char *arg, char *value, int start, int total_len)
 		new_str[i++] = arg[start++];
 	new_str[i] = '\0';
 	return (new_str);
+}
+
+char	*replace_var_with_value(char *arg, char *value, int start, int var_len)
+{
+	int	new_str_len;
+
+	new_str_len = ft_strlen(arg) - var_len + ft_strlen(value);
+	return (copy_and_replace(arg, value, start, new_str_len));
 }

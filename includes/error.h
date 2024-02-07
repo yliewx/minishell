@@ -46,12 +46,14 @@ int		set_exit_success(t_minishell *minishell);
 int		set_exit_error(t_minishell *minishell, int error, int status);
 
 /*print error messages*/
-void 	print_char_err(t_minishell *minishell, char c);
-void 	print_str_err(t_minishell *minishell, char *str);
+//void 	print_char_err(t_minishell *minishell, char c);
+//void 	print_str_err(t_minishell *minishell, char *str);
+int 	print_str_err(int error, char *str, t_minishell *minishell);
+int 	print_char_err(t_minishell *minishell, char c);
 
 /*errors*/
-int	exec_error(int error, char *arg, t_minishell *minishell);
-int	expander_error(int error, char *arg, t_minishell *minishell);
+int		exec_error(int error, char *arg, t_minishell *minishell);
+int		expander_error(int error, char *arg, t_minishell *minishell);
 bool is_ambiguous_redir(int io_type, t_entry **match_list);
 
 /*free data*/

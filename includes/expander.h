@@ -36,7 +36,7 @@ void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start);
 void    check_wildcard(char **node_expanded, int io_type, t_minishell *minishell);
 
 /*utils*/
-char	*replace_with_value(char *arg, char *value, int start, int total_len);
+char	*replace_var_with_value(char *arg, char *value, int start, int var_len);
 char	*get_var_name(char *var_start, int *var_len);
 bool	is_var_name(int c);
 bool    is_in_quote(char *c, int quote);

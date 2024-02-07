@@ -20,8 +20,7 @@ int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 
 	value = ft_itoa(minishell->exit_status);
 	value_len = ft_strlen(value);
-	new_str = replace_with_value(*arg, value, start,
-		ft_strlen(*arg) - 2 + value_len);
+	new_str = replace_var_with_value(*arg, value, start, 2);
 	free(value);
 	free(*arg);
 	*arg = new_str;
@@ -40,8 +39,7 @@ int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 	value = value_in_env(minishell->envp, var_name + 1, var_len - 1);
 	if (!value)
 		value = ft_strdup("");
-	new_str = replace_with_value(*arg, value, var_start - *arg,
-		ft_strlen(*arg) - var_len + ft_strlen(value));
+	new_str = replace_var_with_value(*arg, value, var_start - *arg, var_len);
 	next_start_pos = var_start - *arg + ft_strlen(value);
 	if (ft_strlen(value) == 0)
 		free(value);

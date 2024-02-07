@@ -28,17 +28,7 @@ t_entry	*create_entry_node(char *name)
 	new->next = NULL;
 	return (new);
 }
-/*
-t_entry	*get_last_entry(t_entry **list)
-{
-	t_entry	*current;
 
-	current = *list;
-	while (current->next != NULL)
-		current = current->next;
-	return (current);
-}
-*/
 void	append_entry(t_entry **list, t_entry *new)
 {
 	t_entry	*last_entry;
