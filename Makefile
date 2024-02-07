@@ -24,7 +24,7 @@ LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 
 # parser
 PARSER = parser.c parser_utils.c parser_helper.c parser_nodes.c \
-	parser_cmd.c free_ast.c
+	parser_cmd.c parser_io.c free_ast.c
 PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 
 # expander

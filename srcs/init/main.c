@@ -18,7 +18,8 @@ int ft_minishell(t_minishell *minishell)
 
 	while (1)
 	{
-		command = ft_cmd_line(minishell->user);
+		//ft_cmd_line(minishell->user);
+		command = readline("Minishell:~$ ");
 		if (!command)
 			return (printf("exit\n"), 1);
 		if (command && command[0])

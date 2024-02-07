@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 t_node *parenthesis_handler(t_minishell *minishell, t_node **node)
 {
     if (!lookahead(minishell))
@@ -23,7 +24,7 @@ t_node *parenthesis_handler(t_minishell *minishell, t_node **node)
             print_str_err(minishell, NULL), NULL);
     if (!minishell->curr_token || minishell->curr_token->type != T_CLOSE)
         return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-            print_str_err(minishell, token_last(minishell->tokens)->value), NULL);
+            print_str_err(minishell, "newline"), NULL);
     ft_next_token(minishell);
     return (*node);
 }
@@ -49,13 +50,16 @@ t_node *ft_cmd(t_minishell *minishell)
         if (minishell->curr_token->type == T_STRING)
         {
             node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type, minishell);
+            if (!node)
+                return (NULL);
             ft_next_token(minishell);
         }
         while (minishell->curr_token && is_redir(minishell))
         {
             if (minishell->curr_token->type == T_HEREDOC)
                 node->is_heredoc = 1;
-            new_io_node(minishell, &(node->io_list));
+            if (!new_io_node(minishell, &(node->io_list)))
+                return (NULL);
         }
     }
     return (node);
