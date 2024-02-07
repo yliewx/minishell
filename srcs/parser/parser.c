@@ -17,36 +17,36 @@
 - Checks for binop and prec >= min prec -> get right node
 - Combine left and right node to binop node
 - Returns binop node or left */
-t_node *ft_ast(t_minishell *minishell, int min_prec)
+t_node	*ft_ast(t_minishell *minishell, int min_prec)
 {
-    t_node *left;
-    t_node *right;
-    t_token_type op;
-    
-    left = ft_cmd(minishell);
-    if (!left)
-        return (NULL);
-    while (minishell->curr_token && is_binop(minishell->curr_token) && \
-        get_token_prec(minishell->curr_token) >= min_prec)
-    {
-        op = minishell->curr_token->type;
-        ft_next_token(minishell);
-        if (minishell->curr_token == NULL)
-            return (set_exit_error(minishell, SYNTAX_ERR, 1), left);
-        right = ft_ast(minishell, get_token_prec(minishell->curr_token) + 1);
-        if (!right)
-            return (left);
-        left = ft_combine(minishell, op, left, right);
-        if (!left)
-            return (NULL);
-    }
-    return (left);
+	t_node			*left;
+	t_node			*right;
+	t_token_type	op;
+
+	left = ft_cmd(minishell);
+	if (!left)
+		return (NULL);
+	while (minishell->curr_token && is_binop(minishell->curr_token) && \
+		get_token_prec(minishell->curr_token) >= min_prec)
+	{
+		op = minishell->curr_token->type;
+		ft_next_token(minishell);
+		if (minishell->curr_token == NULL)
+			return (set_exit_error(minishell, SYNTAX_ERR, 1), left);
+		right = ft_ast(minishell, get_token_prec(minishell->curr_token) + 1);
+		if (!right)
+			return (left);
+		left = ft_combine(minishell, op, left, right);
+		if (!left)
+			return (NULL);
+	}
+	return (left);
 }
 
 // Parser to run prescedence climbing function
-t_node *ft_parser(t_minishell *minishell)
+t_node	*ft_parser(t_minishell *minishell)
 {
-    if (minishell->curr_token)
-        minishell->ast = ft_ast(minishell, 0);
-    return (minishell->ast);
+	if (minishell->curr_token)
+		minishell->ast = ft_ast(minishell, 0);
+	return (minishell->ast);
 }
