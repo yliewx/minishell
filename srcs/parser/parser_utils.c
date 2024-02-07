@@ -21,12 +21,12 @@ int is_binop(t_token *token)
 }
 
 // Function to check if token type is redirect
-int is_redir(t_minishell *minishell)
+int is_redir(t_token *token)
 {
-    if (minishell->curr_token->type == T_REDIR_L || \
-    minishell->curr_token->type == T_REDIR_R || \
-    minishell->curr_token->type == T_APPEND || \
-    minishell->curr_token->type == T_HEREDOC)
+    if (token->type == T_REDIR_L || \
+    token->type == T_REDIR_R || \
+    token->type == T_APPEND || \
+    token->type == T_HEREDOC)
         return (1);
     return (0);
 }
@@ -61,3 +61,17 @@ t_token *next_binop(t_minishell *minishell)
         token = token->next;
     return (token);
 }
+
+// Test: print io list
+void print_node_list(t_node *node, t_io_node *list)
+{
+	while(list)
+	{
+        printf("node value %s\n", node->value);
+		printf("%s\n", list->value);
+		printf("%i\n", list->type);
+		list = list->next;
+	}
+}
+
+

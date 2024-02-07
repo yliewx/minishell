@@ -51,3 +51,4 @@ t_node *ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
     return (node);
 }
 
+

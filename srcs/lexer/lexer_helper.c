@@ -13,15 +13,51 @@
 #include "minishell.h"
 
 /* Function to find the next token (symbol or string) */
+// int find_next_token(t_minishell *minishell, char *line, int *i)
+// {
+// 	int j;
+
+// 	j = 0;
+// 	while (line[*i] && !is_symbol(line[*i]))
+// 	{
+// 		j++;
+// 		(*i)++;
+// 	}
+// 	if (is_symbol(line[*i]) && j == 0)
+// 	{
+// 		if (!sym_handler(minishell, line, i))
+// 			return (-1);
+// 	}
+// 	else
+// 	{
+// 		if (!create_str_token(minishell, line, *i, j))
+// 			return (-1);
+// 	}
+// 	return (*i);
+// }
+
 int find_next_token(t_minishell *minishell, char *line, int *i)
 {
 	int j;
+	t_token *last;
 
 	j = 0;
-	while (line[*i] && !is_symbol(line[*i]))
+	last = token_last(minishell->tokens);
+	if (last && is_redir(last))
 	{
-		j++;
-		(*i)++;
+		while (line[*i] && line[*i] != ' ')
+		{
+			j++;
+			(*i)++;
+		}
+	}
+	else
+	{
+		while (line[*i] && !is_symbol(line[*i]))
+		{
+			j++;
+			(*i)++;
+		}
 	}
 	if (is_symbol(line[*i]) && j == 0)
 	{

@@ -47,10 +47,11 @@ t_node *ft_ast(t_minishell *minishell, int min_prec);
 
 // Parser utils
 int is_binop(t_token *token);
-int is_redir(t_minishell *minishell);
+int is_redir(t_token *token);
 int get_token_prec(t_token *token);
 t_token *lookahead(t_minishell *minishell);
 t_token *next_binop(t_minishell *minishell);
+void print_node_list(t_node *node, t_io_node *list);
 
 // Parser helper functions
 void set_parse_err(int parse_err, t_minishell *minishell);
