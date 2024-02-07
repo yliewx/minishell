@@ -31,7 +31,7 @@ typedef struct s_entry
 }	t_entry;
 
 /*expander*/
-void	get_expanded_arg(t_node *node);
+int	get_expanded_arg(t_node *node);
 void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start);
 void    check_wildcard(char **node_expanded, int io_type, t_minishell *minishell);
 

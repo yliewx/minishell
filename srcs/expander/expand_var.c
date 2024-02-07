@@ -49,36 +49,36 @@ int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 	return (next_start_pos);
 }
 
-int	ft_expand(t_minishell *minishell, char **arg, char *var_start)
+int	ft_expand(t_minishell *minishell, char **arg, char *current)
 {
 	int		next_start_pos;
 
 	next_start_pos = 0;
-	if (var_start[1] == '?')
-		next_start_pos = expand_exit_status(minishell, arg, var_start - *arg);
-	else if (var_start[1] != ' ' && is_var_name(var_start[1]))
-		next_start_pos = expand_var(minishell, arg, var_start);
+	if (current[1] == '?')
+		next_start_pos = expand_exit_status(minishell, arg, current - *arg);
+	else if (current[1] != ' ' && is_var_name(current[1]))
+		next_start_pos = expand_var(minishell, arg, current);
 	return (next_start_pos);
 }
 
-void	check_expandable_var(t_minishell *minishell, char **arg, char *var_start)
+void	check_expandable_var(t_minishell *minishell, char **arg, char *current)
 {
 	int	next_start_pos;
 
-	if (!var_start || !var_start[0])
+	if (!current || !current[0])
 		return ;
-	var_start = ft_strchr(var_start, '$');
-	if (!var_start)
+	current = ft_strchr(current, '$');
+	if (!current)
 		return ;
-	if (skip_quotes(var_start, *arg))
-		var_start = get_end_quote(var_start + 1, '\'');
-	while (var_start && var_start[1] && var_start[1] == '$')
-		var_start++;
-	if (var_start && var_start[0] == '$')
+	if (skip_quotes(current, *arg))
+		current = get_end_quote(current + 1, '\'');
+	while (current && current[1] && current[1] == '$')
+		current++;
+	if (current && current[0] == '$')
 	{
-		next_start_pos = ft_expand(minishell, arg, var_start);
+		next_start_pos = ft_expand(minishell, arg, current);
 		if (next_start_pos > 0)
-			var_start = *arg + next_start_pos;
+			current = *arg + next_start_pos;
 	}
-	check_expandable_var(minishell, arg, var_start);
+	check_expandable_var(minishell, arg, current);
 }

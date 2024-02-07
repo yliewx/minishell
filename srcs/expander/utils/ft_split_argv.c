@@ -46,7 +46,7 @@ int	count_split_tokens(char *arg, int i, int token_count, int delimiter)
 			delimiter = ' ';
 	}
 	else if (!arg[i] || (arg[i] == ' ' && delimiter == ' '
-		&& arg[i - 1] && arg[i - 1] != ' '))
+			&& arg[i - 1] && arg[i - 1] != ' '))
 	{
 		token_count++;
 		if (!arg[i])
@@ -104,7 +104,7 @@ void	assign_argv(char *arg, char ***child_argv, int token_count)
 char	**ft_split_argv(char *arg)
 {
 	char	**child_argv;
-	int	token_count;
+	int		token_count;
 
 	if (!arg)
 		return (NULL);

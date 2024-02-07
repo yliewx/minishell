@@ -29,8 +29,8 @@ char	*get_var_name(char *var_start, int *var_len)
 char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 {
 	char	*new_str;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	new_str = ft_calloc(total_len + 1, sizeof(char));
 	i = -1;

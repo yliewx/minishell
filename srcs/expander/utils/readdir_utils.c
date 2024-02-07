@@ -58,7 +58,7 @@ void	sort_entries(t_entry **list)
 		while (temp && temp->next)
 		{
 			if (ft_strncmp(temp->name, temp->next->name,
-			ft_strlen(temp->name)) > 0)
+					ft_strlen(temp->name)) > 0)
 			{
 				ft_swap(&temp->name, &temp->next->name);
 				temp = *list;

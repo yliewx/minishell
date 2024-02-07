@@ -7,8 +7,8 @@ RM = rm -f
 # libft path and flags
 LIBFT = libft.a
 LIB_DIR = ./libft
-LIB_FLAGS = -L $(LIB_DIR) -lft
-INC = -I ./includes -lreadline
+LIB_FLAGS = -L $(LIB_DIR) -lft -lreadline
+INC = -I ./includes
 
 #------------------------------------------------------------------------
 
@@ -56,6 +56,7 @@ ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 # all srcs
 SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(ERR_SRCS) \
 	$(LEXER_SRCS) $(PARSER_SRCS) $(EXEC_SRCS) $(ENV_SRCS)
+OBJS = $(SRCS:.c=.o)
 
 #------------------------------------------------------------------------
 
@@ -73,14 +74,18 @@ END = \033[0m
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(SRCS) $(LIBFT)
-	@echo "\n$(B_BROWN)[ COMPILING: $(NAME) ]$(END)"
-	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) $(LIB_FLAGS) $(INC)
-	@echo "$(B_GREEN)$(NAME) compiled.$(END)"
+$(NAME): $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_FLAGS) $(INC)
+	@echo "\n$(B_GREEN)$(NAME) compiled.$(END)"
+
+$(OBJS): %.o: %.c
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@echo "\t$(BROWN)$< compiled.$(END)"
 
 $(LIBFT):
 	@echo "\n$(B_BROWN)[ COMPILING: $(LIBFT) ]$(END)"
 	@make -s -C $(LIB_DIR)
+	@echo "\n$(B_BROWN)[ COMPILING: $(NAME) ]$(END)"
 
 # remove temporary generated files
 clean:
@@ -88,7 +93,7 @@ clean:
 
 # remove library and executable file
 fclean: clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) $(OBJS)
 	@cd $(LIB_DIR) && $(RM) $(LIBFT)
 	@echo "$(B_GREEN)Removed $(NAME) and $(LIBFT).$(END)"
 

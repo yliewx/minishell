@@ -40,7 +40,7 @@ all: $(NAME)
 # create library with source files
 $(NAME): $(OBJS)
 	@$(LIB) $@ $^
-	@echo "$(B_GREEN)$@ created.$(END)"
+	@echo "\n$(B_GREEN)$@ created.$(END)"
 
 $(OBJS): %.o: %.c
 	@$(CC) $(CFLAGS) -I $(INC) -c $< -o $@

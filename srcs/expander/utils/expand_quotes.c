@@ -58,7 +58,7 @@ char	*get_end_quote(char *c, int quote)
 	return (c + i);
 }
 
-bool    is_in_quote(char *c, int quote)
+bool	is_in_quote(char *c, int quote)
 {
 	char	*start_quote;
 	char	*end_quote;
@@ -90,8 +90,8 @@ bool	skip_quotes(char *c, char *full_arg)
 {
 	char	*prev_double_quote;
 	char	*prev_single_quote;
-	int	start_quote;
-	int	i;
+	int		start_quote;
+	int		i;
 
 	if (!ft_strchr(c, '\''))
 		return (false);
