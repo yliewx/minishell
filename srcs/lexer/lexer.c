@@ -17,9 +17,9 @@ Iterates through command line
 Skips spaces and finds next token to tokenize
 After tokenization, runs quote checker to check for unclosed quotes
 */
-t_token *ft_lexer(t_minishell *minishell, char *line)
+t_token	*ft_lexer(t_minishell *minishell, char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -30,6 +30,5 @@ t_token *ft_lexer(t_minishell *minishell, char *line)
 	}
 	if (quotes_checker(minishell, minishell->tokens) == -1)
 		return (NULL);
-	// print_token_list(token_list);
 	return (minishell->tokens);
 }

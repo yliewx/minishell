@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-// Print token list - For testing
-void print_token_list(t_token *token_list)
+/* Print token list - For testing */
+void	print_token_list(t_token *token_list)
 {
-	while(token_list)
+	while (token_list)
 	{
 		printf("%s\n", token_list->value);
 		printf("%i\n", token_list->type);
@@ -23,24 +23,25 @@ void print_token_list(t_token *token_list)
 	}
 }
 
-// Skips space
-void skip_spaces(char *line, int *i)
+/* Skips spaces */
+void	skip_spaces(char *line, int *i)
 {
 	while (line[*i] && line[*i] == ' ')
 		(*i)++;
 }
 
-// Checks if symbol found
-int is_symbol(char c)
+/* Checks if symbol found */
+int	is_symbol(char c)
 {
 	if (c == '|' || c == '&' || c == '<' || c == '>' || c == '(' || c == ')')
 		return (1);
 	return (0);
 }
 
-t_token_type get_prev_type(t_token *token_list)
+/* Gets second last token's type */
+t_token_type	get_prev_type(t_token *token_list)
 {
-	t_token *last;
+	t_token	*last;
 
 	last = token_last(token_list);
 	if (!(last->prev))
@@ -48,5 +49,3 @@ t_token_type get_prev_type(t_token *token_list)
 	else
 		return (last->prev->type);
 }
-
-

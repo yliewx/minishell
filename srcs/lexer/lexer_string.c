@@ -16,11 +16,11 @@
 Looks for end of string
 Creates new node with malloc-ed string
 Adds node to token_list */
-t_token *create_str_token(t_minishell *minishell, char *line, int i, int j)
+t_token	*create_str_token(t_minishell *minishell, char *line, int i, int j)
 {
-	t_token *token;
-	char *str;
-	int end;
+	t_token	*token;
+	char	*str;
+	int		end;
 
 	end = i;
 	str = malloc(sizeof(char) * (j + 1));
@@ -33,5 +33,5 @@ t_token *create_str_token(t_minishell *minishell, char *line, int i, int j)
 	if (!token)
 		return (free(str), NULL);
 	token_add_back(&minishell->tokens, token);
-	return(minishell->tokens);
+	return (minishell->tokens);
 }

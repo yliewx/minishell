@@ -54,24 +54,10 @@ t_token *lookahead(t_minishell *minishell)
 t_token *next_binop(t_minishell *minishell)
 {
     t_token *token;
-    
+
     token = NULL;
     token = minishell->curr_token;
     while (token && !is_binop(token))
         token = token->next;
     return (token);
 }
-
-// Test: print io list
-void print_node_list(t_node *node, t_io_node *list)
-{
-	while(list)
-	{
-        printf("node value %s\n", node->value);
-		printf("%s\n", list->value);
-		printf("%i\n", list->type);
-		list = list->next;
-	}
-}
-
-

@@ -13,9 +13,9 @@
 #include "minishell.h"
 
 /* Function to init and create node */
-t_token *create_node(char *content, t_token_type type)
+t_token	*create_node(char *content, t_token_type type)
 {
-	t_token *node;
+	t_token	*node;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
@@ -40,9 +40,9 @@ t_token	*token_last(t_token *lst)
 }
 
 /* Function to add node to back of list */
-void token_add_back(t_token **token_list, t_token *new)
+void	token_add_back(t_token **token_list, t_token *new)
 {
-	t_token *last;
+	t_token	*last;
 
 	if (!new)
 		return ;

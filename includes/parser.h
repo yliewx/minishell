@@ -53,11 +53,18 @@ t_token *lookahead(t_minishell *minishell);
 t_token *next_binop(t_minishell *minishell);
 void print_node_list(t_node *node, t_io_node *list);
 
+// Parser cmd functions
+t_token *get_curr_cmd(t_minishell *minishell);
+
 // Parser helper functions
 void set_parse_err(int parse_err, t_minishell *minishell);
 void ft_next_token(t_minishell *minishell);
 t_node *ft_cmd(t_minishell *minishell);
 t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node *right);
+
+// Parser redir functions
+t_node *parser_redir(t_minishell *minishell, t_node *node);
+t_node *ft_redir_helper(t_minishell *minishell, t_node **node);
 
 // Node functions
 void node_init(t_node *node, char *cmd);
