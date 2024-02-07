@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+/* Parenthesis handler runs recursive function within parenthesis
+- Checks for syntax error (unclosed parenthesis)*/
 t_node *parenthesis_handler(t_minishell *minishell, t_node **node)
 {
     if (!lookahead(minishell))
@@ -29,18 +31,7 @@ t_node *parenthesis_handler(t_minishell *minishell, t_node **node)
     return (*node);
 }
 
-t_node *parser_redir(t_minishell *minishell, t_node *node)
-{
-    while (minishell->curr_token && is_redir(minishell->curr_token))
-    {
-        if (minishell->curr_token->type == T_HEREDOC)
-            node->is_heredoc = 1;
-        if (!new_io_node(minishell, &(node->io_list)))
-            return (NULL);
-    }
-    return (node);
-}
-
+/* Function to get curr cmd (after redirects) */
 t_token *get_curr_cmd(t_minishell *minishell)
 {
     t_token *ret_token;
@@ -58,16 +49,14 @@ t_token *get_curr_cmd(t_minishell *minishell)
         return (NULL);
 }
 
-/* ft_cmd creates single node in ast
-- Checks for syntax error for curr token
-- Checks for open parenthesis -> creates node within parenthesis
-- If no parenthesis
-    - Checks for string -> creates string token
-    - Handles redir and heredoc */
+/* Function to create single ast node 
+- Error if invalid syntax
+- Runs parenthesis handler
+- If redir occurs before cmd -> create curr cmd node and runs parser redir 
+- Else if cmd occurs -> create cmd node and runs parser redir */
 t_node *ft_cmd(t_minishell *minishell)
 {
     t_node *node;
-    t_token *curr_cmd;
     
     node = NULL;
     if (is_binop(minishell->curr_token) || minishell->curr_token->type == T_CLOSE)
@@ -79,16 +68,8 @@ t_node *ft_cmd(t_minishell *minishell)
     {
         if (minishell->curr_token && is_redir(minishell->curr_token))
         {
-            curr_cmd = get_curr_cmd(minishell);
-            // Add error handling if curr token NULL
-            if (!curr_cmd)
+            if (!ft_redir_helper(minishell, &node))
                 return (NULL);
-            node = ft_new_node(curr_cmd->value, curr_cmd->type, minishell);
-            if (!node)
-                return (NULL);
-            if (!parser_redir(minishell, node))
-                return (NULL);
-            ft_next_token(minishell);
         }
         else if (minishell->curr_token && minishell->curr_token->type == T_STRING)
         {
@@ -97,15 +78,8 @@ t_node *ft_cmd(t_minishell *minishell)
                 return (NULL);
             ft_next_token(minishell);
         }
-        while (minishell->curr_token && is_redir(minishell->curr_token))
-        {
-            if (minishell->curr_token->type == T_HEREDOC)
-                node->is_heredoc = 1;
-            if (!new_io_node(minishell, &(node->io_list)))
-                return (NULL);
-        }
-        // if (node->io_list)
-        //     print_node_list(node, node->io_list);
+        if (!parser_redir(minishell, node))
+            return (NULL);
     }
     return (node);
 }

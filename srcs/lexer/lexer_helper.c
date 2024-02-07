@@ -36,18 +36,16 @@
 // 	return (*i);
 // }
 
-int find_next_token(t_minishell *minishell, char *line, int *i)
+int	command_iterator(char *line, int *i, t_token *last)
 {
-	int j;
-	t_token *last;
+	int	count;
 
-	j = 0;
-	last = token_last(minishell->tokens);
+	count = 0;
 	if (last && is_redir(last))
 	{
 		while (line[*i] && line[*i] != ' ')
 		{
-			j++;
+			count++;
 			(*i)++;
 		}
 	}
@@ -55,10 +53,20 @@ int find_next_token(t_minishell *minishell, char *line, int *i)
 	{
 		while (line[*i] && !is_symbol(line[*i]))
 		{
-			j++;
+			count++;
 			(*i)++;
 		}
 	}
+	return (count);
+}
+
+int	find_next_token(t_minishell *minishell, char *line, int *i)
+{
+	int		j;
+	t_token	*last;
+
+	last = token_last(minishell->tokens);
+	j = command_iterator(line, i, last);
 	if (is_symbol(line[*i]) && j == 0)
 	{
 		if (!sym_handler(minishell, line, i))
@@ -73,11 +81,11 @@ int find_next_token(t_minishell *minishell, char *line, int *i)
 }
 
 /* Function to check for unclosed quote in values within token_list */
-int quotes_checker(t_minishell *minishell, t_token *token_list)
+int	quotes_checker(t_minishell *minishell, t_token *token_list)
 {
-	t_token *lst;
-	int i;
-	char *end_quote;
+	t_token	*lst;
+	int		i;
+	char	*end_quote;
 
 	lst = token_list;
 	while (lst)
