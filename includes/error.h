@@ -52,7 +52,7 @@ void 	print_str_err(t_minishell *minishell, char *str);
 /*errors*/
 int	exec_error(int error, char *arg, t_minishell *minishell);
 int	expander_error(int error, char *arg, t_minishell *minishell);
-bool 	is_ambiguous_redir(t_io_node *io_node);
+bool is_ambiguous_redir(int io_type, t_entry **match_list);
 
 /*free data*/
 void	free_data(t_minishell *minishell);

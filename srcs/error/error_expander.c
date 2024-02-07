@@ -26,15 +26,20 @@ int	expander_error(int error, char *arg, t_minishell *minishell)
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
-bool is_ambiguous_redir(t_io_node *io_node)
+bool is_ambiguous_redir(int io_type, t_entry **match_list)
 {
-	if (io_node->type == T_REDIR_L || io_node->type == T_REDIR_R
-		|| io_node->type == T_APPEND)
+	t_entry *temp;
+
+	if (io_type == T_REDIR_L || io_type == T_REDIR_R || io_type == T_APPEND)
 	{
-		return (ft_strncmp(io_node->value, "* ", 2) == 0
-			|| ft_strncmp(io_node->value, ".* ", 3) == 0
-			|| ft_strncmp(io_node->value, "*", 2) == 0
-			|| ft_strncmp(io_node->value, ".*", 3) == 0);
+		temp = *match_list;
+		while (temp->next)
+		{
+			printf("temp->name: %s\n", temp->name);
+			temp = temp->next;
+		}
+		if (temp != *match_list)
+			return (free_match_list(match_list), true);
 	}
 	return (false);
 }

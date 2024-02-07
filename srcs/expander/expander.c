@@ -12,25 +12,31 @@
 
 #include "minishell.h"
 
+void	expand_io_value(t_node *node, t_minishell *minishell)
+{
+	t_io_node	*io_list;
+
+	io_list = node->io_list;
+	while (io_list && io_list->value)
+	{
+		check_expandable_var(minishell, &io_list->value, io_list->value);
+		check_wildcard(&io_list->value, &io_list->expanded_arg, io_list->type,
+			minishell);
+		io_list = io_list->next;
+	}
+}
+
 void	get_expanded_arg(t_node *node)
 {
 	if (node && node->value)
 	{
 		check_expandable_var(node->minishell, &node->value, node->value);
-		check_wildcard(&node->value, &node->expanded);
+		check_wildcard(&node->value, &node->expanded, -1, node->minishell);
 		if (node->expanded)
 			node->expanded_arg = ft_split_argv(node->expanded);
 		else
 			node->expanded_arg = ft_split_argv(node->value);
 	}
 	if (node->io_list && node->io_list->value)
-	{
-		check_expandable_var(node->minishell, &node->io_list->value,
-			node->io_list->value);
-		if (is_ambiguous_redir(node->io_list))
-			expander_error(AMBIG_REDIR_ERR, node->io_list->value,
-				node->minishell);
-		else
-			check_wildcard(&node->io_list->value, &node->io_list->expanded_arg);
-	}
+		expand_io_value(node, node->minishell);
 }

@@ -30,11 +30,11 @@ int binop_next_checker(t_token_type type)
 int open_handler(t_minishell *minishell, t_io_node *io_node, int *fd)
 {
     if (io_node->type == T_APPEND)
-        *fd = open(io_node->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        *fd = open(io_node->expanded_arg, O_WRONLY | O_CREAT | O_APPEND, 0644);
     else if (io_node->type == T_REDIR_L)
-        *fd = open(io_node->value, O_RDONLY);
+        *fd = open(io_node->expanded_arg, O_RDONLY);
     else if (io_node->type == T_REDIR_R)
-        *fd = open(io_node->value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        *fd = open(io_node->expanded_arg, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     else if (io_node->type == T_HEREDOC)
         return (0);
     if (*fd == -1)

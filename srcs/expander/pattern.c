@@ -77,6 +77,8 @@ void	extract_pattern(t_pattern *pattern, char *asterisk, char *arg)
 		start--;
 	while (arg[end + 1] && arg[end + 1] != ' ')
 		end++;
+	if (!arg[start - 1])
+		end++;
 	pattern->start = ft_substr(arg, start, end);
 	pattern->start_index = start;
 }

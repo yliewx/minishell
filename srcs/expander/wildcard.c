@@ -64,7 +64,8 @@ void	expand_wildcard(char **node_value, char **node_expanded, t_pattern *pattern
 	*node_expanded = new_str;
 }
 
-void    check_wildcard(char **node_value, char **node_expanded)
+void    check_wildcard(char **node_value, char **node_expanded, int io_type, \
+	t_minishell *minishell)
 {
 	t_entry	*match_list;
 	t_pattern	pattern;
@@ -72,14 +73,19 @@ void    check_wildcard(char **node_value, char **node_expanded)
 
 	asterisk = ft_strchr(*node_value, '*');
 	if (!asterisk || !node_value
-		|| is_in_quote(asterisk, '\'')
-		|| is_in_quote(asterisk, '\"'))
+		|| is_in_quote(asterisk, '\'') || is_in_quote(asterisk, '\"'))
 		return ;
 	extract_pattern(&pattern, asterisk, *node_value);
 	match_list = NULL;
 	find_match_in_dir(&match_list, &pattern);
 	if (match_list)
 	{
+		if (is_ambiguous_redir(io_type, &match_list))
+		{
+			expander_error(AMBIG_REDIR_ERR, pattern.start, minishell);
+			free(pattern.start);
+			return ;
+		}
 		sort_entries(&match_list);
 		join_entries(match_list, &pattern.expanded_value);
 		expand_wildcard(node_value, node_expanded, &pattern);
