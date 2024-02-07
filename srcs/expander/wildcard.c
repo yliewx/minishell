@@ -52,30 +52,30 @@ void	join_entries(t_entry *match_list, char **expanded_value)
 	}
 }
 
-void	expand_wildcard(char **node_value, char **node_expanded, t_pattern *pattern)
+void	expand_wildcard(char **node_expanded, t_pattern *pattern)
 {
 	char	*new_str;
 	int		new_len;
 
-	new_len = ft_strlen(*node_value) - ft_strlen(pattern->start)
+	new_len = ft_strlen(*node_expanded) - ft_strlen(pattern->start)
 		+ ft_strlen(pattern->expanded_value);
-	new_str = replace_with_value(*node_value, pattern->expanded_value,
+	new_str = replace_with_value(*node_expanded, pattern->expanded_value,
 		pattern->start_index, new_len);
+	free(*node_expanded);
 	*node_expanded = new_str;
 }
 
-void    check_wildcard(char **node_value, char **node_expanded, int io_type, \
-	t_minishell *minishell)
+void    check_wildcard(char **node_expanded, int io_type, t_minishell *minishell)
 {
 	t_entry	*match_list;
 	t_pattern	pattern;
 	char	*asterisk;
 
-	asterisk = ft_strchr(*node_value, '*');
-	if (!asterisk || !node_value
+	asterisk = ft_strchr(*node_expanded, '*');
+	if (!asterisk || !node_expanded
 		|| is_in_quote(asterisk, '\'') || is_in_quote(asterisk, '\"'))
 		return ;
-	extract_pattern(&pattern, asterisk, *node_value);
+	extract_pattern(&pattern, asterisk, *node_expanded);
 	match_list = NULL;
 	find_match_in_dir(&match_list, &pattern);
 	if (match_list)
@@ -88,7 +88,7 @@ void    check_wildcard(char **node_value, char **node_expanded, int io_type, \
 		}
 		sort_entries(&match_list);
 		join_entries(match_list, &pattern.expanded_value);
-		expand_wildcard(node_value, node_expanded, &pattern);
+		expand_wildcard(node_expanded, &pattern);
 		free_match_list(&match_list);
 	}
 	free(pattern.start);

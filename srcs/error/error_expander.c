@@ -17,10 +17,7 @@ int	expander_error(int error, char *arg, t_minishell *minishell)
 	ft_putstr_fd("minishell: ", 2);
 	if (error == AMBIG_REDIR_ERR)
 	{
-		if (arg[0])
-			write(2, &arg[0], 1);
-		if (arg[1] && arg[1] == '*')
-			write(2, &arg[1], 1);
+		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": ambiguous redirect\n", 2);
 	}
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
@@ -34,10 +31,7 @@ bool is_ambiguous_redir(int io_type, t_entry **match_list)
 	{
 		temp = *match_list;
 		while (temp->next)
-		{
-			printf("temp->name: %s\n", temp->name);
 			temp = temp->next;
-		}
 		if (temp != *match_list)
 			return (free_match_list(match_list), true);
 	}
