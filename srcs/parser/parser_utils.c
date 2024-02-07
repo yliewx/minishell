@@ -13,51 +13,51 @@
 #include "minishell.h"
 
 // Checks if curr token is binop
-int is_binop(t_token *token)
+int	is_binop(t_token *token)
 {
-    if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
-        return (1);
-    return (0);
+	if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
+		return (1);
+	return (0);
 }
 
 // Function to check if token type is redirect
-int is_redir(t_token *token)
+int	is_redir(t_token *token)
 {
-    if (token->type == T_REDIR_L || \
-    token->type == T_REDIR_R || \
-    token->type == T_APPEND || \
-    token->type == T_HEREDOC)
-        return (1);
-    return (0);
+	if (token->type == T_REDIR_L || \
+	token->type == T_REDIR_R || \
+	token->type == T_APPEND || \
+	token->type == T_HEREDOC)
+		return (1);
+	return (0);
 }
 
 // Get curr token prec
-int get_token_prec(t_token *token)
+int	get_token_prec(t_token *token)
 {
-    if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
-        return (0);
-    return (1);
+	if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
+		return (0);
+	return (1);
 }
 
 // Lookahead function for next token
-t_token *lookahead(t_minishell *minishell)
+t_token	*lookahead(t_minishell *minishell)
 {
-    t_token *token;
+	t_token	*token;
 
-    token = NULL;
-    if (minishell->curr_token)
-        token = minishell->curr_token->next;
-    return (token);
+	token = NULL;
+	if (minishell->curr_token)
+		token = minishell->curr_token->next;
+	return (token);
 }
 
 // Function to get the next binop token
-t_token *next_binop(t_minishell *minishell)
+t_token	*next_binop(t_minishell *minishell)
 {
-    t_token *token;
+	t_token	*token;
 
-    token = NULL;
-    token = minishell->curr_token;
-    while (token && !is_binop(token))
-        token = token->next;
-    return (token);
+	token = NULL;
+	token = minishell->curr_token;
+	while (token && !is_binop(token))
+		token = token->next;
+	return (token);
 }
