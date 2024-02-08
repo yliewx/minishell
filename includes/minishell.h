@@ -43,25 +43,25 @@
 
 typedef struct s_heredoc
 {
-	char	*delimiter;
-	int		pipefd[2];
-	struct s_heredoc *next;
-} 	t_heredoc;
+	char				*delimiter;
+	int					pipefd[2];
+	struct s_heredoc	*next;
+}	t_heredoc;
 
 typedef struct s_minishell
 {
-	t_node	*ast;
-	t_token *tokens;
-	t_token *curr_token;
-	t_heredoc *heredoc_list;
-	char	**envp;
-	char	**env_path;
-	char	*user;
-	int		envp_size;
-	int		old_stdin;
-	int		heredoc_count;
-	int 	minishell_err;
-	int 	exit_status;
+	t_node		*ast;
+	t_token		*tokens;
+	t_token		*curr_token;
+	t_heredoc	*heredoc_list;
+	char		**envp;
+	char		**env_path;
+	char		*user;
+	int			envp_size;
+	int			old_stdin;
+	int			heredoc_count;
+	int			minishell_err;
+	int			exit_status;
 }	t_minishell;
 
 /*utils*/
@@ -69,12 +69,12 @@ void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
-int 	arg_checker(int argc, char **argv);
-int 	ft_minishell(t_minishell *minishell);
+int		arg_checker(int argc, char **argv);
+int		ft_minishell(t_minishell *minishell);
 char	*ft_cmd_line(char *user);
 
 // Init functions
-void init_minishell(t_minishell *minishell, bool start);
+void	init_minishell(t_minishell *minishell, bool start);
 void	init_env(t_minishell *minishell, char **envp);
 
 #endif

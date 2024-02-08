@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-typedef struct s_minishell t_minishell;
+typedef struct s_minishell	t_minishell;
 
 enum e_minishell_err
 {
@@ -49,7 +49,7 @@ int		set_exit_error(t_minishell *minishell, int error, int status);
 /* print error messages */
 // void 	print_char_err(t_minishell *minishell, char c);
 // void 	print_str_err(t_minishell *minishell, char *str);
-int 	print_str_err(int error, char *str, t_minishell *minishell);
+int		print_str_err(int error, char *str, t_minishell *minishell);
 int		print_char_err(int error, char c, t_minishell *minishell);
 
 /* errors */

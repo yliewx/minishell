@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-typedef struct s_minishell t_minishell;
+typedef struct s_minishell	t_minishell;
 
 /*envp dup*/
 void	envp_dup(t_minishell *minishell, char **envp);
@@ -24,7 +24,8 @@ void	envp_dup(t_minishell *minishell, char **envp);
 void	sort_envp(char **envp, int start, int end);
 
 /*update envp*/
-int		update_envp(t_minishell *minishell, char *var, char *value, char *command);
+int		update_envp(t_minishell *minishell, char \
+var, char *value, char *command);
 
 /*search envp*/
 int		search_envp_index(char **envp, char *var, int len);

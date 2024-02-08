@@ -13,9 +13,9 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-#include "minishell.h"
+# include "minishell.h"
 
-typedef struct s_minishell t_minishell;
+typedef struct s_minishell	t_minishell;
 
 enum e_command_type
 {
@@ -30,15 +30,15 @@ enum e_command_type
 };
 
 /*builtins*/
-int	check_builtin(t_node *node);
-int	exec_builtin(t_node *node, int type, int pid);
-int	ft_echo(t_node *node);
-int	ft_cd(t_minishell *minishell, t_node *node);
-int	ft_pwd(t_minishell *minishell);
-int	ft_export(t_minishell *minishell, t_node *node);
-int	ft_unset(t_minishell *minishell, t_node *node);
-int	ft_env(t_minishell *minishell);
-int	ft_exit(t_minishell *minishell);
+int		check_builtin(t_node *node);
+int		exec_builtin(t_node *node, int type, int pid);
+int		ft_echo(t_node *node);
+int		ft_cd(t_minishell *minishell, t_node *node);
+int		ft_pwd(t_minishell *minishell);
+int		ft_export(t_minishell *minishell, t_node *node);
+int		ft_unset(t_minishell *minishell, t_node *node);
+int		ft_env(t_minishell *minishell);
+int		ft_exit(t_minishell *minishell);
 
 /*builtin utils*/
 bool	is_fork_cmd(t_node *node, int type);
@@ -46,8 +46,8 @@ bool	is_export_without_arg(t_node *node, int type);
 void	remove_quotes(char **arg);
 
 /*builtin errors*/
-int	cd_error(int error, char *arg, t_minishell *minishell);
-int	export_error(int error, char *arg, t_minishell *minishell);
-int	unset_error(int error, char *arg, t_minishell *minishell);
+int		cd_error(int error, char *arg, t_minishell *minishell);
+int		export_error(int error, char *arg, t_minishell *minishell);
+int		unset_error(int error, char *arg, t_minishell *minishell);
 
 #endif
