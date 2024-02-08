@@ -12,38 +12,51 @@
 
 #include "minishell.h"
 
-int	resize_envp(t_minishell *minishell, int size, int remove_index)
+char	**get_updated_envp(char **old_envp, int size, int remove_index, int *i)
 {
-	char	**old_envp;
-	int	i;
-	int	j;
+	char	**new_envp;
+	int		j;
 
-	old_envp = minishell->envp;
-	minishell->envp_size = size;
-	minishell->envp = malloc((minishell->envp_size + 1) * sizeof(char*));
-	i = -1;
+	new_envp = malloc((size + 1) * sizeof(char *));
+	if (!new_envp)
+		return (NULL);
 	j = 0;
 	if (remove_index >= 0)
 	{
-		while (++i < size)
+		while (++(*i) < size)
 		{
 			if (j == remove_index)
 				j++;
-			minishell->envp[i] = old_envp[j++];
+			new_envp[*i] = old_envp[j++];
 		}
 		free(old_envp[remove_index]);
 	}
 	else
 	{
-		while (++i < size - 1)
-			minishell->envp[i] = old_envp[i];
+		while (++(*i) < size - 1)
+			new_envp[*i] = old_envp[*i];
 	}
-	minishell->envp[i] = NULL;
+	new_envp[*i] = NULL;
+	return (new_envp);
+}
+
+int	resize_envp(t_minishell *minishell, int size, int remove_index)
+{
+	char	**old_envp;
+	int		i;
+
+	old_envp = minishell->envp;
+	i = -1;
+	minishell->envp_size = size;
+	minishell->envp = get_updated_envp(old_envp, size, remove_index, &i);
+	if (!minishell->envp)
+		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	free(old_envp);
 	return (i);
 }
 
-void	update_envp(t_minishell *minishell, char *var, char *value, char *command)
+int	update_envp(t_minishell *minishell, char *var, char *value, \
+	char *command)
 {
 	int	i;
 
@@ -51,7 +64,7 @@ void	update_envp(t_minishell *minishell, char *var, char *value, char *command)
 	if (i >= 0)
 	{
 		if (ft_strncmp(command, "unset", 6) == 0)
-			resize_envp(minishell, minishell->envp_size - 1, i);
+			return (resize_envp(minishell, minishell->envp_size - 1, i));
 		else
 		{
 			free(minishell->envp[i]);
@@ -63,8 +76,11 @@ void	update_envp(t_minishell *minishell, char *var, char *value, char *command)
 		if (ft_strncmp(command, "export", 7) == 0)
 		{
 			i = resize_envp(minishell, minishell->envp_size + 1, -1);
+			if (i == -1)
+				return (-1);
 			minishell->envp[i] = ft_strdup(value);
 			minishell->envp[i + 1] = NULL;
 		}
 	}
+	return (0);
 }

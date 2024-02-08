@@ -23,11 +23,25 @@ char	*init_oldpwd(void)
 	return (oldpwd);
 }
 
+char	**get_new_envp(char **envp, int envp_size, int max_to_copy)
+{
+	char	**new_envp;
+	int		i;
+
+	new_envp = malloc((envp_size + 1) * sizeof(char *));
+	if (!new_envp)
+		return (NULL);
+	i = -1;
+	while (++i < max_to_copy)
+		new_envp[i] = ft_strdup(envp[i]);
+	if (max_to_copy != envp_size)
+		new_envp[i++] = init_oldpwd();
+	new_envp[i] = NULL;
+	return (new_envp);
+}
+
 void	envp_dup(t_minishell *minishell, char **envp)
 {
-	int	i;
-
-	i = -1;
 	minishell->envp_size = 0;
 	if (!envp || !*envp)
 		return ;
@@ -36,17 +50,16 @@ void	envp_dup(t_minishell *minishell, char **envp)
 	if (search_envp_index(envp, "OLDPWD=", 7) == -1)
 	{
 		minishell->envp_size++;
-		minishell->envp = malloc((minishell->envp_size + 1) * sizeof(char*));
-		while (++i < minishell->envp_size - 1)
-			minishell->envp[i] = ft_strdup(envp[i]);
-		minishell->envp[i++] = init_oldpwd();
+		minishell->envp = get_new_envp(envp, minishell->envp_size,
+				minishell->envp_size - 1);
 	}
 	else
+		minishell->envp = get_new_envp(envp, minishell->envp_size,
+				minishell->envp_size);
+	if (minishell->envp == NULL)
 	{
-		minishell->envp = malloc((minishell->envp_size + 1) * sizeof(char*));
-		while (++i < minishell->envp_size)
-			minishell->envp[i] = ft_strdup(envp[i]);
+		print_str_err(MEM_ERR, NULL, minishell);
+		return ;
 	}
-	minishell->envp[i] = NULL;
 	sort_envp(minishell->envp, 0, minishell->envp_size - 1);
 }

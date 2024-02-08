@@ -39,7 +39,11 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
 		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
-			update_envp(minishell, var_name, node->expanded_arg[i], "unset");
+		{
+			if (update_envp(minishell, var_name, node->expanded_arg[i],
+					"unset") == -1)
+				return (minishell->exit_status);
+		}
 		free(var_name);
 		i++;
 	}

@@ -21,8 +21,8 @@ void	update_pwd(t_minishell *minishell)
 
 	new_pwd_temp = getcwd(NULL, 0);
 	new_pwd = ft_strjoin("PWD=", new_pwd_temp);
-	old_pwd_temp = ft_strdup(minishell->envp[search_envp_index(minishell->envp,
-				"PWD=", 4)]);
+	old_pwd_temp = ft_strdup(\
+		minishell->envp[search_envp_index(minishell->envp, "PWD=", 4)]);
 	old_pwd = ft_strjoin("OLDPWD=", old_pwd_temp + 4);
 	update_envp(minishell, "PWD=", new_pwd, "cd");
 	update_envp(minishell, "OLDPWD=", old_pwd, "cd");

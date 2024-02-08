@@ -22,6 +22,8 @@ int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 	value_len = ft_strlen(value);
 	new_str = replace_var_with_value(*arg, value, start, 2);
 	free(value);
+	if (!new_str)
+		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	free(*arg);
 	*arg = new_str;
 	return (start + value_len);
@@ -44,12 +46,14 @@ int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 	if (ft_strlen(value) == 0)
 		free(value);
 	free(var_name);
+	if (!new_str)
+		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	free(*arg);
 	*arg = new_str;
 	return (next_start_pos);
 }
 
-int	ft_expand(t_minishell *minishell, char **arg, char *current)
+int	check_if_expanded(t_minishell *minishell, char **arg, char *current)
 {
 	int		next_start_pos;
 
@@ -61,24 +65,26 @@ int	ft_expand(t_minishell *minishell, char **arg, char *current)
 	return (next_start_pos);
 }
 
-void	check_expandable_var(t_minishell *minishell, char **arg, char *current)
+int	check_expandable_var(t_minishell *minishell, char **arg, char *current)
 {
 	int	next_start_pos;
 
 	if (!current || !current[0])
-		return ;
+		return (0);
 	current = ft_strchr(current, '$');
 	if (!current)
-		return ;
+		return (0);
 	if (skip_quotes(current, *arg))
 		current = get_end_quote(current + 1, '\'');
 	while (current && current[1] && current[1] == '$')
 		current++;
 	if (current && current[0] == '$')
 	{
-		next_start_pos = ft_expand(minishell, arg, current);
-		if (next_start_pos > 0)
+		next_start_pos = check_if_expanded(minishell, arg, current);
+		if (next_start_pos == -1)
+			return (-1);
+		else if (next_start_pos > 0)
 			current = *arg + next_start_pos;
 	}
-	check_expandable_var(minishell, arg, current);
+	return (check_expandable_var(minishell, arg, current));
 }

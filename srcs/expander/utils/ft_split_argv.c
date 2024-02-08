@@ -113,10 +113,7 @@ char	**ft_split_argv(char *arg)
 	token_count = count_split_tokens(arg, 0, 0, ' ');
 	child_argv = malloc((token_count + 1) * sizeof(char *));
 	if (!child_argv)
-	{
-		perror("Failed to allocate memory for child_argv\n");
 		return (NULL);
-	}
 	assign_argv(arg, &child_argv, token_count);
 	child_argv[token_count] = NULL;
 	return (child_argv);

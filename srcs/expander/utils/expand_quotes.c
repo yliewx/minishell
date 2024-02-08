@@ -70,7 +70,7 @@ bool	is_in_quote(char *c, int quote)
 	return (start_quote && end_quote);
 }
 
-bool	prev_quotes_are_closed(char *c, char *full_arg, int quote)
+bool	prev_quotes_closed(char *c, char *full_arg, int quote)
 {
 	int	count;
 
@@ -88,8 +88,41 @@ bool	prev_quotes_are_closed(char *c, char *full_arg, int quote)
 return true = skip quote; variable will not be expanded*/
 bool	skip_quotes(char *c, char *full_arg)
 {
-	char	*prev_double_quote;
-	char	*prev_single_quote;
+	char	*prev_double;
+	char	*prev_single;
+	int		start_quote;
+	int		i;
+
+	if (!ft_strchr(c, '\''))
+		return (false);
+	i = 0;
+	while (c[i] && !is_quote(c[i]))
+		i--;
+	start_quote = c[i];
+	prev_double = get_start_quote(c + i, '\"');
+	prev_single = get_start_quote(c + i, '\'');
+	if (start_quote == '\'')
+	{
+		if (prev_single && prev_quotes_closed(c, full_arg, '\''))
+			return (false);
+		if ((!prev_single || prev_single == c + i) && (!prev_double
+				|| prev_quotes_closed(c, full_arg, '\"')))
+			return (true);
+		if (prev_single < prev_double && !prev_quotes_closed(c, full_arg, '\''))
+			return (true);
+	}
+	else if (start_quote == '\"')
+	{
+		if (prev_single < prev_double && !prev_quotes_closed(c, full_arg, '\''))
+			return (true);
+	}
+	return (false);
+}
+/*
+bool	skip_quotes(char *c, char *full_arg)
+{
+	char	*prev_double;
+	char	*prev_single;
 	int		start_quote;
 	int		i;
 
@@ -100,26 +133,26 @@ bool	skip_quotes(char *c, char *full_arg)
 	while (c[i] && !is_quote(c[i]))
 		i--;
 	start_quote = c[i];
-	prev_double_quote = get_start_quote(c + i, '\"');
-	prev_single_quote = get_start_quote(c + i, '\'');
+	prev_double = get_start_quote(c + i, '\"');
+	prev_single = get_start_quote(c + i, '\'');
 	if (start_quote == '\'')
 	{
-		if (prev_single_quote && prev_quotes_are_closed(c, full_arg, '\''))
+		if (prev_single && prev_quotes_closed(c, full_arg, '\''))
 			return (false);
-		if ((!prev_single_quote || prev_single_quote == c + i)
-			&& (!prev_double_quote || prev_quotes_are_closed(c, full_arg, '\"')))
+		if ((!prev_single || prev_single == c + i)
+			&& (!prev_double
+				|| prev_quotes_closed(c, full_arg, '\"')))
 			return (true);
-		if (prev_single_quote < prev_double_quote)
-		{
-			if (!prev_quotes_are_closed(c, full_arg, '\''))
-				return (true);
-		}
+		if (prev_single < prev_double
+			&& !prev_quotes_closed(c, full_arg, '\''))
+			return (true);
 	}
 	else if (start_quote == '\"')
 	{
-		if (prev_single_quote < prev_double_quote
-			&& !prev_quotes_are_closed(c, full_arg, '\''))
+		if (prev_single < prev_double
+			&& !prev_quotes_closed(c, full_arg, '\''))
 			return (true);
 	}
 	return (false);
 }
+*/

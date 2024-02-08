@@ -33,6 +33,8 @@ char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 	int		j;
 
 	new_str = ft_calloc(total_len + 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
 	i = -1;
 	while (++i < start)
 		new_str[i] = arg[i];

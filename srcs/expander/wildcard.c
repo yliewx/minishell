@@ -52,17 +52,21 @@ void	join_entries(t_entry *match_list, char **expanded_value)
 	}
 }
 
-void	expand_wildcard(char **expanded_str, t_pattern *pattern)
+int	expand_wildcard(char **expanded_str, t_pattern *pattern, \
+	t_minishell *minishell)
 {
 	char	*new_str;
 
 	new_str = replace_var_with_value(*expanded_str, pattern->expanded_value,
 			pattern->start_index, ft_strlen(pattern->start));
+	if (!new_str)
+		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	free(*expanded_str);
 	*expanded_str = new_str;
+	return (0);
 }
 
-void	check_wildcard(char **expanded_str, int io_type, t_minishell *minishell)
+int	check_wildcard(char **expanded_str, int io_type, t_minishell *minishell)
 {
 	t_entry		*match_list;
 	t_pattern	pattern;
@@ -70,7 +74,7 @@ void	check_wildcard(char **expanded_str, int io_type, t_minishell *minishell)
 
 	asterisk = ft_strchr(*expanded_str, '*');
 	if (!asterisk || is_in_quote(asterisk, '\'') || is_in_quote(asterisk, '\"'))
-		return ;
+		return (0);
 	extract_pattern(&pattern, asterisk, *expanded_str);
 	match_list = NULL;
 	find_match_in_dir(&match_list, &pattern);
@@ -79,13 +83,13 @@ void	check_wildcard(char **expanded_str, int io_type, t_minishell *minishell)
 		if (is_ambiguous_redir(io_type, &match_list))
 		{
 			expander_error(AMBIG_REDIR_ERR, pattern.start, minishell);
-			free(pattern.start);
-			return ;
+			return (free(pattern.start), -1);
 		}
 		sort_entries(&match_list);
 		join_entries(match_list, &pattern.expanded_value);
-		expand_wildcard(expanded_str, &pattern);
+		if (expand_wildcard(expanded_str, &pattern, minishell) == -1)
+			return (free_match_list(&match_list), free(pattern.start), -1);
 		free_match_list(&match_list);
 	}
-	free(pattern.start);
+	return (free(pattern.start), 0);
 }
