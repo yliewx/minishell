@@ -12,22 +12,23 @@
 
 #include "minishell.h"
 
-void init_minishell(t_minishell *minishell, bool start)
+void	init_minishell(t_minishell *minishell, bool start)
 {
-    init_signals(minishell);
-    if (start)
-    {
-        minishell->old_stdin = dup(STDIN_FILENO);
-        minishell->exit_status = 0;
-    }
-    minishell->ast = NULL;
-    minishell->tokens = NULL;
-    minishell->curr_token = NULL;
-    minishell->heredoc_list = NULL;
-    minishell->heredoc_count = 0;
-    minishell->minishell_err = 0;
-    if (minishell->envp)
-    	minishell->user = value_in_env(minishell->envp, "USER", 4);
-    else
-        minishell->user = NULL;
+	init_signals(minishell);
+	if (start)
+	{
+		minishell->old_stdin = dup(STDIN_FILENO);
+		minishell->exit_status = 0;
+	}
+	minishell->ast = NULL;
+	minishell->tokens = NULL;
+	minishell->curr_token = NULL;
+	minishell->heredoc_list = NULL;
+	minishell->heredoc_count = 0;
+	minishell->minishell_err = 0;
+	minishell->prompt = NULL;
+	if (minishell->envp)
+		minishell->user = value_in_env(minishell->envp, "USER", 4);
+	else
+		minishell->user = NULL;
 }

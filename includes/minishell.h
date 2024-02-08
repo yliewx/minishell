@@ -57,6 +57,7 @@ typedef struct s_minishell
 	char		**envp;
 	char		**env_path;
 	char		*user;
+	char		*prompt;
 	int			envp_size;
 	int			old_stdin;
 	int			heredoc_count;
@@ -71,7 +72,7 @@ bool	is_quote(int c);
 void	init_signals(t_minishell *minishell);
 int		arg_checker(int argc, char **argv);
 int		ft_minishell(t_minishell *minishell);
-char	*ft_cmd_line(char *user);
+void	ft_prompt(t_minishell *minishell);
 
 // Init functions
 void	init_minishell(t_minishell *minishell, bool start);
