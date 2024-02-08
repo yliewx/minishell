@@ -18,10 +18,31 @@ export "abc"def'ghi''=xyz'l"mao"
 export "abc"def'ghi''"=x"yz'l"mao" //will fail in bash export
 export "abc'def'ghi=x"yzl"mao" //will fail in bash export; check echo
 export "abc"def'ghi'"=xyz"l"mao"*/
+
+bool	until_quote(char *arg, int len, int quote)
+{
+	return ((quote != 0 && arg[len] && arg[len] != quote)
+		|| (quote == 0 && arg[len] && !is_quote(arg[len])));
+}
+
+int	check_if_is_quote(char *arg, int *len, int *i)
+{
+	int	quote;
+
+	if (is_quote(arg[*len]))
+	{
+		quote = arg[*len];
+		(*len)++;
+		(*i)++;
+		return (quote);
+	}
+	return (0);
+}
+
 void	remove_quotes(char **arg)
 {
 	char	*new_str;
-	int		in_quote;
+	int		quote;
 	int		i;
 	int		j;
 	int		len;
@@ -33,15 +54,9 @@ void	remove_quotes(char **arg)
 	j = 0;
 	while ((*arg)[i])
 	{
-		in_quote = 0;
 		len = i;
-		if (is_quote((*arg)[len]))
-		{
-			in_quote = (*arg)[len++];
-			i++;
-		}
-		while ((in_quote != 0 && (*arg)[len] && (*arg)[len] != in_quote)
-			|| (in_quote == 0 && (*arg)[len] && !is_quote((*arg)[len])))
+		quote = check_if_is_quote(*arg, &len, &i);
+		while (until_quote(*arg, len, quote))
 			len++;
 		while (i < len)
 			new_str[j++] = (*arg)[i++];

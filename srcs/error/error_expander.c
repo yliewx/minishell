@@ -23,9 +23,9 @@ int	expander_error(int error, char *arg, t_minishell *minishell)
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
-bool is_ambiguous_redir(int io_type, t_entry **match_list)
+bool	is_ambiguous_redir(int io_type, t_entry **match_list)
 {
-	t_entry *temp;
+	t_entry	*temp;
 
 	if (io_type == T_REDIR_L || io_type == T_REDIR_R || io_type == T_APPEND)
 	{

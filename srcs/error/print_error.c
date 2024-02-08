@@ -12,31 +12,31 @@
 
 #include "minishell.h"
 
-int print_char_err(int error, char c, t_minishell *minishell)
+int	print_char_err(int error, char c, t_minishell *minishell)
 {
-    ft_putstr_fd("minishell: ", 2);
-    if (error == SYNTAX_ERR)
-    {
-        ft_putstr_fd("syntax error near unexpected token `", 2);
-        write(2, &c, 1);
-        ft_putstr_fd("'\n", 2);
-    }
-    return (set_exit_error(minishell, error, EXIT_FAILURE));
+	ft_putstr_fd("minishell: ", 2);
+	if (error == SYNTAX_ERR)
+	{
+		t_putstr_fd("syntax error near unexpected token `", 2);
+		write(2, &c, 1);
+		ft_putstr_fd("'\n", 2);
+	}
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
-int print_str_err(int error, char *str, t_minishell *minishell)
+int	print_str_err(int error, char *str, t_minishell *minishell)
 {
-    ft_putstr_fd("minishell: ", 2);
-    if (error == SYNTAX_ERR)
-    {
-        ft_putstr_fd("syntax error near unexpected token `", 2);
-        ft_putstr_fd(str, 2);        
-        ft_putstr_fd("'\n", 2);
-    }
+	ft_putstr_fd("minishell: ", 2);
+	if (error == SYNTAX_ERR)
+	{
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("'\n", 2);
+	}
 	else if (error == DUP2_ERR)
 		ft_putstr_fd("error: dup2 failed\n", 2);
-    else if (error == MEM_ERR)
-        ft_putstr_fd("error: memory allocation failed\n", 2);
+	else if (error == MEM_ERR)
+		ft_putstr_fd("error: memory allocation failed\n", 2);
 	else if (error == OPEN_ERR)
 	{
 		ft_putstr_fd(str, 2);
@@ -44,6 +44,5 @@ int print_str_err(int error, char *str, t_minishell *minishell)
 	}
 	else if (error == PIPE_ERR || error == FORK_ERR)
 		ft_putstr_fd(str, 2);
-    return (set_exit_error(minishell, error, EXIT_FAILURE));
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
-

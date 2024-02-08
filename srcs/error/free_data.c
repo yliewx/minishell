@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_minishell.c                                        :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -37,10 +37,11 @@ void	free_data_and_exit(t_minishell *minishell)
 	free_data(minishell);
 	free_arrays(&minishell->envp);
 	free_arrays(&minishell->env_path);
+	free(minishell->prompt);
 }
 
 void	ft_reinit(t_minishell *minishell)
 {
 	free_data(minishell);
-	init_minishell(minishell, false);	
+	init_minishell(minishell, false);
 }

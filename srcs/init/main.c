@@ -57,7 +57,7 @@ int	ft_minishell(t_minishell *minishell)
 		if (!command)
 		{
 			if (minishell->prompt)
-				free(prompt);
+				free(minishell->prompt);
 			return (printf("exit\n"), 1);
 		}
 		add_history(command);
