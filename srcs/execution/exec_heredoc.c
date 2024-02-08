@@ -12,31 +12,45 @@
 
 #include "minishell.h"
 
-/* Function to pipe heredoc input */
-void	ft_heredoc(t_heredoc *list)
+/* Function to remove first node of heredoc list */
+void	remove_heredoc_node(t_heredoc **list)
 {
-	t_heredoc *curr_node;
-	char	*curr_line;
+	t_heredoc	*to_free;
 
-	curr_node = list;
-	if (!curr_node)
-		return ;
-	while (curr_node)
+	to_free = *list;
+	if (to_free)
 	{
-		pipe(curr_node->pipefd);
+		*list = (*list)->next;
+		free(to_free->delimiter);
+		free(to_free);
+	}
+}
+
+/* Function to pipe heredoc input */
+int	ft_heredoc(t_heredoc *list, t_minishell *shell)
+{
+	t_heredoc	*node;
+	char		*line;
+
+	node = list;
+	while (node)
+	{
+		if (pipe(node->pipefd) == -1)
+			return (print_str_err(PIPE_ERR, "error: pipe() failed\n", shell));
 		while (1)
 		{
-			curr_line = readline("> ");
-			if (!ft_strncmp(curr_line, curr_node->delimiter, ft_strlen(curr_line)) \
-				&& (ft_strlen(curr_line) == ft_strlen(curr_node->delimiter)))
+			line = readline("> ");
+			if (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
+				&& (ft_strlen(line) == ft_strlen(node->delimiter)))
 			{
-				free(curr_line);
+				free(line);
 				break ;
 			}
-			ft_putstr_fd(curr_line, curr_node->pipefd[1]);
-			ft_putstr_fd("\n", curr_node->pipefd[1]);
-			free(curr_line);
+			ft_putstr_fd(line, node->pipefd[1]);
+			ft_putstr_fd("\n", node->pipefd[1]);
+			free(line);
 		}
-		curr_node = curr_node->next;
+		node = node->next;
 	}
+	return (0);
 }

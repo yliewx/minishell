@@ -42,6 +42,8 @@ int print_str_err(int error, char *str, t_minishell *minishell)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("No such file or directory\n", 2);
 	}
+	else if (error == PIPE_ERR || error == FORK_ERR)
+		ft_putstr_fd(str, 2);
     return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 

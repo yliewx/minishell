@@ -30,6 +30,7 @@ enum e_minishell_err
 	AMBIG_REDIR_ERR,
 	CMD_NOT_FOUND_ERR,
 	FILE_NOT_FOUND_ERR,
+	CHILD_ERR,
 };
 
 enum e_builtin_err

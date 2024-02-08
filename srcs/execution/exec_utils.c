@@ -13,18 +13,17 @@
 #include "minishell.h"
 
 /* Checks if ast node is binop */
-int is_binop_node(t_node *node)
+int	is_binop_node(t_node *node)
 {
-    if (node->type == T_AND || node->type == T_OR || node->type == T_PIPE)
-        return (1);
-    return (0);
+	if (node->type == T_AND || node->type == T_OR || node->type == T_PIPE)
+		return (1);
+	return (0);
 }
 
 /* Checks for binop given type */
-int binop_next_checker(t_token_type type)
+int	binop_next_checker(t_token_type type)
 {
-    if (type == T_AND || type == T_OR || type == T_PIPE)
-        return (1);
-    return (0);
+	if (type == T_AND || type == T_OR || type == T_PIPE)
+		return (1);
+	return (0);
 }
-

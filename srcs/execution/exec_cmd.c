@@ -15,9 +15,9 @@
 /* Function to exec simple command
 - Get command path
 - Exec in child process */
-void exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
+void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 {
-	char *command_path;
+	char	*command_path;
 
 	command_path = NULL;
 	if (pid == 0)
@@ -33,10 +33,9 @@ void exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	}
 	else
 	{
-		// Parent to check if cmd is executable
-		// printf("parent's exit status %i\n", WIFEXITED(wait(&(minishell->exit_status))));
 		waitpid(pid, &(minishell->exit_status), 0);
-		printf("child's exit status %d\n", WEXITSTATUS(minishell->exit_status));
+		if (WEXITSTATUS(minishell->exit_status))
+			set_exit_error(minishell, CHILD_ERR, 1);
 	}
 }
 
@@ -44,26 +43,26 @@ void exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 - Expand args
 - Pipe and fork if necessary
 - Exec builtin or simple cmd */
-void exec_command(t_node *node, t_minishell *minishell)
+void	exec_command(t_node *node, t_minishell *minishell)
 {
-	int pid;
-	int pipefd[2];
-	int builtin_type;
+	int	pid;
+	int	pipefd[2];
+	int	builtin_type;
 
 	pid = -1;
 	builtin_type = -1;
 	if (minishell->minishell_err)
 		return ;
 	get_expanded_arg(node);
-	if (minishell->minishell_err != NO_ERR)
+	if (minishell->minishell_err)
 		return ;
 	builtin_type = check_builtin(node);
-	if (node->next_binop == T_PIPE)
-		pipe(pipefd);
-	if (is_fork_cmd(node, builtin_type))
-		pid = fork();
+	if (pipe_handler(pipefd, node, minishell))
+		return ;
+	if (fork_handler(&pid, builtin_type, node, minishell))
+		return ;
 	open_file_checker(node, minishell, pid);
-	if (redir_handler(node, pid, pipefd) == -1)
+	if (redir_handler(node, pid, pipefd) == -1 || minishell->minishell_err)
 		return ;
 	if (builtin_type != CMD_SIMPLE)
 		exec_builtin(node, builtin_type, pid);

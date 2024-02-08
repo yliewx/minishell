@@ -16,28 +16,29 @@
 - When binop found, traverse left
 - If exist status fulfilled, traverse right
 - Leaf node -> exec command */
-t_node *traverse_tree(t_node *ast, t_minishell *minishell)
+t_node	*traverse_tree(t_node *ast, t_minishell *minishell)
 {
-    if (!ast || minishell->minishell_err)
-        return (ast);
-    if (is_binop_node(ast))
-    {
-        traverse_tree(ast->left, minishell);
-        if ((WIFEXITED(minishell->exit_status) && ast->type == T_AND) \
-            || (!WIFEXITED(minishell->exit_status) && ast->type == T_OR)
-            || ast->type == T_PIPE)
-                traverse_tree(ast->right, minishell);
-    }
-    else
-        exec_command(ast, minishell);
-    return (ast);
+	if (!ast || minishell->minishell_err)
+		return (ast);
+	if (is_binop_node(ast))
+	{
+		traverse_tree(ast->left, minishell);
+		if ((WIFEXITED(minishell->exit_status) && ast->type == T_AND) \
+			|| (!WIFEXITED(minishell->exit_status) && ast->type == T_OR)
+			|| ast->type == T_PIPE)
+			traverse_tree(ast->right, minishell);
+	}
+	else
+		exec_command(ast, minishell);
+	return (ast);
 }
 
 /* Function to create heredoc nodes and start traversal */
-t_node *ft_exec(t_minishell *minishell)
+t_node	*ft_exec(t_minishell *minishell)
 {
-    if (minishell->heredoc_count >= 1)
-       ft_heredoc(minishell->heredoc_list);
-    traverse_tree(minishell->ast, minishell);
-    return (minishell->ast);
+	if (minishell->heredoc_count >= 1)
+		ft_heredoc(minishell->heredoc_list, minishell);
+	if (!minishell->minishell_err)
+		traverse_tree(minishell->ast, minishell);
+	return (minishell->ast);
 }
