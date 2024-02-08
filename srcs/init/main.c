@@ -26,12 +26,13 @@ int ft_minishell(t_minishell *minishell)
 		{
 			add_history(command);
 			ft_lexer(minishell, command);
-			// print_token_list(minishell->tokens);
 			if (minishell->tokens && !minishell->minishell_err)
 			{
 				minishell->curr_token = minishell->tokens;
-				ft_parser(minishell);
-				ft_exec(minishell);
+				if (!minishell->minishell_err)
+					ft_parser(minishell);
+				if (!minishell->minishell_err)
+					ft_exec(minishell);
 			}
 			dup2(minishell->old_stdin, STDIN_FILENO);
 			free(command);

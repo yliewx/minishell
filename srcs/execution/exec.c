@@ -12,17 +12,13 @@
 
 #include "minishell.h"
 
-// RECURSIVE - traverse_tree
-    // Is there heredoc?
-    // When it finds a binop
-        // traverse_tree left
-        // (Condition to check binop)
-            // traverse_tree right
-    // When simple cmd found -> 
-        // Exec and set status
+/* Function to recursively traverse tree to exec nodes 
+- When binop found, traverse left
+- If exist status fulfilled, traverse right
+- Leaf node -> exec command */
 t_node *traverse_tree(t_node *ast, t_minishell *minishell)
 {
-    if (!ast)
+    if (!ast || minishell->minishell_err)
         return (ast);
     if (is_binop_node(ast))
     {
@@ -37,6 +33,7 @@ t_node *traverse_tree(t_node *ast, t_minishell *minishell)
     return (ast);
 }
 
+/* Function to create heredoc nodes and start traversal */
 t_node *ft_exec(t_minishell *minishell)
 {
     if (minishell->heredoc_count >= 1)

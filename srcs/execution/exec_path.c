@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-/*retrieve possible file paths with envp and ft_split (shell command env)*/
-char	**get_env_path(char **envp)
+/* Retrieve possible file paths with envp and ft_split (shell command env) */
+char	**get_env_path(char **envp, t_minishell *minishell)
 {
 	char	**path;
 	char	*start_pos;
@@ -27,7 +27,7 @@ char	**get_env_path(char **envp)
 	start_pos = ft_strchr(envp[i], '=') + 1;
 	path = ft_split(start_pos, ':');
 	if (!path)
-		perror("Could not extract directory path\n");
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	j = 0;
 	while (path[j])
 	{
@@ -39,8 +39,8 @@ char	**get_env_path(char **envp)
 	return (path);
 }
 
-/*check every directory in PATH until the command is found
-- if no environment, just check common paths*/
+/* Check every directory in PATH until the command is found
+- If no environment, check common paths */
 void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 {
 	char	*default_arr[4];

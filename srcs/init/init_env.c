@@ -20,6 +20,6 @@ void	init_env(t_minishell *minishell, char **envp)
 	if (*envp)
 	{
 		envp_dup(minishell, envp);
-		minishell->env_path = get_env_path(envp);
+		minishell->env_path = get_env_path(envp, minishell);
 	}
 }

@@ -14,6 +14,7 @@
 
 int	exec_error(int error, char *arg, t_minishell *minishell)
 {
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(arg, 2);
 	if (error == CMD_NOT_FOUND_ERR)
 	{

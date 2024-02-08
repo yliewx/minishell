@@ -16,14 +16,14 @@
 #include "minishell.h"
 
 // Exec command functions
-void    exec_simple_cmd(t_node *node, char **argv, t_minishell *minishell, int pid);
+void    exec_simple_cmd(char **argv, t_minishell *minishell, int pid);
 void    exec_command(t_node *node, t_minishell *minishell);
 
 // Exec heredoc functions
 void	ft_heredoc(t_heredoc *list);
 
 // Exec path functions
-char	**get_env_path(char **envp);
+char	**get_env_path(char **envp, t_minishell *minishell);
 void	get_command_path(char **command_path, char *arg, t_minishell *minishell);
 
 // Exec redirect functions
@@ -33,6 +33,9 @@ int     redir_handler(t_node *node, int pid, int *pipefd);
 // Exec util functions
 int     is_binop_node(t_node *node);
 int     binop_next_checker(t_token_type type);
+
+// Open utils
+int		open_file_checker(t_node *node, t_minishell *minishell, int pid);
 int     open_handler(t_minishell *minishell, t_io_node *io_node, int *fd);
 
 // Exec main

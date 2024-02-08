@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// Heredoc -> send input to pipe
+/* Function to pipe heredoc input */
 void	ft_heredoc(t_heredoc *list)
 {
 	t_heredoc *curr_node;

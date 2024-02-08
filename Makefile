@@ -35,7 +35,7 @@ EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 
 # execution
 EXEC = exec.c exec_utils.c exec_heredoc.c exec_cmd.c exec_path.c \
-	exec_redir.c
+	exec_redir.c exec_open.c
 EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 
 # builtins
