@@ -44,12 +44,10 @@ t_io_node	*new_io_node(t_minishell *minishell, t_io_node **list)
 
 	next_token = lookahead(minishell);
 	if (!next_token || next_token->type != T_STRING)
-		return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_str_err(minishell, "newline"), NULL);
+		return (print_str_err(SYNTAX_ERR, "newline", minishell), NULL);
 	node = malloc(sizeof(t_io_node));
 	if (!node)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), NULL);
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	io_node_init(minishell, node);
 	if (node->type == T_HEREDOC)
 	{
@@ -72,8 +70,7 @@ t_heredoc **heredoc_list)
 
 	node = malloc(sizeof(t_heredoc));
 	if (!node)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), -1);
+		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	node->delimiter = ft_strdup(delimiter);
 	node->next = NULL;
 	if (!*heredoc_list)

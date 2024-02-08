@@ -21,7 +21,7 @@ int	expand_io_value(t_node *node, t_minishell *minishell)
 	{
 		io_list->expanded_arg = ft_strdup(io_list->value);
 		if (!io_list->expanded_arg)
-			return (print_str_error(MEM_ERR, NULL, minishell));
+			return (print_str_err(MEM_ERR, NULL, minishell));
 		check_expandable_var(minishell, &io_list->expanded_arg,
 			io_list->expanded_arg);
 		check_wildcard(&io_list->expanded_arg, io_list->type, minishell);
@@ -36,7 +36,7 @@ int	get_expanded_arg(t_node *node)
 	{
 		node->expanded = ft_strdup(node->value);
 		if (!node->expanded)
-			return (print_str_error(MEM_ERR, NULL, node->minishell));
+			return (print_str_err(MEM_ERR, NULL, node->minishell));
 		check_expandable_var(node->minishell, &node->expanded, node->expanded);
 		check_wildcard(&node->expanded, -1, node->minishell);
 		node->expanded_arg = ft_split_argv(node->expanded);

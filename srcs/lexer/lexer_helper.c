@@ -102,8 +102,7 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 					else if (lst->value[i] == '\"')
 						end_quote = ft_strrchr(&lst->value[i], '\"');
 					if (end_quote == &(lst->value[i]))
-						return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-							print_char_err(minishell, lst->value[i]), -1);
+						return (print_char_err(SYNTAX_ERR, lst->value[i], minishell), -1);
 					else
 						i = end_quote - lst->value;
 				}

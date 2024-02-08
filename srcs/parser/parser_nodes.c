@@ -33,8 +33,7 @@ t_node	*ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 
 	node = malloc(sizeof(t_node) * 1);
 	if (!node)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), NULL);
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	node_init(node, cmd);
 	node->type = type;
 	node->minishell = minishell;

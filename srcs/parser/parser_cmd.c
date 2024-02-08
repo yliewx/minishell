@@ -17,16 +17,13 @@
 t_node	*parenthesis_handler(t_minishell *minishell, t_node **node)
 {
 	if (!lookahead(minishell))
-		return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_char_err(minishell, '('), NULL);
+		return (print_char_err(SYNTAX_ERR, '(', minishell), NULL);
 	ft_next_token(minishell);
 	*node = ft_ast(minishell, 0);
 	if (!*node)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), NULL);
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	if (!minishell->curr_token || minishell->curr_token->type != T_CLOSE)
-		return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_str_err(minishell, "newline"), NULL);
+		return (print_str_err(SYNTAX_ERR, "newline", minishell), NULL);
 	ft_next_token(minishell);
 	return (*node);
 }
@@ -61,8 +58,7 @@ t_node	*ft_cmd(t_minishell *minishell)
 	node = NULL;
 	if (is_binop(minishell->curr_token) || \
 		minishell->curr_token->type == T_CLOSE)
-		return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_str_err(minishell, minishell->curr_token->value), NULL);
+		return (print_str_err(SYNTAX_ERR, minishell->curr_token->value, minishell), NULL);
 	else if (minishell->curr_token->type == T_OPEN)
 		parenthesis_handler(minishell, &node);
 	else

@@ -24,12 +24,10 @@ t_token_type sym_type, int *i)
 
 	symbol_value = ft_strdup(val);
 	if (!symbol_value)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), NULL);
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	token = create_node(symbol_value, sym_type);
 	if (!token)
-		return (set_exit_error(minishell, MEM_ERR, 1), \
-			print_str_err(minishell, NULL), NULL);
+		return (print_str_err(MEM_ERR, NULL, minishell), NULL);
 	token_add_back(&minishell->tokens, token);
 	if (sym_type == T_OR || sym_type == T_AND || \
 		sym_type == T_APPEND || sym_type == T_HEREDOC)
@@ -70,19 +68,14 @@ t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 	if (!create_sym_token(minishell, line, i))
 	{
 		if (!minishell->minishell_err)
-		{
-			return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-				print_char_err(minishell, line[*i]), NULL);
-		}
+			return (print_char_err(SYNTAX_ERR, line[*i], minishell), NULL);
 		return (NULL);
 	}
 	if (get_prev_type(minishell->tokens) != T_STRING && \
 		get_prev_type(minishell->tokens) != T_OPEN \
 		&& get_prev_type(minishell->tokens) != T_CLOSE)
 	{
-		return (set_exit_error(minishell, SYNTAX_ERR, 1), \
-			print_str_err(minishell, \
-			(token_last(minishell->tokens))->value), NULL);
+		return (print_str_err(SYNTAX_ERR, token_last(minishell->tokens)->value, minishell), NULL);
 	}
 	return (minishell->tokens);
 }

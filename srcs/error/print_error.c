@@ -36,10 +36,10 @@ void print_str_err(t_minishell *minishell, char *str)
         ft_putstr_fd("error allocating memory\n", 2);
 }
 */
-int print_char_err(t_minishell *minishell, char c)
+int print_char_err(int error, char c, t_minishell *minishell)
 {
     ft_putstr_fd("minishell: ", 2);
-    if (minishell->minishell_err == SYNTAX_ERR)
+    if (error == SYNTAX_ERR)
     {
         ft_putstr_fd("syntax error near unexpected token `", 2);
         write(2, &c, 1);
