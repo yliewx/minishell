@@ -93,8 +93,6 @@ bool	skip_quotes(char *c, char *full_arg)
 	int		start_quote;
 	int		i;
 
-	if (!ft_strchr(c, '\''))
-		return (false);
 	i = 0;
 	while (c[i] && !is_quote(c[i]))
 		i--;
@@ -111,10 +109,8 @@ bool	skip_quotes(char *c, char *full_arg)
 		if (prev_single < prev_double && !prev_quotes_closed(c, full_arg, '\''))
 			return (true);
 	}
-	else if (start_quote == '\"')
-	{
-		if (prev_single < prev_double && !prev_quotes_closed(c, full_arg, '\''))
-			return (true);
-	}
+	else if (start_quote == '\"' && prev_single < prev_double
+		&& !prev_quotes_closed(c, full_arg, '\''))
+		return (true);
 	return (false);
 }

@@ -74,7 +74,7 @@ int	check_expandable_var(t_minishell *minishell, char **arg, char *current)
 	current = ft_strchr(current, '$');
 	if (!current)
 		return (0);
-	if (skip_quotes(current, *arg))
+	if (ft_strchr(current, '\'') && skip_quotes(current, *arg))
 		current = get_end_quote(current + 1, '\'');
 	while (current && current[1] && current[1] == '$')
 		current++;

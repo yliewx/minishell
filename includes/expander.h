@@ -30,12 +30,6 @@ typedef struct s_entry
 	struct s_entry	*next;
 }	t_entry;
 
-enum e_quote_type
-{
-	start,
-	end,
-};
-
 /*expander*/
 int				get_expanded_arg(t_node *node);
 int				check_expandable_var(t_minishell *minishell, \

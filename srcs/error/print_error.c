@@ -17,7 +17,7 @@ int	print_char_err(int error, char c, t_minishell *minishell)
 	ft_putstr_fd("minishell: ", 2);
 	if (error == SYNTAX_ERR)
 	{
-		t_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd("syntax error near unexpected token `", 2);
 		write(2, &c, 1);
 		ft_putstr_fd("'\n", 2);
 	}
