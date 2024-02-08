@@ -16,8 +16,8 @@ int	pipe_handler(int *pipefd, t_node *node, t_minishell *minishell)
 {
 	if (node->next_binop == T_PIPE)
 		if (pipe(pipefd) == -1)
-			return (print_str_err(PIPE_ERR, "error: pipe() \
-			failed\n", minishell), -1);
+			return (print_str_err(PIPE_ERR, "error: pipe() "\
+				"failed\n", minishell), -1);
 	return (0);
 }
 
@@ -25,10 +25,12 @@ int	fork_handler(int *pid, int builtin_type, t_node *node, \
 	t_minishell *minishell)
 {
 	if (is_fork_cmd(node, builtin_type))
+	{
 		*pid = fork();
-	if (*pid == -1)
-		return (print_str_err(FORK_ERR, "error: \
-		fork() failed\n", minishell), -1);
+		if (*pid == -1)
+			return (print_str_err(FORK_ERR, "error: "\
+				"fork() failed\n", minishell), -1);
+	}
 	return (0);
 }
 

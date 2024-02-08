@@ -25,11 +25,11 @@ int	print_export(t_minishell *minishell)
 	char	*value;
 	int		i;
 
-	i = 0;
+	i = -1;
 	if (!minishell->envp)
 		return (set_exit_success(minishell));
 	sort_envp(minishell->envp, 0, minishell->envp_size - 1);
-	while (minishell->envp[i])
+	while (minishell->envp[++i])
 	{
 		var_name = extract_var_name(minishell->envp[i]);
 		if (var_name && ft_strncmp(var_name, "_=", 3) != 0)
@@ -37,15 +37,12 @@ int	print_export(t_minishell *minishell)
 			printf("declare -x %s", var_name);
 			value = after_equal_sign(minishell->envp[i]);
 			if (value[0])
-				printf("\"%s\"\n", value);
+				printf("\"%s\"", value);
 			else
-			{
 				free(value);
-				printf("\n");
-			}
+			printf("\n");
 		}
 		free(var_name);
-		i++;
 	}
 	return (set_exit_success(minishell));
 }

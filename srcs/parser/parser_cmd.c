@@ -59,7 +59,7 @@ t_node	*ft_cmd(t_minishell *shell)
 	if (is_binop(shell->curr_token) || shell->curr_token->type == T_CLOSE)
 		return (print_str_err(SYNTAX_ERR, shell->curr_token->value, shell), NULL);
 	else if (shell->curr_token->type == T_OPEN)
-		parenthesis_handler(minshellshell, &node);
+		parenthesis_handler(shell, &node);
 	else
 	{
 		if (shell->curr_token && is_redir(shell->curr_token))
