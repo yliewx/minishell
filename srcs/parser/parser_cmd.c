@@ -51,32 +51,30 @@ t_token	*get_curr_cmd(t_minishell *minishell)
 - Runs parenthesis handler
 - If redir occurs before cmd -> create curr cmd node and runs parser redir 
 - Else if cmd occurs -> create cmd node and runs parser redir */
-t_node	*ft_cmd(t_minishell *minishell)
+t_node	*ft_cmd(t_minishell *shell)
 {
 	t_node	*node;
 
 	node = NULL;
-	if (is_binop(minishell->curr_token) || \
-		minishell->curr_token->type == T_CLOSE)
-		return (print_str_err(SYNTAX_ERR, minishell->curr_token->value, minishell), NULL);
-	else if (minishell->curr_token->type == T_OPEN)
-		parenthesis_handler(minishell, &node);
+	if (is_binop(shell->curr_token) || shell->curr_token->type == T_CLOSE)
+		return (print_str_err(SYNTAX_ERR, shell->curr_token->value, shell), NULL);
+	else if (shell->curr_token->type == T_OPEN)
+		parenthesis_handler(minshellshell, &node);
 	else
 	{
-		if (minishell->curr_token && is_redir(minishell->curr_token))
+		if (shell->curr_token && is_redir(shell->curr_token))
 		{
-			if (!ft_redir_helper(minishell, &node))
+			if (!ft_redir_helper(shell, &node))
 				return (NULL);
 		}
-		else if (minishell->curr_token && \
-			minishell->curr_token->type == T_STRING)
+		else if (shell->curr_token && shell->curr_token->type == T_STRING)
 		{
-			node = ft_new_node(minishell->curr_token->value, minishell->curr_token->type, minishell);
+			node = ft_new_node(shell->curr_token->value, shell->curr_token->type, shell);
 			if (!node)
 				return (NULL);
-			ft_next_token(minishell);
+			ft_next_token(shell);
 		}
-		if (!parser_redir(minishell, node))
+		if (!parser_redir(shell, node))
 			return (NULL);
 	}
 	return (node);

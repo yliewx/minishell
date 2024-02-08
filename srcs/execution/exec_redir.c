@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
+int	child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
 {
 	if (node->next_binop == T_PIPE)
 	{
@@ -32,7 +32,8 @@ int child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
 		else if (io_list->type == T_HEREDOC)
 		{
 			close(node->minishell->heredoc_list->pipefd[1]);
-			ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], STDIN_FILENO);
+			ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], \
+				STDIN_FILENO);
 		}
 		io_list = io_list->next;
 	}
@@ -48,7 +49,10 @@ int	redir_handler(t_node *node, int pid, int *pipefd)
 	fd = -1;
 	io_list = node->io_list;
 	if (pid == 0 || !is_fork_cmd(node, check_builtin(node)))
-		child_redirect(node, &fd, io_list, pipefd);
+	{
+		if (child_redirect(node, &fd, io_list, pipefd) == -1)
+			return (-1);
+	}
 	else
 	{
 		if (node->next_binop == T_PIPE)

@@ -59,7 +59,7 @@ t_token *get_curr_cmd(t_minishell *minishell);
 // Parser helper functions
 void set_parse_err(int parse_err, t_minishell *minishell);
 void ft_next_token(t_minishell *minishell);
-t_node *ft_cmd(t_minishell *minishell);
+t_node	*ft_cmd(t_minishell *shell);
 t_node *ft_combine(t_minishell *minishell, t_token_type op, t_node *left, t_node *right);
 
 // Parser redir functions

@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-/* Function to find the next token (symbol or string) */
-// int find_next_token(t_minishell *minishell, char *line, int *i)
-// {
-// 	int j;
-
-// 	j = 0;
-// 	while (line[*i] && !is_symbol(line[*i]))
-// 	{
-// 		j++;
-// 		(*i)++;
-// 	}
-// 	if (is_symbol(line[*i]) && j == 0)
-// 	{
-// 		if (!sym_handler(minishell, line, i))
-// 			return (-1);
-// 	}
-// 	else
-// 	{
-// 		if (!create_str_token(minishell, line, *i, j))
-// 			return (-1);
-// 	}
-// 	return (*i);
-// }
-
 int	command_iterator(char *line, int *i, t_token *last)
 {
 	int	count;
@@ -102,7 +78,8 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 					else if (lst->value[i] == '\"')
 						end_quote = ft_strrchr(&lst->value[i], '\"');
 					if (end_quote == &(lst->value[i]))
-						return (print_char_err(SYNTAX_ERR, lst->value[i], minishell), -1);
+						return (print_char_err(SYNTAX_ERR, lst->value[i], \
+							minishell), -1);
 					else
 						i = end_quote - lst->value;
 				}

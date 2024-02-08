@@ -75,7 +75,8 @@ t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 		get_prev_type(minishell->tokens) != T_OPEN \
 		&& get_prev_type(minishell->tokens) != T_CLOSE)
 	{
-		return (print_str_err(SYNTAX_ERR, token_last(minishell->tokens)->value, minishell), NULL);
+		return (print_str_err(SYNTAX_ERR, \
+			token_last(minishell->tokens)->value, minishell), NULL);
 	}
 	return (minishell->tokens);
 }
