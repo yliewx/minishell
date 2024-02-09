@@ -28,6 +28,8 @@ int	expand_io_value(t_node *node, t_minishell *minishell)
 		if (check_wildcard(&io_list->expanded_arg, io_list->type,
 				minishell) == -1)
 			return (-1);
+		if (remove_expanded_arg_quotes(&io_list->expanded_arg) == -1)
+			return (print_str_err(MEM_ERR, NULL, minishell));
 		io_list = io_list->next;
 	}
 	return (0);
@@ -47,6 +49,8 @@ int	get_expanded_arg(t_node *node)
 			return (-1);
 		node->expanded_arg = ft_split_argv(node->expanded);
 		if (!node->expanded_arg)
+			return (print_str_err(MEM_ERR, NULL, node->minishell));
+		if (remove_expanded_arg_quotes(node->expanded_arg) == -1)
 			return (print_str_err(MEM_ERR, NULL, node->minishell));
 	}
 	if (node->io_list && node->io_list->value)

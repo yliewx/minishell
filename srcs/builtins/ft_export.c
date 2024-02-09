@@ -77,7 +77,6 @@ int	ft_export(t_minishell *minishell, t_node *node)
 	i = 1;
 	while (node->expanded_arg[i])
 	{
-		remove_quotes(&node->expanded_arg[i]);
 		var_name = extract_var_name(node->expanded_arg[i]);
 		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
 		{

@@ -42,18 +42,15 @@ int	ft_exit(t_minishell *minishell, t_node *node)
 		return (exit_error(ARG_COUNT_ERR, NULL, minishell));
 	if (i == 2)
 	{
-		remove_quotes(&node->expanded_arg[1]);
 		if (!is_numeric(node->expanded_arg[1]))
 		{
 			exit_error(PARAM_ERR, node->expanded_arg[1], minishell);
-			exit_code = 2;
+			exit(2);
 		}
 		else
-		{
 			exit_code = ft_atoi(node->expanded_arg[1]);
-			printf("exit\n");
-		}
 	}
+	printf("exit\n");
 	free_data_and_exit(minishell);
 	return (exit(exit_code), 0);
 }

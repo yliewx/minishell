@@ -39,7 +39,7 @@ int	check_if_is_quote(char *arg, int *len, int *i)
 	return (0);
 }
 
-void	remove_quotes(char **arg)
+char	*remove_quotes(char *arg)
 {
 	char	*new_str;
 	int		quote;
@@ -47,22 +47,42 @@ void	remove_quotes(char **arg)
 	int		j;
 	int		len;
 
-	if (!ft_strchr(*arg, '\'') && !ft_strchr(*arg, '\"'))
-		return ;
-	new_str = malloc(ft_strlen(*arg) * sizeof(char));
+	new_str = malloc(ft_strlen(arg) * sizeof(char));
+	if (!new_str)
+		return (NULL);
 	i = 0;
 	j = 0;
-	while ((*arg)[i])
+	while (arg[i])
 	{
 		len = i;
-		quote = check_if_is_quote(*arg, &len, &i);
-		while (until_quote(*arg, len, quote))
+		quote = check_if_is_quote(arg, &len, &i);
+		while (until_quote(arg, len, quote))
 			len++;
 		while (i < len)
-			new_str[j++] = (*arg)[i++];
+			new_str[j++] = arg[i++];
 		i++;
 	}
 	new_str[j] = '\0';
-	free(*arg);
-	*arg = new_str;
+	return (new_str);
+}
+
+int	remove_expanded_arg_quotes(char **argv)
+{
+	char	*temp;
+	int		i;
+
+	i = 0;
+	while (argv[i])
+	{
+		if (ft_strchr(argv[i], '\'') || ft_strchr(argv[i], '\"'))
+		{
+			temp = argv[i];
+			argv[i] = remove_quotes(temp);
+			if (!argv[i])
+				return (-1);
+			free(temp);
+		}
+		i++;
+	}
+	return (0);
 }

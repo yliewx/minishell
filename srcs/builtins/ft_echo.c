@@ -32,7 +32,6 @@ int	ft_echo(t_node *node)
 	{
 		while (node->expanded_arg[i])
 		{
-			remove_quotes(&node->expanded_arg[i]);
 			if (ft_strlen(node->expanded_arg[i]) > 0)
 			{
 				printf("%s", node->expanded_arg[i]);

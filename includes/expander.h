@@ -42,9 +42,13 @@ char			*replace_var_with_value(char *arg, char *value, \
 	int start, int var_len);
 char			*get_var_name(char *var_start, int *var_len);
 bool			is_var_name(int c);
+
+/*quotes handler utils*/
 bool			is_in_quote(char *c, int quote);
 bool			skip_quotes(char *c, char *full_arg);
 char			*get_end_quote(char *c, int quote);
+char			*remove_quotes(char *arg);
+int				remove_expanded_arg_quotes(char **arg);
 
 /*pattern*/
 void			extract_pattern(t_pattern *pattern, char *asterisk, char *arg);
