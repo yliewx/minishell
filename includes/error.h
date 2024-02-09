@@ -52,6 +52,7 @@ int		set_exit_error(t_minishell *minishell, int error, int status);
 // void 	print_str_err(t_minishell *minishell, char *str);
 int		print_str_err(int error, char *str, t_minishell *minishell);
 int		print_char_err(int error, char c, t_minishell *minishell);
+void	print_err_helper(int err);
 
 /* builtin errors */
 int		cd_error(int error, char *arg, t_minishell *minishell);
