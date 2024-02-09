@@ -34,8 +34,8 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	else
 	{
 		waitpid(pid, &(minishell->exit_status), 0);
-		if (WEXITSTATUS(minishell->exit_status))
-			set_exit_error(minishell, CHILD_ERR, 1);
+		// if (WEXITSTATUS(minishell->exit_status))
+		// 	minishell->exit_status = 1;
 	}
 }
 
