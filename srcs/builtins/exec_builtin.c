@@ -44,7 +44,7 @@ int	exec_builtin(t_node *node, int type, int pid)
 		else if (type == CMD_UNSET)
 			ft_unset(node->minishell, node);
 		else if (type == CMD_EXIT)
-			ft_exit(node->minishell);
+			ft_exit(node->minishell, node);
 	}
 	return (0);
 }

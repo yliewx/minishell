@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yliew <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 17:32:58 by yliew             #+#    #+#             */
+/*   Created: 2024/01/11 17:32:58 by yliew             #+s#    #+#             */
 /*   Updated: 2024/01/11 17:33:05 by yliew            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -53,15 +53,15 @@ static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 
 	i = 0;
 	if (arg[i] == '-')
-		return (export_error(EXPORT_OPTION, arg, minishell));
+		return (export_error(EXPORT_OPTION_ERR, arg, minishell));
 	if (!ft_isalpha(arg[i]) && arg[i] != '_')
-		return (export_error(EXPORT_IDENTIFIER, arg, minishell));
+		return (export_error(EXPORT_ID_ERR, arg, minishell));
 	i++;
 	while (var_name[i])
 	{
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_'
 			&& var_name[i] != '=')
-			return (export_error(EXPORT_IDENTIFIER, arg, minishell));
+			return (export_error(EXPORT_ID_ERR, arg, minishell));
 		i++;
 	}
 	return (1);

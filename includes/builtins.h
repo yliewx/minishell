@@ -38,16 +38,11 @@ int		ft_pwd(t_minishell *minishell);
 int		ft_export(t_minishell *minishell, t_node *node);
 int		ft_unset(t_minishell *minishell, t_node *node);
 int		ft_env(t_minishell *minishell);
-int		ft_exit(t_minishell *minishell);
+int		ft_exit(t_minishell *minishell, t_node *node);
 
 /*builtin utils*/
 bool	is_fork_cmd(t_node *node, int type);
 bool	is_export_without_arg(t_node *node, int type);
 void	remove_quotes(char **arg);
-
-/*builtin errors*/
-int		cd_error(int error, char *arg, t_minishell *minishell);
-int		export_error(int error, char *arg, t_minishell *minishell);
-int		unset_error(int error, char *arg, t_minishell *minishell);
 
 #endif

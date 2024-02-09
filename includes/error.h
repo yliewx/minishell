@@ -35,11 +35,11 @@ enum e_minishell_err
 
 enum e_builtin_err
 {
-	EXPORT_OPTION = 10,
-	EXPORT_IDENTIFIER,
-	UNSET_PARAM,
-	CD_ARG,
-	CD_NODIR,
+	EXPORT_OPTION_ERR = 12,
+	EXPORT_ID_ERR,
+	PARAM_ERR,
+	ARG_COUNT_ERR,
+	NODIR_ERR,
 };
 
 /* set exit status */
@@ -51,6 +51,12 @@ int		set_exit_error(t_minishell *minishell, int error, int status);
 // void 	print_str_err(t_minishell *minishell, char *str);
 int		print_str_err(int error, char *str, t_minishell *minishell);
 int		print_char_err(int error, char c, t_minishell *minishell);
+
+/* builtin errors */
+int		cd_error(int error, char *arg, t_minishell *minishell);
+int		exit_error(int error, char *arg, t_minishell *minishell);
+int		export_error(int error, char *arg, t_minishell *minishell);
+int		unset_error(int error, char *arg, t_minishell *minishell);
 
 /* errors */
 int		exec_error(int error, char *arg, t_minishell *minishell);

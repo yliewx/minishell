@@ -20,7 +20,7 @@ static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 	while (var_name[i])
 	{
 		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
-			return (unset_error(UNSET_PARAM, arg, minishell));
+			return (unset_error(PARAM_ERR, arg, minishell));
 		i++;
 	}
 	return (1);

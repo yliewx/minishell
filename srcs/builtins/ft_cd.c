@@ -38,7 +38,7 @@ int	cd_home(t_minishell *minishell)
 
 	home_path = value_in_env(minishell->envp, "HOME=", 5);
 	if (chdir(home_path) == -1)
-		return (cd_error(CD_NODIR, home_path, minishell));
+		return (cd_error(NODIR_ERR, home_path, minishell));
 	update_pwd(minishell);
 	return (set_exit_success(minishell));
 }
@@ -53,9 +53,9 @@ int	ft_cd(t_minishell *minishell, t_node *node)
 	if (i == 1)
 		return (cd_home(minishell));
 	if (i > 2)
-		return (cd_error(CD_ARG, NULL, minishell));
+		return (cd_error(ARG_COUNT_ERR, NULL, minishell));
 	if (chdir(node->expanded_arg[1]) == -1)
-		return (cd_error(CD_NODIR, node->expanded_arg[1], minishell));
+		return (cd_error(NODIR_ERR, node->expanded_arg[1], minishell));
 	update_pwd(minishell);
 	return (set_exit_success(minishell));
 }

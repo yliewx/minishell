@@ -15,27 +15,39 @@
 int	cd_error(int error, char *arg, t_minishell *minishell)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
-	if (error == CD_ARG)
+	if (error == ARG_COUNT_ERR)
 		ft_putstr_fd("too many arguments\n", 2);
-	else if (error == CD_NODIR)
+	else if (error == NODIR_ERR)
 	{
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
-	set_exit_error(minishell, error, EXIT_FAILURE);
-	return (1);
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
+}
+
+int	exit_error(int error, char *arg, t_minishell *minishell)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	if (error == ARG_COUNT_ERR)
+		ft_putstr_fd("too many arguments\n", 2);
+	else if (error == PARAM_ERR)
+	{
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+	}
+	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
 int	export_error(int error, char *arg, t_minishell *minishell)
 {
 	ft_putstr_fd("minishell: export: ", 2);
-	if (error == EXPORT_IDENTIFIER)
+	if (error == EXPORT_ID_ERR)
 	{
 		ft_putstr_fd("`", 2);
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": not a valid identifier\n", 2);
 	}
-	else if (error == EXPORT_OPTION)
+	else if (error == EXPORT_OPTION_ERR)
 	{
 		ft_putstr_fd("-", 2);
 		write(2, &arg[1], 2);
@@ -47,7 +59,7 @@ int	export_error(int error, char *arg, t_minishell *minishell)
 
 int	unset_error(int error, char *arg, t_minishell *minishell)
 {
-	if (error == UNSET_PARAM)
+	if (error == PARAM_ERR)
 	{
 		ft_putstr_fd("minishell: unset: ", 2);
 		ft_putstr_fd(arg, 2);
