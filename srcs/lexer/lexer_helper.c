@@ -12,11 +12,22 @@
 
 #include "minishell.h"
 
+int quote_found(char c)
+{
+	if (c == '\'')
+		return (1);
+	if (c == '\"')
+		return (2);
+	return (0);
+}
+
 int	command_iterator(char *line, int *i, t_token *last)
 {
 	int	count;
+	int in_quote;
 
 	count = 0;
+	in_quote = 0;
 	if (last && is_redir(last))
 	{
 		while (line[*i] && line[*i] != ' ')
@@ -27,10 +38,15 @@ int	command_iterator(char *line, int *i, t_token *last)
 	}
 	else
 	{
-		while (line[*i] && !is_symbol(line[*i]))
+		while (line[*i] && ((!is_symbol(line[*i]) && !in_quote) || \
+			(!is_symbol(line[*i]) && in_quote) || (is_symbol(line[*i]) && in_quote)))
 		{
-			count++;
+			if (quote_found(line[*i]) && !in_quote)
+				in_quote = quote_found(line[*i]);
+			else if (quote_found(line[*i]) == in_quote)
+				in_quote = 0;
 			(*i)++;
+			count++;
 		}
 	}
 	return (count);

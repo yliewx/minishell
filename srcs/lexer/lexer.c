@@ -30,5 +30,6 @@ t_token	*ft_lexer(t_minishell *minishell, char *line)
 	}
 	if (quotes_checker(minishell, minishell->tokens) == -1)
 		return (NULL);
+	// print_token_list(minishell->tokens);
 	return (minishell->tokens);
 }
