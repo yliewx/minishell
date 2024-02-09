@@ -30,7 +30,7 @@ int	open_file_checker(t_node *node, t_minishell *minishell, int pid)
 					return (set_exit_error(minishell, OPEN_ERR, 1));
 				res = access(io_list->expanded_arg, R_OK);
 				if (!res)
-					return (set_exit_error(minishell, OPEN_ERR, 1));
+					return (set_exit_error(minishell, PERM_ERR, 1));
 			}
 			io_list = io_list->next;
 		}

@@ -23,6 +23,7 @@ enum e_minishell_err
 	SYNTAX_ERR,
 	MEM_ERR,
 	OPEN_ERR,
+	PERM_ERR,
 	DUP2_ERR,
 	PIPE_ERR,
 	FORK_ERR,
