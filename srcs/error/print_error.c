@@ -40,6 +40,7 @@ int	print_str_err(int error, char *str, t_minishell *minishell)
 	else if (error == OPEN_ERR)
 	{
 		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": ", 2);
 		ft_putstr_fd("No such file or directory\n", 2);
 	}
 	else if (error == PIPE_ERR || error == FORK_ERR)
