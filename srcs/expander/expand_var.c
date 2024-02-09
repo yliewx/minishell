@@ -85,6 +85,8 @@ int	check_expandable_var(t_minishell *minishell, char **arg, char *current)
 			return (-1);
 		else if (next_start_pos > 0)
 			current = *arg + next_start_pos;
+		else
+			current++;
 	}
 	return (check_expandable_var(minishell, arg, current));
 }

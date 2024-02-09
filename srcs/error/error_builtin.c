@@ -34,6 +34,7 @@ int	exit_error(int error, char *arg, t_minishell *minishell)
 	{
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+		return (set_exit_error(minishell, error, 2));
 	}
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
