@@ -46,6 +46,26 @@ t_token	*get_curr_cmd(t_minishell *minishell)
 		return (NULL);
 }
 
+// /* Checks if redir nodes have cmd args 
+// If so, clean io values and move args to node value */
+// t_node *redir_clean(t_node *node)
+// {
+
+// }
+
+void print_node_and_io(t_node *node)
+{
+	t_io_node *list;
+	if (node)
+		printf("%s\n", node->value);
+	list = node->io_list;
+	while (list)
+	{
+		printf("io_list %d-> %s\n", list->type, list->value);
+		list = list->next;
+	}
+}
+
 /* Function to create single ast node 
 - Error if invalid syntax
 - Runs parenthesis handler
@@ -76,6 +96,8 @@ t_node	*ft_cmd(t_minishell *shell)
 		}
 		if (!parser_redir(shell, node))
 			return (NULL);
+		// node->value
 	}
+	print_node_and_io(node);
 	return (node);
 }
