@@ -35,25 +35,25 @@ int	expand_io_value(t_node *node, t_minishell *minishell)
 	return (0);
 }
 
-int	get_expanded_arg(t_node *node)
+int	get_expanded_arg(t_node *node, t_minishell *minishell)
 {
 	if (node && node->value)
 	{
 		node->expanded = ft_strdup(node->value);
 		if (!node->expanded)
-			return (print_str_err(MEM_ERR, NULL, node->minishell));
-		if (check_expandable_var(node->minishell, &node->expanded,
+			return (print_str_err(MEM_ERR, NULL, minishell));
+		if (check_expandable_var(minishell, &node->expanded,
 				node->expanded) == -1)
 			return (-1);
-		if (check_wildcard(&node->expanded, -1, node->minishell) == -1)
+		if (check_wildcard(&node->expanded, -1, minishell) == -1)
 			return (-1);
 		node->expanded_arg = ft_split_argv(node->expanded);
 		if (!node->expanded_arg)
-			return (print_str_err(MEM_ERR, NULL, node->minishell));
+			return (print_str_err(MEM_ERR, NULL, minishell));
 		if (remove_expanded_arg_quotes(node->expanded_arg) == -1)
-			return (print_str_err(MEM_ERR, NULL, node->minishell));
+			return (print_str_err(MEM_ERR, NULL, minishell));
 	}
 	if (node->io_list && node->io_list->value)
-		expand_io_value(node, node->minishell);
+		expand_io_value(node, minishell);
 	return (0);
 }

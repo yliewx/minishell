@@ -65,14 +65,24 @@ typedef struct s_minishell
 	int			exit_status;
 }	t_minishell;
 
+typedef struct s_signal
+{
+	bool		in_heredoc;
+	bool		in_fork_cmd;
+	bool		sigint;
+}	t_signal;
+
+extern t_signal	g_signal;
+
 /*utils*/
 void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
-void	init_signals(t_minishell *minishell);
+void	init_signals(void);
 int		arg_checker(int argc, char **argv);
 int		ft_minishell(t_minishell *minishell);
 void	ft_prompt(t_minishell *minishell);
+char	*ft_readline(t_minishell *minishell);
 
 // Init functions
 void	init_minishell(t_minishell *minishell, bool start);

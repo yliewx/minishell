@@ -49,11 +49,7 @@ int	ft_minishell(t_minishell *minishell)
 
 	while (1)
 	{
-		ft_prompt(minishell);
-		if (minishell->prompt)
-			command = readline(minishell->prompt);
-		else
-			command = readline("Minishell:~$ ");
+		command = ft_readline(minishell);
 		if (!command)
 		{
 			if (minishell->prompt)

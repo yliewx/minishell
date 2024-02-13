@@ -33,15 +33,16 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 	char		*line;
 
 	node = list;
-	while (node)
+	g_signal.in_heredoc = true;
+	while (node && !g_signal.sigint)
 	{
 		if (pipe(node->pipefd) == -1)
 			return (print_str_err(PIPE_ERR, "error: pipe() failed\n", shell));
 		while (1)
 		{
 			line = readline("> ");
-			if (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
-				&& (ft_strlen(line) == ft_strlen(node->delimiter)))
+			if (g_signal.sigint || (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
+				&& (ft_strlen(line) == ft_strlen(node->delimiter))))
 			{
 				free(line);
 				break ;
@@ -52,5 +53,6 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		}
 		node = node->next;
 	}
+	g_signal.in_heredoc = false;
 	return (0);
 }

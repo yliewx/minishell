@@ -38,3 +38,15 @@ void ft_prompt(t_minishell *minishell)
 	ft_strlcpy(minishell->prompt, minishell->user, len + 1);
 	ft_strlcat(minishell->prompt, "@Minishell:~$ ", len + 14 + 1);
 }
+
+char	*ft_readline(t_minishell *minishell)
+{
+	char	*command;
+
+	ft_prompt(minishell);
+	if (minishell->prompt)
+		command = readline(minishell->prompt);
+	else
+		command = readline("Minishell:~$ ");
+	return (command);
+}

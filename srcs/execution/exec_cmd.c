@@ -53,7 +53,7 @@ void	exec_command(t_node *node, t_minishell *minishell)
 	builtin_type = -1;
 	if (minishell->minishell_err)
 		return ;
-	get_expanded_arg(node);
+	get_expanded_arg(node, minishell);
 	if (minishell->minishell_err)
 		return ;
 	builtin_type = check_builtin(node);

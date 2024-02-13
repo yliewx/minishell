@@ -14,7 +14,7 @@
 
 void	init_minishell(t_minishell *minishell, bool start)
 {
-	init_signals(minishell);
+	init_signals();
 	if (start)
 	{
 		minishell->old_stdin = dup(STDIN_FILENO);
@@ -28,7 +28,7 @@ void	init_minishell(t_minishell *minishell, bool start)
 	minishell->minishell_err = 0;
 	minishell->prompt = NULL;
 	if (minishell->envp)
-		minishell->user = value_in_env(minishell->envp, "USER", 4);
+		minishell->user = value_in_env(minishell->envp, "USER=", 5);
 	else
 		minishell->user = NULL;
 }

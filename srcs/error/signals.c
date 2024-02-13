@@ -16,19 +16,34 @@
 - heredoc interruption?
 - sigint when command is in the middle of executing?*/
 
+t_signal g_signal =
+{
+	false, false, false,
+};
+
 // Re-initialize minishell
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_signal.in_heredoc)
+	{
+		g_signal.sigint = true;
+		printf("\n");
+	}
+	else
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-void	init_signals(t_minishell *minishell)
+void	init_signals(void)
 {
-	if (minishell)
-		signal(SIGINT, sigint_handler);
+	g_signal.sigint = false;
+	g_signal.in_heredoc = false;
+	g_signal.in_fork_cmd = false;
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
