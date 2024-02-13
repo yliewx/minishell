@@ -64,8 +64,8 @@ int	ft_minishell(t_minishell *minishell)
 			minishell->curr_token = minishell->tokens;
 			if (!minishell->minishell_err)
 				ft_parser(minishell);
-			// if (!minishell->minishell_err)
-			// 	ft_exec(minishell);
+			if (!minishell->minishell_err)
+				ft_exec(minishell);
 		}
 		dup2(minishell->old_stdin, STDIN_FILENO);
 		free(command);

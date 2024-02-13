@@ -61,7 +61,7 @@ void	exec_command(t_node *node, t_minishell *minishell)
 		return ;
 	if (fork_handler(&pid, builtin_type, node, minishell))
 		return ;
-	open_file_checker(node, minishell, pid);
+	// open_file_checker(node, minishell, pid);
 	if (minishell->minishell_err || redir_handler(node, pid, pipefd) == -1)
 		return ;
 	if (builtin_type != CMD_SIMPLE)

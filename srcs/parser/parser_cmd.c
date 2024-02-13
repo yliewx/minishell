@@ -98,6 +98,5 @@ t_node	*ft_cmd(t_minishell *shell)
 			return (NULL);
 		// node->value
 	}
-	print_node_and_io(node);
 	return (node);
 }
