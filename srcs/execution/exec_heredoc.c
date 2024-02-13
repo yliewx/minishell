@@ -26,14 +26,20 @@ void	remove_heredoc_node(t_heredoc **list)
 	}
 }
 
-/* Function to pipe heredoc input */
-int	ft_heredoc(t_heredoc *list, t_minishell *shell)
+void	heredoc_warning(char *delimiter)
+{
+	ft_putstr_fd("minishell: warning: here-document delimited by " \
+		"end-of-file (wanted `", 2);
+	ft_putstr_fd(delimiter, 2);
+	ft_putstr_fd("')\n", 2);
+}
+
+int	exec_heredoc(t_heredoc *list, t_minishell *shell)
 {
 	t_heredoc	*node;
 	char		*line;
 
 	node = list;
-	g_signal.in_heredoc = true;
 	while (node && !g_signal.sigint)
 	{
 		if (pipe(node->pipefd) == -1)
@@ -41,6 +47,11 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		while (1)
 		{
 			line = readline("> ");
+			if (!line)
+			{
+				heredoc_warning(node->delimiter);
+				break ;
+			}
 			if (g_signal.sigint || (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
 				&& (ft_strlen(line) == ft_strlen(node->delimiter))))
 			{
@@ -53,6 +64,22 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		}
 		node = node->next;
 	}
-	g_signal.in_heredoc = false;
+	return (0);
+}
+
+/* Function to pipe heredoc input */
+int	ft_heredoc(t_heredoc *list, t_minishell *shell)
+{
+	int			pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (print_str_err(FORK_ERR, "error: fork() failed\n", shell), -1);
+	if (pid == 0)
+	{
+		g_signal.in_heredoc = true;
+		exec_heredoc(list, shell);
+	}
+	waitpid(pid, &(shell->exit_status), 0);
 	return (0);
 }

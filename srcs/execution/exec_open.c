@@ -19,17 +19,18 @@ int	open_file_checker(t_node *node, t_minishell *minishell, int pid)
 
 	res = 0;
 	io_list = node->io_list;
+	(void)pid;
 	if (pid != 0)
 	{
 		while (io_list)
 		{
-			if (io_list->type == T_REDIR_R)
+			if (io_list->type == T_REDIR_L)
 			{
 				res = access(io_list->expanded_arg, F_OK);
-				if (!res)
+				if (res == -1)
 					return (set_exit_error(minishell, OPEN_ERR, 1));
 				res = access(io_list->expanded_arg, R_OK);
-				if (!res)
+				if (res == -1)
 					return (set_exit_error(minishell, PERM_ERR, 1));
 			}
 			io_list = io_list->next;
