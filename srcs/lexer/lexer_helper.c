@@ -30,8 +30,13 @@ int	command_iterator(char *line, int *i, t_token *last)
 	in_quote = 0;
 	if (last && is_redir(last))
 	{
-		while (line[*i] && line[*i] != ' ')
+		while (line[*i] && ((line[*i] != ' ' && !in_quote) || (line[*i] == ' ' && in_quote) \
+		|| (line[*i] != ' ' && in_quote)))
 		{
+			if (quote_found(line[*i]) && !in_quote)
+				in_quote = quote_found(line[*i]);
+			else if (quote_found(line[*i]) == in_quote)
+				in_quote = 0;
 			count++;
 			(*i)++;
 		}
