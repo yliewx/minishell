@@ -81,5 +81,7 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		exec_heredoc(list, shell);
 	}
 	waitpid(pid, &(shell->exit_status), 0);
+	printf("WEXITSTATUS: %i\n", WEXITSTATUS(shell->exit_status));
+		// 	minishell->exit_status = 1;
 	return (0);
 }

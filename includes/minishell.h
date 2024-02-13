@@ -74,11 +74,14 @@ typedef struct s_signal
 
 extern t_signal	g_signal;
 
+/*signals*/
+void	init_signals(void);
+void	sigint_handler(int signum);
+
 /*utils*/
 void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
-void	init_signals(void);
 int		arg_checker(int argc, char **argv);
 int		ft_minishell(t_minishell *minishell);
 void	ft_prompt(t_minishell *minishell);

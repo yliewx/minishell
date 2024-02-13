@@ -36,7 +36,7 @@ enum e_minishell_err
 
 enum e_builtin_err
 {
-	EXPORT_OPTION_ERR = 12,
+	EXPORT_OPTION_ERR = 13,
 	EXPORT_ID_ERR,
 	PARAM_ERR,
 	ARG_COUNT_ERR,

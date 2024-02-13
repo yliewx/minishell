@@ -25,14 +25,14 @@ t_signal g_signal =
 void	sigint_handler(int signum)
 {
 	(void)signum;
+	printf("\n");
 	if (g_signal.in_heredoc)
 	{
 		g_signal.sigint = true;
-		printf("\n");
+		exit(SIGINT);
 	}
-	else
+	else if (!g_signal.in_fork_cmd)
 	{
-		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
