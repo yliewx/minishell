@@ -28,7 +28,7 @@ void	sigint_handler(int signum)
 	printf("\n");
 	if (g_signal.in_heredoc)
 	{
-		g_signal.sigint = true;
+		//g_signal.sigint = true;
 		exit(SIGINT);
 	}
 	else if (!g_signal.in_fork_cmd)

@@ -38,7 +38,7 @@ t_node	*ft_exec(t_minishell *minishell)
 {
 	if (minishell->heredoc_count >= 1)
 		ft_heredoc(minishell->heredoc_list, minishell);
-	if (!g_signal.sigint && !minishell->minishell_err)
+	if (minishell->exit_status != SIGINT && !minishell->minishell_err)
 		traverse_tree(minishell->ast, minishell);
 	return (minishell->ast);
 }

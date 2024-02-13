@@ -52,8 +52,8 @@ int	exec_heredoc(t_heredoc *list, t_minishell *shell)
 				heredoc_warning(node->delimiter);
 				break ;
 			}
-			if (g_signal.sigint || (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
-				&& (ft_strlen(line) == ft_strlen(node->delimiter))))
+			if (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
+				&& (ft_strlen(line) == ft_strlen(node->delimiter)))
 			{
 				free(line);
 				break ;
@@ -79,9 +79,9 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 	{
 		g_signal.in_heredoc = true;
 		exec_heredoc(list, shell);
+		exit(0);
 	}
 	waitpid(pid, &(shell->exit_status), 0);
-	printf("WEXITSTATUS: %i\n", WEXITSTATUS(shell->exit_status));
-		// 	minishell->exit_status = 1;
+	shell->exit_status = WEXITSTATUS(shell->exit_status);
 	return (0);
 }
