@@ -46,16 +46,10 @@ t_token	*get_curr_cmd(t_minishell *minishell)
 		return (NULL);
 }
 
-// /* Checks if redir nodes have cmd args 
-// If so, clean io values and move args to node value */
-// t_node *redir_clean(t_node *node)
-// {
-
-// }
-
-void print_node_and_io(t_node *node)
+void	print_node_and_io(t_node *node)
 {
-	t_io_node *list;
+	t_io_node	*list;
+
 	if (node)
 		printf("%s\n", node->value);
 	list = node->io_list;
@@ -64,6 +58,17 @@ void print_node_and_io(t_node *node)
 		printf("io_list %d-> %s\n", list->type, list->value);
 		list = list->next;
 	}
+}
+
+/* Function to create a new node for command, moves to next token */
+t_node	*ft_cmd_handler(t_minishell *shell, t_node **node)
+{
+	*node = ft_new_node(shell->curr_token->value, \
+		shell->curr_token->type, shell);
+	if (!*node)
+		return (NULL);
+	ft_next_token(shell);
+	return (*node);
 }
 
 /* Function to create single ast node 
@@ -77,7 +82,8 @@ t_node	*ft_cmd(t_minishell *shell)
 
 	node = NULL;
 	if (is_binop(shell->curr_token) || shell->curr_token->type == T_CLOSE)
-		return (print_str_err(SYNTAX_ERR, shell->curr_token->value, shell), NULL);
+		return (print_str_err(SYNTAX_ERR, \
+			shell->curr_token->value, shell), NULL);
 	else if (shell->curr_token->type == T_OPEN)
 		parenthesis_handler(shell, &node);
 	else
@@ -89,14 +95,11 @@ t_node	*ft_cmd(t_minishell *shell)
 		}
 		else if (shell->curr_token && shell->curr_token->type == T_STRING)
 		{
-			node = ft_new_node(shell->curr_token->value, shell->curr_token->type, shell);
-			if (!node)
+			if (!ft_cmd_handler(shell, &node))
 				return (NULL);
-			ft_next_token(shell);
 		}
 		if (!parser_redir(shell, node))
 			return (NULL);
-		// node->value
 	}
 	return (node);
 }

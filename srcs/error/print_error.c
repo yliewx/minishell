@@ -24,7 +24,7 @@ int	print_char_err(int error, char c, t_minishell *minishell)
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 
-void print_err_helper(int error, char *str)
+void	print_err_helper(int error, char *str)
 {
 	if (error == OPEN_ERR)
 	{

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int quote_found(char c)
+int	quote_found(char c)
 {
 	if (c == '\'')
 		return (1);
@@ -21,38 +21,43 @@ int quote_found(char c)
 	return (0);
 }
 
-int	command_iterator(char *line, int *i, t_token *last)
+int redir_iterator(char *line, int *i)
 {
 	int	count;
-	int in_quote;
+	int	in_quote;
 
 	count = 0;
 	in_quote = 0;
-	if (last && is_redir(last))
+	while (line[*i] && ((line[*i] != ' ' && !in_quote) || \
+		(line[*i] == ' ' && in_quote) || (line[*i] != ' ' && in_quote)))
 	{
-		while (line[*i] && ((line[*i] != ' ' && !in_quote) || (line[*i] == ' ' && in_quote) \
-		|| (line[*i] != ' ' && in_quote)))
-		{
-			if (quote_found(line[*i]) && !in_quote)
-				in_quote = quote_found(line[*i]);
-			else if (quote_found(line[*i]) == in_quote)
-				in_quote = 0;
-			count++;
-			(*i)++;
-		}
+		if (quote_found(line[*i]) && !in_quote)
+			in_quote = quote_found(line[*i]);
+		else if (quote_found(line[*i]) == in_quote)
+			in_quote = 0;
+		count++;
+		(*i)++;
 	}
-	else
+	return (count);
+}
+
+int	command_iterator(char *line, int *i)
+{
+	int	count;
+	int	in_quote;
+
+	count = 0;
+	in_quote = 0;
+	while (line[*i] && ((!is_symbol(line[*i]) && !in_quote) || \
+		(!is_symbol(line[*i]) && in_quote) || \
+			(is_symbol(line[*i]) && in_quote)))
 	{
-		while (line[*i] && ((!is_symbol(line[*i]) && !in_quote) || \
-			(!is_symbol(line[*i]) && in_quote) || (is_symbol(line[*i]) && in_quote)))
-		{
-			if (quote_found(line[*i]) && !in_quote)
-				in_quote = quote_found(line[*i]);
-			else if (quote_found(line[*i]) == in_quote)
-				in_quote = 0;
-			(*i)++;
-			count++;
-		}
+		if (quote_found(line[*i]) && !in_quote)
+			in_quote = quote_found(line[*i]);
+		else if (quote_found(line[*i]) == in_quote)
+			in_quote = 0;
+		(*i)++;
+		count++;
 	}
 	return (count);
 }
@@ -63,7 +68,10 @@ int	find_next_token(t_minishell *minishell, char *line, int *i)
 	t_token	*last;
 
 	last = token_last(minishell->tokens);
-	j = command_iterator(line, i, last);
+	if (last && is_redir(last))
+		j = redir_iterator(line, i);
+	else
+		j = command_iterator(line, i);
 	if (is_symbol(line[*i]) && j == 0)
 	{
 		if (!sym_handler(minishell, line, i))

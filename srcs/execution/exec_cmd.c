@@ -53,14 +53,11 @@ void	exec_command(t_node *node, t_minishell *minishell)
 	if (minishell->minishell_err)
 		return ;
 	get_expanded_arg(node, minishell);
-	if (minishell->minishell_err)
-		return ;
 	builtin_type = check_builtin(node);
 	if (pipe_handler(pipefd, node, minishell))
 		return ;
 	if (fork_handler(&pid, builtin_type, node, minishell))
 		return ;
-	//open_file_checker(node, minishell, pid);
 	if (minishell->minishell_err || redir_handler(node, pid, pipefd) == -1)
 	{
 		if (pid == 0)

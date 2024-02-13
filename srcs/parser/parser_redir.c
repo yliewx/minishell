@@ -12,17 +12,15 @@
 
 #include "minishell.h"
 
-void redir_clean(t_minishell *minishell, t_node *node)
+void	redir_clean(t_minishell *minishell, t_node *node)
 {
-	//printf("running redir clean\n");
-	char *str;
+	char	*str;
+
 	str = node->value;
-	node->value = ft_strjoin(node->value," ");
-	//printf("node value is now %s\n", node->value);
+	node->value = ft_strjoin(node->value, " ");
 	free (str);
 	str = node->value;
 	node->value = ft_strjoin (node->value, minishell->curr_token->value);
-	//printf("node value is now %s\n", node->value);
 	free (str);
 	ft_next_token(minishell);
 }
@@ -44,17 +42,18 @@ t_node	*parser_redir(t_minishell *minishell, t_node *node)
 	return (node);
 }
 
-void remove_node(t_token *node)
+void	remove_node(t_token *node)
 {
-	t_token *to_remove;
-	t_token *prev_node;
-	t_token *next_node;
+	t_token	*to_remove;
+	t_token	*prev;
+	t_token	*next;
 
 	to_remove = node;
-	prev_node = node->prev;
-	next_node = node->next;
-	prev_node->next = next_node;
-	next_node->prev = prev_node;
+	prev = node->prev;
+	next = node->next;
+	prev->next = next;
+	if (next)
+		next->prev = prev;
 	if (to_remove->value)
 		free(to_remove->value);
 	free(to_remove);
@@ -74,10 +73,7 @@ t_node	*ft_redir_helper(t_minishell *minishell, t_node **node)
 	*node = ft_new_node(curr_cmd->value, curr_cmd->type, minishell);
 	if (!*node)
 		return (NULL);
-	// print_token_list(minishell->tokens);
 	remove_node(curr_cmd);
-	// printf("\nafter removing node...\n");
-	// print_token_list(minishell->tokens);
 	if (!parser_redir(minishell, *node))
 		return (NULL);
 	return (*node);

@@ -22,9 +22,9 @@ int	arg_checker(int argc, char **argv)
 	return (0);
 }
 
-void ft_prompt(t_minishell *minishell)
+void	ft_prompt(t_minishell *minishell)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	if (minishell->user)

@@ -34,16 +34,11 @@ void	heredoc_warning(char *delimiter)
 	ft_putstr_fd("')\n", 2);
 }
 
-int	exec_heredoc(t_heredoc *list, t_minishell *shell)
+void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
 {
-	t_heredoc	*node;
-	char		*line;
-
-	node = list;
-	while (node && !g_signal.sigint)
+	if (pid == 0)
 	{
-		if (pipe(node->pipefd) == -1)
-			return (print_str_err(PIPE_ERR, "error: pipe() failed\n", shell));
+		g_signal.in_heredoc = true;
 		while (1)
 		{
 			line = readline("> ");
@@ -62,26 +57,53 @@ int	exec_heredoc(t_heredoc *list, t_minishell *shell)
 			ft_putstr_fd("\n", node->pipefd[1]);
 			free(line);
 		}
+		exit(0);
+	}
+	waitpid(pid, &(shell->exit_status), 0);
+	shell->exit_status = WEXITSTATUS(shell->exit_status);
+}
+
+/* Function to create pipes for each heredoc node
+- Fork child process
+- Exec heredoc within child process */
+int	ft_heredoc(t_heredoc *list, t_minishell *shell)
+{
+	t_heredoc	*node;
+	int			pid;
+	char		*line;
+
+	line = NULL;
+	node = list;
+	while (node && !g_signal.sigint)
+	{
+		if (pipe(node->pipefd) == -1)
+			return (print_str_err(PIPE_ERR, \
+				"error: pipe() failed\n", shell), -1);
+		pid = fork();
+		if (pid == -1)
+			return (print_str_err(FORK_ERR, \
+				"error: fork() failed\n", shell), -1);
+		exec_heredoc(shell, pid, node, line);
 		node = node->next;
 	}
 	return (0);
 }
 
-/* Function to pipe heredoc input */
-int	ft_heredoc(t_heredoc *list, t_minishell *shell)
-{
-	int			pid;
+// /* Function to pipe heredoc input */
+// int	ft_heredoc(t_heredoc *list, t_minishell *shell)
+// {
+// 	int			pid;
 
-	pid = fork();
-	if (pid == -1)
-		return (print_str_err(FORK_ERR, "error: fork() failed\n", shell), -1);
-	if (pid == 0)
-	{
-		g_signal.in_heredoc = true;
-		exec_heredoc(list, shell);
-		exit(0);
-	}
-	waitpid(pid, &(shell->exit_status), 0);
-	shell->exit_status = WEXITSTATUS(shell->exit_status);
-	return (0);
-}
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (print_str_err(FORK_ERR, "error: fork() failed\n", shell), -1);
+// 	if (pid == 0)
+// 	{
+// 		g_signal.in_heredoc = true;
+// 		exec_heredoc(list, shell);
+// 		exit(0);
+// 	}
+// 	waitpid(pid, &(shell->exit_status), 0);
+// 	shell->exit_status = WEXITSTATUS(shell->exit_status);
+// 	return (0);
+// }
