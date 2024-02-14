@@ -36,7 +36,9 @@ void	ft_prompt(t_minishell *minishell)
 		print_str_err(MEM_ERR, NULL, minishell);
 		return ;
 	}
-	ft_strlcpy(minishell->prompt, minishell->user, len + 1);
+	minishell->prompt[len] = '\0';
+	if (minishell->user)
+		ft_strlcpy(minishell->prompt, minishell->user, len + 1);
 	ft_strlcat(minishell->prompt, "@Minishell:~$ ", len + 14 + 1);
 }
 

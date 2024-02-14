@@ -19,6 +19,7 @@ void	node_init(t_node *node, char *cmd)
 	node->left = NULL;
 	node->right = NULL;
 	node->io_list = NULL;
+	node->is_heredoc = 0;
 	if (cmd)
 		node->value = ft_strdup(cmd);
 	else

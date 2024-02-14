@@ -23,8 +23,10 @@ void	ft_free_io_list(t_io_node **list)
 	while (curr)
 	{
 		next = curr->next;
-		free(curr->value);
-		free(curr->expanded_arg);
+		if (curr->value)
+			free(curr->value);
+		if (curr->expanded_arg)
+			free(curr->expanded_arg);
 		free(curr);
 		curr = next;
 	}

@@ -66,9 +66,7 @@ int	ft_minishell(t_minishell *minishell)
 			if (!minishell->minishell_err)
 				ft_exec(minishell);
 		}
-		dup2(minishell->old_stdin, STDIN_FILENO);
-		free(command);
-		ft_reinit(minishell);
+		ft_reinit(minishell, command);
 	}
 	close(minishell->old_stdin);
 	return (0);
