@@ -12,12 +12,8 @@
 
 #include "minishell.h"
 
-/*no need to handle unclosed quotes; remove all paired quotes
-(excluding single quotes that are nested inside double quotes & vice versa)
-export "abc"def'ghi''=xyz'l"mao"
-export "abc"def'ghi''"=x"yz'l"mao" //will fail in bash export
-export "abc'def'ghi=x"yzl"mao" //will fail in bash export; check echo
-export "abc"def'ghi'"=xyz"l"mao"*/
+/*remove all paired quotes
+(excluding single quotes that are nested inside double quotes & vice versa)*/
 
 bool	until_next_quote(char *arg, int len, int quote)
 {
@@ -66,22 +62,30 @@ char	*remove_quotes(char *arg)
 	return (new_str);
 }
 
-int	remove_expanded_arg_quotes(char **argv)
+int	remove_expanded_arg_quotes(char **arg)
 {
 	char	*temp;
-	int		i;
+
+	if (ft_strchr(*arg, '\'') || ft_strchr(*arg, '\"'))
+	{
+		temp = *arg;
+		*arg = remove_quotes(temp);
+		if (!*arg)
+			return (-1);
+		free(temp);
+	}
+	return (0);
+}
+
+int	remove_expanded_argv_quotes(char **argv)
+{
+	int	i;
 
 	i = 0;
 	while (argv[i])
 	{
-		if (ft_strchr(argv[i], '\'') || ft_strchr(argv[i], '\"'))
-		{
-			temp = argv[i];
-			argv[i] = remove_quotes(temp);
-			if (!argv[i])
-				return (-1);
-			free(temp);
-		}
+		if (remove_expanded_arg_quotes(&argv[i]) == -1)
+			return (-1);
 		i++;
 	}
 	return (0);

@@ -18,22 +18,15 @@ echo "$HOME" -> EXPANDS
 
 echo 'hello world "$HOME"' -> DOES NOT expand
 	bash:		hello world "$HOME"
-	minishell:	hello world "$HOME"
 
 echo 'hello world '$HOME'' -> EXPANDS
+echo "hello world "$HOME"" -> EXPANDS
 	bash:		hello world /home/user
-	minishell:	hello world /home/user
 
 echo "hello world '$HOME'" -> EXPANDS
 	bash:		hello world '/home/user'
-	minishell:	hello world '/home/user'
-
-echo "hello world "$HOME"" -> EXPANDS
-	bash:		hello world /home/user
-	minishell:	hello world /home/user
-
-echo hello '$HOME' world "$HOME" ''$HOME'' $USER "$PWD"
 */
+
 char	*get_start_quote(char *c, int quote)
 {
 	int	i;

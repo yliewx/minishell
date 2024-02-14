@@ -12,23 +12,18 @@
 
 #include "minishell.h"
 
-/*possible cases to handle:
-- heredoc interruption?
-- sigint when command is in the middle of executing?*/
-
 t_signal g_signal =
 {
 	false, false, false,
 };
 
-// Re-initialize minishell
 void	sigint_handler(int signum)
 {
 	(void)signum;
 	printf("\n");
 	if (g_signal.in_heredoc)
 	{
-		//g_signal.sigint = true;
+		g_signal.sigint = true;
 		exit(SIGINT);
 	}
 	else if (!g_signal.in_fork_cmd)

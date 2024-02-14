@@ -49,6 +49,7 @@ bool			skip_quotes(char *c, char *full_arg);
 char			*get_end_quote(char *c, int quote);
 char			*remove_quotes(char *arg);
 int				remove_expanded_arg_quotes(char **arg);
+int				remove_expanded_argv_quotes(char **argv);
 
 /*pattern*/
 void			extract_pattern(t_pattern *pattern, char *asterisk, char *arg);

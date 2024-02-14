@@ -50,7 +50,7 @@ int	get_expanded_arg(t_node *node, t_minishell *minishell)
 		node->expanded_arg = ft_split_argv(node->expanded);
 		if (!node->expanded_arg)
 			return (print_str_err(MEM_ERR, NULL, minishell));
-		if (remove_expanded_arg_quotes(node->expanded_arg) == -1)
+		if (remove_expanded_argv_quotes(node->expanded_arg) == -1)
 			return (print_str_err(MEM_ERR, NULL, minishell));
 	}
 	if (node->io_list && node->io_list->value)

@@ -44,13 +44,12 @@ int	ft_exit(t_minishell *minishell, t_node *node)
 	if (i == 2)
 	{
 		if (!is_numeric(node->expanded_arg[1]))
-		{
 			exit_error(PARAM_ERR, node->expanded_arg[1], minishell);
-			exit(2);
-		}
 		else
+		{
 			exit_code = ft_atoi(node->expanded_arg[1]);
-		minishell->exit_status = exit_code;
+			minishell->exit_status = exit_code;
+		}
 	}
 	return (free_data_and_exit(minishell), 0);
 }
