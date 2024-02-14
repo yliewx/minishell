@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-// Free tokens list and malloc'ed string
+/* Free tokens list and malloc'ed string */
 void	ft_free_token_list(t_token **lst)
 {
 	t_token	*tmp;

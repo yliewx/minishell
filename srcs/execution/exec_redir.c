@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/* Redirect child process
+If pipe -> read dup write pipe to stdout
+Set redirect from io_list nodes */
 int	child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
 {
 	if (node->next_binop == T_PIPE)
@@ -40,7 +43,9 @@ int	child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
 	return (0);
 }
 
-/* Function to set redirects */
+/* Function to set redirects
+- If forked, run child_redirect for child process
+- For parent/main, redirect pipes and heredoc */
 int	redir_handler(t_node *node, int pid, int *pipefd)
 {
 	t_io_node	*io_list;

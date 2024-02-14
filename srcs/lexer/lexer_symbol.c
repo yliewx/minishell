@@ -63,6 +63,8 @@ t_token	*create_sym_token(t_minishell *minishell, char *line, int *i)
 	return (NULL);
 }
 
+/* Creates sym token
+- If symbol not preceded with valid type, set err */
 t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 {
 	if (!create_sym_token(minishell, line, i))

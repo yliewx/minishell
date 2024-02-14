@@ -46,20 +46,6 @@ t_token	*get_curr_cmd(t_minishell *minishell)
 		return (NULL);
 }
 
-void	print_node_and_io(t_node *node)
-{
-	t_io_node	*list;
-
-	if (node)
-		printf("%s\n", node->value);
-	list = node->io_list;
-	while (list)
-	{
-		printf("io_list %d-> %s\n", list->type, list->value);
-		list = list->next;
-	}
-}
-
 /* Function to create a new node for command, moves to next token */
 t_node	*ft_cmd_handler(t_minishell *shell, t_node **node)
 {

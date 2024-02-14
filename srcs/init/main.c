@@ -12,37 +12,6 @@
 
 #include "minishell.h"
 
-// int	ft_minishell(t_minishell *minishell)
-// {
-// 	char	*command;
-
-// 	while (1)
-// 	{
-// 		//ft_cmd_line(minishell->user);
-// 		command = readline("Minishell:~$ ");
-// 		if (!command)
-// 			return (printf("exit\n"), 1);
-// 		if (command && command[0])
-// 		{
-// 			add_history(command);
-// 			ft_lexer(minishell, command);
-// 			if (minishell->tokens && !minishell->minishell_err)
-// 			{
-// 				minishell->curr_token = minishell->tokens;
-// 				if (!minishell->minishell_err)
-// 					ft_parser(minishell);
-// 				if (!minishell->minishell_err)
-// 					ft_exec(minishell);
-// 			}
-// 			dup2(minishell->old_stdin, STDIN_FILENO);
-// 			free(command);
-// 			ft_reinit(minishell);
-// 		}
-// 	}
-// 	close(minishell->old_stdin);
-// 	return (0);
-// }
-
 int	ft_minishell(t_minishell *minishell)
 {
 	char	*command;

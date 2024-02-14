@@ -26,7 +26,7 @@ void	node_init(t_node *node, char *cmd)
 		node->value = NULL;
 }
 
-// Create ast nodes
+/* Create ast nodes */
 t_node	*ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 {
 	t_node	*node;
@@ -49,4 +49,22 @@ t_node	*ft_new_node(char *cmd, t_token_type type, t_minishell *minishell)
 	else
 		node->next_binop = T_NULL;
 	return (node);
+}
+
+/* Function to remove token node */
+void	remove_node(t_token *node)
+{
+	t_token	*to_remove;
+	t_token	*prev;
+	t_token	*next;
+
+	to_remove = node;
+	prev = node->prev;
+	next = node->next;
+	prev->next = next;
+	if (next)
+		next->prev = prev;
+	if (to_remove->value)
+		free(to_remove->value);
+	free(to_remove);
 }

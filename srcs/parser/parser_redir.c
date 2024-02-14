@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Cleans str token after redir and appends args to node->value */
 void	redir_clean(t_minishell *minishell, t_node *node)
 {
 	char	*str;
@@ -40,23 +41,6 @@ t_node	*parser_redir(t_minishell *minishell, t_node *node)
 			redir_clean(minishell, node);
 	}
 	return (node);
-}
-
-void	remove_node(t_token *node)
-{
-	t_token	*to_remove;
-	t_token	*prev;
-	t_token	*next;
-
-	to_remove = node;
-	prev = node->prev;
-	next = node->next;
-	prev->next = next;
-	if (next)
-		next->prev = prev;
-	if (to_remove->value)
-		free(to_remove->value);
-	free(to_remove);
 }
 
 /* Redirect helper function 

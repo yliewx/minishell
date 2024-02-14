@@ -34,6 +34,7 @@ void	heredoc_warning(char *delimiter)
 	ft_putstr_fd("')\n", 2);
 }
 
+/* Reads heredoc input and writes to heredoc pipe */
 void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
 {
 	if (pid == 0)

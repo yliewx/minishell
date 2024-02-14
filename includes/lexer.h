@@ -67,6 +67,7 @@ void			print_token_list(t_token *token_list);
 void			skip_spaces(char *line, int *i);
 int				is_symbol(char c);
 t_token_type	get_prev_type(t_token *token_list);
+int				quote_found(char c);
 
 // Free tokens
 void			ft_free_token_list(t_token **lst);

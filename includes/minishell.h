@@ -87,7 +87,7 @@ int		ft_minishell(t_minishell *minishell);
 void	ft_prompt(t_minishell *minishell);
 char	*ft_readline(t_minishell *minishell);
 
-// Init functions
+/*init functions*/
 void	init_minishell(t_minishell *minishell, bool start);
 void	init_env(t_minishell *minishell, char **envp);
 

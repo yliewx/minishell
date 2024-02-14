@@ -42,7 +42,7 @@ int		is_binop_node(t_node *node);
 int		binop_next_checker(t_token_type type);
 
 // Open utils
-int		open_file_checker(t_node *node, t_minishell *minishell, int pid);
+// int		open_file_checker(t_node *node, t_minishell *minishell, int pid);
 int		open_handler(t_minishell *minishell, t_io_node *io_node, int *fd);
 
 // Exec main

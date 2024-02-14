@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-int	quote_found(char c)
-{
-	if (c == '\'')
-		return (1);
-	if (c == '\"')
-		return (2);
-	return (0);
-}
-
 int	redir_iterator(char *line, int *i)
 {
 	int	count;
@@ -96,22 +87,16 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 	while (lst)
 	{
 		i = -1;
-		if (lst->value)
+		while (lst->value && lst->value[++i])
 		{
-			while (lst->value[++i])
+			if (lst->value[i] == '\'' || lst->value[i] == '\"')
 			{
-				if (lst->value[i] == '\'' || lst->value[i] == '\"')
-				{
-					if (lst->value[i] == '\'')
-						end_quote = ft_strrchr(&lst->value[i], '\'');
-					else if (lst->value[i] == '\"')
-						end_quote = ft_strrchr(&lst->value[i], '\"');
-					if (end_quote == &(lst->value[i]))
-						return (print_char_err(SYNTAX_ERR, lst->value[i], \
-							minishell), -1);
-					else
-						i = end_quote - lst->value;
-				}
+				end_quote = ft_strrchr(&lst->value[i], lst->value[i]);
+				if (end_quote == &(lst->value[i]))
+					return (print_char_err(SYNTAX_ERR, lst->value[i], \
+						minishell), -1);
+				else
+					i = end_quote - lst->value;
 			}
 		}
 		lst = lst->next;
