@@ -21,7 +21,7 @@ int	quote_found(char c)
 	return (0);
 }
 
-int redir_iterator(char *line, int *i)
+int	redir_iterator(char *line, int *i)
 {
 	int	count;
 	int	in_quote;
