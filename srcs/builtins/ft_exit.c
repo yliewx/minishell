@@ -40,6 +40,7 @@ int	ft_exit(t_minishell *minishell, t_node *node)
 		i++;
 	if (i > 2)
 		return (exit_error(ARG_COUNT_ERR, NULL, minishell));
+	printf("exit\n");
 	if (i == 2)
 	{
 		if (!is_numeric(node->expanded_arg[1]))
@@ -49,8 +50,7 @@ int	ft_exit(t_minishell *minishell, t_node *node)
 		}
 		else
 			exit_code = ft_atoi(node->expanded_arg[1]);
+		minishell->exit_status = exit_code;
 	}
-	printf("exit\n");
-	free_data_and_exit(minishell);
-	return (exit(exit_code), 0);
+	return (free_data_and_exit(minishell), 0);
 }

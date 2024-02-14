@@ -24,11 +24,11 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	{
 		get_command_path(&command_path, argv[0], minishell);
 		if (minishell->minishell_err != NO_ERR)
-			exit(EXIT_FAILURE);
+			free_data_and_exit(minishell);
 		if (execve(command_path, argv, minishell->envp) == -1)
 		{
 			exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
-			exit(EXIT_FAILURE);
+			free_data_and_exit(minishell);
 		}
 	}
 	else
@@ -61,7 +61,7 @@ void	exec_command(t_node *node, t_minishell *minishell)
 	if (minishell->minishell_err || redir_handler(node, pid, pipefd) == -1)
 	{
 		if (pid == 0)
-			exit(minishell->exit_status);
+			free_data_and_exit(minishell);
 		return ;
 	}
 	if (builtin_type != CMD_SIMPLE)
