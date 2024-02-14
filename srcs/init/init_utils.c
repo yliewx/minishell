@@ -29,6 +29,7 @@ void	ft_prompt(t_minishell *minishell)
 	len = 0;
 	if (minishell->user)
 		len = ft_strlen(minishell->user);
+	minishell->prompt = NULL;
 	minishell->prompt = malloc(sizeof(char) * (len + 14 + 1));
 	if (!minishell->prompt)
 	{
@@ -43,7 +44,6 @@ char	*ft_readline(t_minishell *minishell)
 {
 	char	*command;
 
-	ft_prompt(minishell);
 	if (minishell->prompt)
 		command = readline(minishell->prompt);
 	else

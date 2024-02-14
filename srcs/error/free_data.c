@@ -38,6 +38,7 @@ void	free_data_and_exit(t_minishell *minishell)
 	free_arrays(&minishell->envp);
 	free_arrays(&minishell->env_path);
 	free(minishell->prompt);
+	exit(minishell->exit_status);
 }
 
 void	ft_reinit(t_minishell *minishell)

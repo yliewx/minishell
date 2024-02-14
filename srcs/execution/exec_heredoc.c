@@ -57,7 +57,7 @@ void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
 			ft_putstr_fd("\n", node->pipefd[1]);
 			free(line);
 		}
-		exit(0);
+		free_data_and_exit(shell);
 	}
 	waitpid(pid, &(shell->exit_status), 0);
 	shell->exit_status = WEXITSTATUS(shell->exit_status);

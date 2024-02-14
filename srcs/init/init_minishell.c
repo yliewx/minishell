@@ -26,7 +26,7 @@ void	init_minishell(t_minishell *minishell, bool start)
 	minishell->heredoc_list = NULL;
 	minishell->heredoc_count = 0;
 	minishell->minishell_err = 0;
-	minishell->prompt = NULL;
+	ft_prompt(minishell);
 	if (minishell->envp)
 		minishell->user = value_in_env(minishell->envp, "USER=", 5);
 	else
