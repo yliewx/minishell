@@ -68,6 +68,7 @@ void			skip_spaces(char *line, int *i);
 int				is_symbol(char c);
 t_token_type	get_prev_type(t_token *token_list);
 int				quote_found(char c);
+int				is_redir_type(char *line, int i);
 
 // Free tokens
 void			ft_free_token_list(t_token **lst);

@@ -28,6 +28,19 @@ int	is_symbol(char c)
 	return (0);
 }
 
+int is_redir_type(char *line, int i)
+{
+	if (!ft_strncmp(line + i, ">>", 2))
+		return (1);
+	if (!ft_strncmp(line + i, "<<", 2))
+		return (1);
+	if (!ft_strncmp(line + i, ">", 1))
+		return (1);
+	if (!ft_strncmp(line + i, "<", 1))
+		return (1);
+	return (0);
+}
+
 /* Gets second last token's type */
 t_token_type	get_prev_type(t_token *token_list)
 {
