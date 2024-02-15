@@ -35,9 +35,7 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	{
 		g_signal.is_forked_parent = true;
 		waitpid(pid, &(minishell->exit_status), 0);
-		//printf("child exit status: %i\n", minishell->exit_status);
-		check_child_exit_status(minishell);
-		//printf("after WEXITSTATUS: %i\n", minishell->exit_status);
+		ft_exit_status(minishell);
 		g_signal.is_forked_parent = false;
 	}
 }

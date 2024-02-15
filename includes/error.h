@@ -46,7 +46,7 @@ enum e_builtin_err
 /* set exit status */
 int		set_exit_success(t_minishell *minishell);
 int		set_exit_error(t_minishell *minishell, int error, int status);
-int		check_child_exit_status(t_minishell *minishell);
+int		ft_exit_status(t_minishell *minishell);
 
 /* print error messages */
 // void 	print_char_err(t_minishell *minishell, char c);

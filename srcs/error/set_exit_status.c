@@ -25,8 +25,11 @@ int	set_exit_error(t_minishell *minishell, int error, int status)
 	return (0);
 }
 
-int	check_child_exit_status(t_minishell *minishell)
+int	ft_exit_status(t_minishell *minishell)
 {
-	minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+	if (WIFSIGNALED(minishell->exit_status))
+		minishell->exit_status = 128 + WTERMSIG(minishell->exit_status);
+	else
+		minishell->exit_status = WEXITSTATUS(minishell->exit_status);
 	return (minishell->exit_status);
 }

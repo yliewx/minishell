@@ -42,7 +42,7 @@ int	exec_fork_builtin(t_node *node, int builtin_type, int pid, \
 	else
 	{
 		waitpid(pid, &(node->minishell->exit_status), 0);
-		check_child_exit_status(node->minishell);
+		ft_exit_status(node->minishell);
 	}
 	return (0);
 }
