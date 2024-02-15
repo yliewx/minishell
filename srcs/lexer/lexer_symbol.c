@@ -34,7 +34,7 @@ t_token_type sym_type, int *i)
 		*i += 2;
 	else
 		*i += 1;
-	return (minishell->tokens);
+	return (token);
 }
 
 /* Checks for symbol type using strncmp

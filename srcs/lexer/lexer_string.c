@@ -33,5 +33,5 @@ t_token	*create_str_token(t_minishell *minishell, char *line, int i, int j)
 	if (!token)
 		return (free(str), NULL);
 	token_add_back(&minishell->tokens, token);
-	return (minishell->tokens);
+	return (token);
 }
