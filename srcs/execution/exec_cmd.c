@@ -33,8 +33,10 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	}
 	else
 	{
+		g_signal.is_forked_parent = true;
 		waitpid(pid, &(minishell->exit_status), 0);
-		minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+		check_child_exit_status(minishell);
+		g_signal.is_forked_parent = false;
 	}
 }
 

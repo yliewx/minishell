@@ -18,7 +18,10 @@ int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 	char	*value;
 	int		value_len;
 
-	value = ft_itoa(minishell->exit_status);
+	if (g_signal.signum)
+		value = ft_itoa(128 + g_signal.signum);
+	else
+		value = ft_itoa(minishell->exit_status);
 	value_len = ft_strlen(value);
 	new_str = replace_var_with_value(*arg, value, start, 2);
 	free(value);

@@ -22,6 +22,7 @@ void	envp_dup(t_minishell *minishell, char **envp);
 
 /*sort envp*/
 void	sort_envp(char **envp, int start, int end);
+void	ft_swap(char **a, char **b);
 
 /*update envp*/
 int		update_envp(t_minishell *minishell, char *var, \

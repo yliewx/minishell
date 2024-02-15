@@ -67,9 +67,10 @@ typedef struct s_minishell
 
 typedef struct s_signal
 {
+	int			signum;
+	bool		sigint_heredoc;
 	bool		in_heredoc;
-	bool		in_fork_cmd;
-	bool		sigint;
+	bool		is_forked_parent;
 }	t_signal;
 
 extern t_signal	g_signal;
@@ -79,7 +80,6 @@ void	init_signals(void);
 void	sigint_handler(int signum);
 
 /*utils*/
-void	ft_swap(char **a, char **b);
 char	**ft_split_argv(char *arg);
 bool	is_quote(int c);
 int		arg_checker(int argc, char **argv);

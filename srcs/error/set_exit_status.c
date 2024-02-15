@@ -24,3 +24,14 @@ int	set_exit_error(t_minishell *minishell, int error, int status)
 	minishell->exit_status = status;
 	return (0);
 }
+
+int	check_child_exit_status(t_minishell *minishell)
+{
+	minishell->exit_status = WEXITSTATUS(minishell->exit_status);
+	if (minishell->exit_status == SIGINT)
+	{
+		minishell->exit_status = 128 + SIGINT;
+		return (SIGINT);
+	}
+	return (0);
+}
