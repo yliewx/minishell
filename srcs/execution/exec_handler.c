@@ -24,7 +24,8 @@ int	pipe_handler(int *pipefd, t_node *node, t_minishell *minishell)
 int	fork_handler(int *pid, int builtin_type, t_node *node, \
 	t_minishell *minishell)
 {
-	if (is_fork_cmd(node, builtin_type))
+	if (is_fork_cmd(node, builtin_type) || !is_fork_cmd(node, builtin_type) \
+		&& minishell->curr_token->prev->type == T_PIPE)
 	{
 		*pid = fork();
 		if (*pid == -1)
