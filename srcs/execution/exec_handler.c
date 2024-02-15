@@ -21,17 +21,12 @@ int	pipe_handler(int *pipefd, t_node *node, t_minishell *minishell)
 	return (0);
 }
 
-int	fork_handler(int *pid, int builtin_type, t_node *node, \
-	t_minishell *minishell)
+int	fork_handler(int *pid, t_minishell *minishell)
 {
-	if (is_fork_cmd(node, builtin_type) || !is_fork_cmd(node, builtin_type) \
-		&& minishell->curr_token->prev->type == T_PIPE)
-	{
-		*pid = fork();
-		if (*pid == -1)
-			return (print_str_err(FORK_ERR, "error: "\
-				"fork() failed\n", minishell), -1);
-	}
+	*pid = fork();
+	if (*pid == -1)
+		return (print_str_err(FORK_ERR, "error: "\
+			"fork() failed\n", minishell), -1);
 	return (0);
 }
 

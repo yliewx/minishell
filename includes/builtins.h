@@ -31,7 +31,8 @@ enum e_command_type
 
 /*builtins*/
 int		check_builtin(t_node *node);
-int		exec_builtin(t_node *node, int type, int pid);
+int		exec_builtin(t_node *node, int builtin_type, int pid, \
+	t_token_type parent_type);
 int		ft_echo(t_node *node);
 int		ft_cd(t_minishell *minishell, t_node *node);
 int		ft_pwd(t_minishell *minishell);

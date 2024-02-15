@@ -53,7 +53,7 @@ int	redir_handler(t_node *node, int pid, int *pipefd)
 
 	fd = -1;
 	io_list = node->io_list;
-	if (pid == 0 || !is_fork_cmd(node, check_builtin(node)))
+	if (pid == 0)
 	{
 		if (child_redirect(node, &fd, io_list, pipefd) == -1)
 			return (-1);

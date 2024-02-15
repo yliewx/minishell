@@ -44,7 +44,8 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 - Expand args
 - Pipe and fork if necessary
 - Exec builtin or simple cmd */
-void	exec_command(t_node *node, t_minishell *minishell)
+void	exec_command(t_node *node, t_minishell *minishell, \
+	t_token_type parent_type)
 {
 	int	pid;
 	int	pipefd[2];
@@ -58,7 +59,7 @@ void	exec_command(t_node *node, t_minishell *minishell)
 	builtin_type = check_builtin(node);
 	if (pipe_handler(pipefd, node, minishell))
 		return ;
-	if (fork_handler(&pid, builtin_type, node, minishell))
+	if (fork_handler(&pid, minishell))
 		return ;
 	if (minishell->minishell_err || redir_handler(node, pid, pipefd) == -1)
 	{
@@ -67,7 +68,7 @@ void	exec_command(t_node *node, t_minishell *minishell)
 		return ;
 	}
 	if (builtin_type != CMD_SIMPLE)
-		exec_builtin(node, builtin_type, pid);
+		exec_builtin(node, builtin_type, pid, parent_type);
 	else
 		exec_simple_cmd(node->expanded_arg, minishell, pid);
 }

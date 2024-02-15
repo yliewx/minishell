@@ -17,7 +17,8 @@
 
 // Exec command functions
 void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid);
-void	exec_command(t_node *node, t_minishell *minishell);
+void	exec_command(t_node *node, t_minishell *minishell, \
+	t_token_type parent_type);
 
 // Exec heredoc functions
 int		ft_heredoc(t_heredoc *list, t_minishell *minishell);
@@ -34,8 +35,7 @@ int		redir_handler(t_node *node, int pid, int *pipefd);
 // Exec handler functions
 int		ft_dup(t_minishell *minishell, int oldfd, int newfd);
 int		pipe_handler(int *pipefd, t_node *node, t_minishell *minishell);
-int		fork_handler(int *pid, int builtin_type, t_node *node, \
-	t_minishell *minishell);
+int		fork_handler(int *pid, t_minishell *minishell);
 
 // Exec util functions
 int		is_binop_node(t_node *node);
@@ -46,6 +46,7 @@ int		open_handler(t_minishell *minishell, t_io_node *io_node, int *fd);
 
 // Exec main
 t_node	*ft_exec(t_minishell *minishell);
-t_node	*traverse_tree(t_node *ast, t_minishell *minishell);
+t_node	*traverse_tree(t_node *ast, t_minishell *minishell, \
+	t_token_type parent_type);
 
 #endif
