@@ -22,6 +22,12 @@ t_token	*ft_lexer(t_minishell *minishell, char *line)
 	int	i;
 
 	i = 0;
+	if (line[i])
+	{
+		skip_spaces(line, &i);
+		if (!line[i])
+			return (NULL);
+	}
 	while (line[i])
 	{
 		skip_spaces(line, &i);
