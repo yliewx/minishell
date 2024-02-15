@@ -12,8 +12,7 @@
 
 #include "minishell.h"
 
-t_signal g_signal =
-{
+t_signal	g_signal = {
 	0, false, false, false,
 };
 
