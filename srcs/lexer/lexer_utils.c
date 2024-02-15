@@ -15,7 +15,8 @@
 /* Skips spaces */
 void	skip_spaces(char *line, int *i)
 {
-	while (line[*i] && line[*i] == ' ')
+	while (line[*i] && (line[*i] == ' ' || \
+		(line[*i] >= 9 && line[*i] <= 13)))
 		(*i)++;
 }
 

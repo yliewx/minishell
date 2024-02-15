@@ -11,42 +11,33 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-export "help "sdfhjkh" sjahd "test test"d"
-bash: export: `help sdfhjkh sjahd test': not a valid identifier
 
-export 'help "sdfhjkh" sjahd "test test"a'
-bash: export: `help "sdfhjkh" sjahd "test test"a': not a valid identifier
-
-export 'help 'sdfhjkh' sjahd 'test test'a'
-bash: export: `help sdfhjkh sjahd test': not a valid identifier
-
-- if not in quote && the next character is a space: token_count++
-- if in quote: i++ until the closing quote is reached
-	- check which comes first after the quote: space or new quotes
-	- if quotes come first: the next quote is considered to be the same word
-	- else token_count++
-		- (if there are characters been the closing quote and the space,
-		they are considered to be the same word)
-*/
 bool	is_quote(int c)
 {
 	return (c == '\'' || c == '\"');
 }
 
+/*
+if in quote: i++ until the closing quote is reached
+- check which comes first after the closing quote: space or new quotes
+- if quotes come first: the next quote is considered to be the same word
+- else token_count++
+	- (if there are characters been the closing quote and the space,
+	they are considered to be the same word)
+*/
 int	count_split_tokens(char *arg, int i, int token_count, int delimiter)
 {
-	while (arg[i] && arg[i] != ' ' && !is_quote(arg[i]))
+	while (arg[i] && !is_whitespace(arg[i]) && !is_quote(arg[i]))
 		i++;
 	if (arg[i] && is_quote(arg[i]))
 	{
-		if (delimiter == ' ')
+		if (is_whitespace(delimiter))
 			delimiter = arg[i];
 		else if (arg[i] == delimiter)
 			delimiter = ' ';
 	}
-	else if (!arg[i] || (arg[i] == ' ' && delimiter == ' '
-			&& arg[i - 1] && arg[i - 1] != ' '))
+	else if (!arg[i] || (is_whitespace(arg[i]) && is_whitespace(delimiter)
+			&& arg[i - 1] && !is_whitespace(arg[i - 1])))
 	{
 		token_count++;
 		if (!arg[i])
@@ -58,11 +49,11 @@ int	count_split_tokens(char *arg, int i, int token_count, int delimiter)
 
 int	get_substr_len(char *arg, int i, int delimiter, bool quote_closed)
 {
-	while (arg[i] && arg[i] != ' ' && !is_quote(arg[i]))
+	while (arg[i] && !is_whitespace(arg[i]) && !is_quote(arg[i]))
 		i++;
 	if (arg[i] && is_quote(arg[i]))
 	{
-		if (delimiter == ' ')
+		if (is_whitespace(delimiter))
 		{
 			delimiter = arg[i];
 			quote_closed = false;
@@ -73,7 +64,8 @@ int	get_substr_len(char *arg, int i, int delimiter, bool quote_closed)
 			quote_closed = true;
 		}
 	}
-	if (!arg[i] || (arg[i] == delimiter && quote_closed))
+	if (!arg[i] || (arg[i] == delimiter && quote_closed)
+		|| (is_whitespace(arg[i]) && delimiter == ' ' && quote_closed))
 		return (i);
 	i++;
 	return (get_substr_len(arg, i, delimiter, quote_closed));
@@ -91,7 +83,7 @@ void	assign_argv(char *arg, char ***child_argv, int token_count)
 	while (j < token_count && arg[i])
 	{
 		delimiter = ' ';
-		while (arg[i] && arg[i] == ' ')
+		while (arg[i] && is_whitespace(arg[i]))
 			i++;
 		if (is_quote(arg[i]))
 			delimiter = arg[i];
@@ -109,7 +101,7 @@ char	**ft_split_argv(char *arg)
 	if (!arg)
 		return (NULL);
 	if (!ft_strchr(arg, '\'') && !ft_strchr(arg, '\"'))
-		return (ft_split(arg, ' '));
+		return (ft_split_whitespace(arg));
 	token_count = count_split_tokens(arg, 0, 0, ' ');
 	child_argv = malloc((token_count + 1) * sizeof(char *));
 	if (!child_argv)

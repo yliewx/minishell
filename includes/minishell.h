@@ -80,8 +80,6 @@ void	init_signals(void);
 void	sigint_handler(int signum);
 
 /*utils*/
-char	**ft_split_argv(char *arg);
-bool	is_quote(int c);
 int		arg_checker(int argc, char **argv);
 int		ft_minishell(t_minishell *minishell);
 void	ft_prompt(t_minishell *minishell);

@@ -30,7 +30,8 @@ PARSER_SRCS = $(addprefix srcs/parser/, $(PARSER))
 # expander
 EXP = expander.c expand_var.c wildcard.c pattern.c \
 	utils/expand_quotes.c utils/expand_var_utils.c \
-	utils/ft_split_argv.c utils/readdir_utils.c
+	utils/ft_split_argv.c utils/ft_split_whitespace.c \
+	utils/readdir_utils.c
 EXP_SRCS = $(addprefix srcs/expander/, $(EXP))
 
 # execution

@@ -43,6 +43,12 @@ char			*replace_var_with_value(char *arg, char *value, \
 char			*get_var_name(char *var_start, int *var_len);
 bool			is_var_name(int c);
 
+/*ft_split_argv*/
+char			**ft_split_argv(char *arg);
+char			**ft_split_whitespace(char const *s);
+bool			is_quote(int c);
+bool			is_whitespace(char c);
+
 /*quotes handler utils*/
 bool			is_in_quote(char *c, int quote);
 bool			skip_quotes(char *c, char *full_arg);
