@@ -63,7 +63,8 @@ void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
 	}
 	g_signal.is_forked_parent = true;
 	waitpid(pid, &(shell->exit_status), 0);
-	check_child_exit_status(shell);
+	if (check_child_exit_status(shell) == SIGINT)
+		shell->exit_status += 128;
 	g_signal.is_forked_parent = false;
 }
 
