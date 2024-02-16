@@ -17,14 +17,12 @@ bool	is_quote(int c)
 	return (c == '\'' || c == '\"');
 }
 
-/*
-if in quote: i++ until the closing quote is reached
-- check which comes first after the closing quote: space or new quotes
-- if quotes come first: the next quote is considered to be the same word
-- else token_count++
+/* Function to split a string by whitespaces, ignoring spaces within quotes
+- If in quote: i++ until the closing quote is reached
+- Check which comes first after the closing quote: space or new quotes
+- If quotes come first: the next quote is considered to be the same word
 	- (if there are characters been the closing quote and the space,
-	they are considered to be the same word)
-*/
+	they are considered to belong to the same token as the quoted sequence */
 int	count_split_tokens(char *arg, int i, int token_count, int delimiter)
 {
 	while (arg[i] && !is_whitespace(arg[i]) && !is_quote(arg[i]))

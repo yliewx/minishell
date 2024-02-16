@@ -19,6 +19,8 @@ bool	check_echo_option(t_node *node)
 	return (ft_strncmp(node->expanded_arg[1], "-n", 3) == 0);
 }
 
+/* Function to display a line of text
+- Omits newline character if the -n option is present */
 int	ft_echo(t_node *node)
 {
 	bool	omit_newline;

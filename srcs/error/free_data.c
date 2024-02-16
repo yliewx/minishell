@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-/*- only free envp when exiting minishell program
-- free ast and token list after every iteration of the minishell loop*/
 void	free_arrays(char ***array)
 {
 	int	i;

@@ -12,13 +12,8 @@
 
 #include "minishell.h"
 
-/*there cannot be spaces before/after the equal sign
-eg. export testvar = 123, export testvar= 123, export "testvar = 123"
-should all give syntax error
-but export "testvar= 123" succeeds
-- no need to handle unclosed quotes
-- multiple arguments: each argument is stored as a separate variable
-- if 1 argument fails, export moves on to the next arg*/
+/* Function to print list of exported environment variables
+- Sorts envp in alphabetical order befpre printing */
 int	print_export(t_minishell *minishell)
 {
 	char	*var_name;
@@ -67,6 +62,10 @@ static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 	return (1);
 }
 
+/* Function to set environment variables
+- Each argument is interpreted as a separate variable
+- Checks for syntax errors in variable name before setting its value in envp
+- If 1 argument fails, export sets an error and moves on to the next arg */
 int	ft_export(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;

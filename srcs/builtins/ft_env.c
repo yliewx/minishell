@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Function to print list of environment variables */
 int	ft_env(t_minishell *minishell)
 {
 	int	i;

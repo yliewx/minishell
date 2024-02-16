@@ -22,6 +22,8 @@ int	cd_error(int error, char *arg, t_minishell *minishell)
 		ft_putstr_fd(arg, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
+	else if (error == NOT_SET_ERR)
+		ft_putstr_fd("HOME not set\n", 2);
 	return (set_exit_error(minishell, error, EXIT_FAILURE));
 }
 

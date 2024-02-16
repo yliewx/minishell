@@ -41,6 +41,7 @@ enum e_builtin_err
 	PARAM_ERR,
 	ARG_COUNT_ERR,
 	NODIR_ERR,
+	NOT_SET_ERR,
 };
 
 /* set exit status */

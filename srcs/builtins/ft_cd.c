@@ -12,50 +12,71 @@
 
 #include "minishell.h"
 
-void	update_pwd(t_minishell *minishell)
+/* Function to update PWD and OLDPWD value after changing directory
+- Sets PWD and OLDPWD in envp if they do not exist */
+void	update_pwd(t_minishell *minishell, char *oldpwd)
 {
 	char	*new_pwd;
 	char	*new_pwd_temp;
-	char	*old_pwd;
-	char	*old_pwd_temp;
 
 	new_pwd_temp = getcwd(NULL, 0);
 	new_pwd = ft_strjoin("PWD=", new_pwd_temp);
-	old_pwd_temp = ft_strdup(\
-		minishell->envp[search_envp_index(minishell->envp, "PWD=", 4)]);
-	old_pwd = ft_strjoin("OLDPWD=", old_pwd_temp + 4);
-	update_envp(minishell, "PWD=", new_pwd, "cd");
-	update_envp(minishell, "OLDPWD=", old_pwd, "cd");
+	if (search_envp_index(minishell->envp, "PWD=", 4) == -1)
+		update_envp(minishell, "PWD=", new_pwd, "export");
+	else
+		update_envp(minishell, "PWD=", new_pwd, "cd");
+	if (search_envp_index(minishell->envp, "OLDPWD=", 7) == -1)
+		update_envp(minishell, "OLDPWD=", oldpwd, "export");
+	else
+		update_envp(minishell, "OLDPWD=", oldpwd, "cd");
 	free(new_pwd_temp);
-	free(old_pwd_temp);
 	free(new_pwd);
-	free(old_pwd);
 }
 
-int	cd_home(t_minishell *minishell)
+char	*get_oldpwd(void)
+{
+	char	*oldpwd;
+	char	*temp;
+
+	temp = getcwd(NULL, 0);
+	oldpwd = ft_strjoin("OLDPWD=", temp);
+	free(temp);
+	return (oldpwd);
+}
+
+int	cd_home(t_minishell *minishell, char *oldpwd)
 {
 	char	*home_path;
 
 	home_path = value_in_env(minishell->envp, "HOME=", 5);
+	if (!home_path || !home_path[0])
+		return (cd_error(NOT_SET_ERR, NULL, minishell));
 	if (chdir(home_path) == -1)
 		return (cd_error(NODIR_ERR, home_path, minishell));
-	update_pwd(minishell);
+	update_pwd(minishell, oldpwd);
 	return (set_exit_success(minishell));
 }
 
+/* Function to change the current directory
+- Returns to home directory if no argument is given
+- Returns error if there is more than 1 argument */
 int	ft_cd(t_minishell *minishell, t_node *node)
 {
+	char	*oldpwd;
 	int		i;
 
 	i = 0;
 	while (node->expanded_arg[i])
 		i++;
-	if (i == 1)
-		return (cd_home(minishell));
 	if (i > 2)
 		return (cd_error(ARG_COUNT_ERR, NULL, minishell));
+	oldpwd = get_oldpwd();
+	if (i == 1)
+		return (cd_home(minishell, oldpwd), free(oldpwd), 0);
 	if (chdir(node->expanded_arg[1]) == -1)
-		return (cd_error(NODIR_ERR, node->expanded_arg[1], minishell));
-	update_pwd(minishell);
+		return (free(oldpwd),
+			cd_error(NODIR_ERR, node->expanded_arg[1], minishell));
+	update_pwd(minishell, oldpwd);
+	free(oldpwd);
 	return (set_exit_success(minishell));
 }

@@ -28,7 +28,10 @@ bool	is_numeric(char *arg)
 	return (true);
 }
 
-//add in proper free_minishell function after the structs are finalised
+/* Function to exit the current process
+- Exits with the arg if it exists and is numeric, otherwise exits with 0
+- Returns error if there is more than 1 arg (does not exit)
+- Returns error if there is a non-numeric arg and exits */
 int	ft_exit(t_minishell *minishell, t_node *node)
 {
 	int	exit_code;

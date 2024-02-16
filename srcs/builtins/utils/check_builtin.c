@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+/* Utils functions to check whether the builtin should be
+executed in a child process*/
 bool	is_export_without_arg(t_node *node, int type)
 {
 	return (type == CMD_EXPORT && !node->expanded_arg[1]);
@@ -23,6 +25,8 @@ bool	is_fork_cmd(t_node *node, int type)
 		|| type == CMD_SIMPLE || is_export_without_arg(node, type));
 }
 
+/* Function to return the builtin type
+- Return simple command if it is not a builtin*/
 int	check_builtin(t_node *node)
 {
 	if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Function to handle the expansion of io list values */
 int	expand_io_value(t_node *node, t_minishell *minishell)
 {
 	t_io_node	*io_list;
@@ -35,6 +36,10 @@ int	expand_io_value(t_node *node, t_minishell *minishell)
 	return (0);
 }
 
+/* Function to handle the expansion of variables denoted by $
+- After expanding $, expand wildcards (*) if any
+- Split the expanded arg by whitespaces
+- Remove quotes from the expanded arg */
 int	get_expanded_arg(t_node *node, t_minishell *minishell)
 {
 	if (node && node->value)

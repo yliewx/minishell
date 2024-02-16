@@ -11,21 +11,11 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
-{
-	int	i;
 
-	i = 0;
-	while (var_name[i])
-	{
-		if (!ft_isalnum(var_name[i]) && var_name[i] != '_')
-			return (unset_error(PARAM_ERR, arg, minishell));
-		i++;
-	}
-	return (1);
-}
-*/
+/* Function to unset environment variables
+- Loops through the command arguments
+- Extracts the name of each variable to be removed in envp
+- Updates envp */
 int	ft_unset(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;

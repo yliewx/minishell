@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Function to resize the envp if a new variable is set or unset*/
 char	**get_updated_envp(char **old_envp, int size, int remove_index, int *i)
 {
 	char	**new_envp;
@@ -55,6 +56,10 @@ int	resize_envp(t_minishell *minishell, int size, int remove_index)
 	return (i);
 }
 
+/* Function to search for and update environment variables
+- If the command is unset: removes the variable from envp if it exists
+- If the command is export: adds the variable to envp if it does not exist
+- Replaces the value of the variable if it exists in envp */
 int	update_envp(t_minishell *minishell, char *var, char *value, \
 	char *command)
 {

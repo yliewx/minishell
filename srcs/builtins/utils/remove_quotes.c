@@ -12,8 +12,10 @@
 
 #include "minishell.h"
 
-/*remove all paired quotes
-(excluding single quotes that are nested inside double quotes & vice versa)*/
+/* Functions to remove all paired quotes from an arg
+(excluding single quotes that are nested inside double quotes & vice versa)
+- If a quote is found, reads until the end quote, then copies the contents
+of the quoted sequence into the new string */
 
 bool	until_next_quote(char *arg, int len, int quote)
 {
