@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 {
 	int	i;
@@ -25,7 +25,7 @@ static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 	}
 	return (1);
 }
-
+*/
 int	ft_unset(t_minishell *minishell, t_node *node)
 {
 	char	*var_name;
@@ -37,12 +37,9 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 	while (node->expanded_arg[i])
 	{
 		var_name = extract_var_name(node->expanded_arg[i]);
-		if (check_valid_arg(node->expanded_arg[i], var_name, minishell))
-		{
-			if (update_envp(minishell, var_name, node->expanded_arg[i],
-					"unset") == -1)
-				return (minishell->exit_status);
-		}
+		if (update_envp(minishell, var_name, node->expanded_arg[i],
+				"unset") == -1)
+			return (minishell->exit_status);
 		free(var_name);
 		i++;
 	}

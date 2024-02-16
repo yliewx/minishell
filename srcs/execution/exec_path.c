@@ -21,9 +21,9 @@ char	**get_env_path(char **envp, t_minishell *minishell)
 	int		i;
 	int		j;
 
-	i = 0;
-	while (envp[i] && (ft_strncmp(envp[i], "PATH", 4)) != 0)
-		i++;
+	i = search_envp_index(envp, "PATH=", 5);
+	if (i == -1)
+		return (NULL);
 	start_pos = ft_strchr(envp[i], '=') + 1;
 	path = ft_split(start_pos, ':');
 	if (!path)
@@ -43,17 +43,15 @@ char	**get_env_path(char **envp, t_minishell *minishell)
 - If no environment, check common paths */
 void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 {
-	char	*default_arr[4];
 	int		i;
 
 	i = 0;
 	if (!minishell->env_path)
 	{
-		default_arr[0] = "/bin/";
-		default_arr[1] = "/usr/bin/";
-		default_arr[2] = "/usr/local/bin/";
-		default_arr[3] = NULL;
-		minishell->env_path = default_arr;
+		*command_path = arg;
+		if (access(*command_path, X_OK) == -1)
+			exec_error(FILE_NOT_FOUND_ERR, arg, minishell);
+		return ;
 	}
 	while (minishell->env_path[i])
 	{
