@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Set oldpwd if oldpwd is NULL */
 char	*init_oldpwd(void)
 {
 	char	*oldpwd;
@@ -40,6 +41,7 @@ char	**get_new_envp(char **envp, int envp_size, int max_to_copy)
 	return (new_envp);
 }
 
+/* Function to duplicate envp */
 void	envp_dup(t_minishell *minishell, char **envp)
 {
 	minishell->envp_size = 0;
