@@ -51,12 +51,15 @@ typedef struct s_token
 // Main
 t_token			*ft_lexer(t_minishell *minishell, char *line);
 
-// Lexer symbol
+// Lexer symbol functions
 t_token			*sym_handler(t_minishell *minishell, char *line, int *i);
 t_token			*create_symbol(t_minishell *minishell, char *val, \
 	t_token_type sym_type, int *i);
-int				get_curr_type(char *line, int i);
 t_token			*create_sym_token(t_minishell *minishell, char *line, int *i);
+
+// Lexer error functions
+int				lexer_error(t_minishell *minishell, int curr_type);
+int				get_curr_type(char *line, int i);
 
 // Lexer string functions
 t_token			*create_str_token(t_minishell *minishell, char *line, \

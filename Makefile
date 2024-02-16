@@ -28,7 +28,8 @@ LEXER = lexer.c \
 	free_tokens.c \
 	lexer_symbol.c \
 	lexer_string.c \
-	lexer_tokens.c
+	lexer_tokens.c \
+	lexer_error.c
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 
 # parser

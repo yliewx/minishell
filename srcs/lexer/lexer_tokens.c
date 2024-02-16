@@ -72,6 +72,9 @@ int	find_next_token(t_minishell *minishell, char *line, int *i)
 	{
 		if (!create_str_token(minishell, line, *i, j))
 			return (-1);
+		if (get_prev_type(minishell->tokens) == T_CLOSE)
+			return (print_str_err(SYNTAX_ERR, \
+				token_last(minishell->tokens)->value, minishell), -1);
 	}
 	return (*i);
 }

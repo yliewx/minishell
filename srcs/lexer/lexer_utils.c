@@ -30,10 +30,13 @@ int	is_symbol(char c)
 
 t_lexer_type	type_checker(t_token_type type)
 {
-	if (type == T_APPEND || type == T_AND || type == T_OR)
+	if (type == T_PIPE || type == T_AND || type == T_OR)
 		return (L_BINOP);
 	if (type == T_OPEN || type == T_CLOSE)
 		return (L_BRACKET);
+	if (type == T_APPEND || type == T_REDIR_L || type == T_REDIR_R \
+		|| type == T_HEREDOC)
+		return (L_REDIR);
 	return (0);
 }
 
@@ -44,7 +47,7 @@ t_token_type	get_prev_type(t_token *token_list)
 
 	last = token_last(token_list);
 	if (!(last->prev))
-		return (T_STRING);
+		return (T_NULL);
 	else
 		return (last->prev->type);
 }
