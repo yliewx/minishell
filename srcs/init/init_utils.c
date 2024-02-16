@@ -22,6 +22,7 @@ int	arg_checker(int argc, char **argv)
 	return (0);
 }
 
+/* Function to create prompt str with $USER@Minishell:~$ */
 void	ft_prompt(t_minishell *minishell)
 {
 	int	len;

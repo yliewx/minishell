@@ -19,7 +19,7 @@ INIT_SRCS = $(addprefix srcs/init/, $(INIT))
 
 # lexer
 LEXER = lexer.c lexer_utils.c lexer_helper.c lexer_list.c free_tokens.c \
-	lexer_symbol.c lexer_string.c
+	lexer_symbol.c lexer_string.c lexer_tokens.c
 LEXER_SRCS = $(addprefix srcs/lexer/, $(LEXER))
 
 # parser

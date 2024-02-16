@@ -69,8 +69,8 @@ t_token	*create_sym_token(t_minishell *minishell, char *line, int *i)
 - Invalid if symbol is a redirect and preceded by parenthesis */
 t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 {
-	t_token_type last_type;
-	int redir_type;
+	t_token_type	last_type;
+	int				redir_type;
 
 	redir_type = is_redir_type(line, *i);
 	if (!create_sym_token(minishell, line, i))
@@ -81,7 +81,8 @@ t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 	}
 	last_type = get_prev_type(minishell->tokens);
 	if ((last_type != T_STRING && last_type != T_OPEN && last_type != T_CLOSE) \
-		|| (redir_type && last_type == T_CLOSE) || (redir_type && last_type == T_OPEN))
+		|| (redir_type && last_type == T_CLOSE) || \
+		(redir_type && last_type == T_OPEN))
 	{
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), NULL);

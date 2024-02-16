@@ -54,8 +54,12 @@ t_token			*create_str_token(t_minishell *minishell, char *line, \
 	int i, int j);
 
 // Lexer helper functions
-int				find_next_token(t_minishell *minishell, char *line, int *i);
 int				quotes_checker(t_minishell *minishell, t_token *token_list);
+
+// Lexer tokens functions
+int				command_iterator(char *line, int *i);
+int				redir_iterator(char *line, int *i);
+int				find_next_token(t_minishell *minishell, char *line, int *i);
 
 // Lexer list functions
 t_token			*create_node(char *content, t_token_type type);
@@ -63,12 +67,12 @@ t_token			*token_last(t_token *lst);
 void			token_add_back(t_token **token_list, t_token *new);
 
 // Lexer utils
-void			print_token_list(t_token *token_list);
 void			skip_spaces(char *line, int *i);
 int				is_symbol(char c);
 t_token_type	get_prev_type(t_token *token_list);
 int				quote_found(char c);
 int				is_redir_type(char *line, int i);
+/* void			print_token_list(t_token *token_list); */
 
 // Free tokens
 void			ft_free_token_list(t_token **lst);

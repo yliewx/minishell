@@ -28,7 +28,7 @@ int	is_symbol(char c)
 	return (0);
 }
 
-int is_redir_type(char *line, int i)
+int	is_redir_type(char *line, int i)
 {
 	if (!ft_strncmp(line + i, ">>", 2))
 		return (1);
@@ -63,13 +63,13 @@ int	quote_found(char c)
 	return (0);
 }
 
-/* Print token list */
-void	print_token_list(t_token *token_list)
-{
-	while (token_list)
-	{
-		printf("%s\n", token_list->value);
-		printf("%i\n", token_list->type);
-		token_list = token_list->next;
-	}
-}
+// /* Print token list */
+// void	print_token_list(t_token *token_list)
+// {
+// 	while (token_list)
+// 	{
+// 		printf("%s\n", token_list->value);
+// 		printf("%i\n", token_list->type);
+// 		token_list = token_list->next;
+// 	}
+// }
