@@ -63,6 +63,33 @@ t_token	*create_sym_token(t_minishell *minishell, char *line, int *i)
 	return (NULL);
 }
 
+/* Function to get curr type based on value 
+- If redir, return 1
+- If parenthesis, return 2 
+- If binop, return 3 */
+int	get_curr_type(char *line, int i)
+{
+	if (!ft_strncmp(line + i, ">>", 2))
+		return (1);
+	if (!ft_strncmp(line + i, "<<", 2))
+		return (1);
+	if (!ft_strncmp(line + i, ">", 1))
+		return (1);
+	if (!ft_strncmp(line + i, "<", 1))
+		return (1);
+	if (!ft_strncmp(line + i, "(", 1))
+		return (2);
+	if (!ft_strncmp(line + i, ")", 1))
+		return (2);
+	if (!ft_strncmp(line + i, "&&", 2))
+		return (3);
+	if (!ft_strncmp(line + i, "||", 2))
+		return (3);
+	if (!ft_strncmp(line + i, "|", 1))
+		return (3);
+	return (0);
+}
+
 /* Creates sym token
 - If symbol not preceded with valid type, set err 
 - Invalid if symbol preceded by symbol that isn't open/close 
@@ -70,9 +97,9 @@ t_token	*create_sym_token(t_minishell *minishell, char *line, int *i)
 t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 {
 	t_token_type	last_type;
-	int				redir_type;
+	int				curr_type;
 
-	redir_type = is_redir_type(line, *i);
+	curr_type = get_curr_type(line, *i);
 	if (!create_sym_token(minishell, line, i))
 	{
 		if (!minishell->minishell_err)
@@ -80,9 +107,10 @@ t_token	*sym_handler(t_minishell *minishell, char *line, int *i)
 		return (NULL);
 	}
 	last_type = get_prev_type(minishell->tokens);
-	if ((last_type != T_STRING && last_type != T_OPEN && last_type != T_CLOSE) \
-		|| (redir_type && last_type == T_CLOSE) || \
-		(redir_type && last_type == T_OPEN))
+	if ((last_type != T_STRING && last_type != T_OPEN && \
+		last_type != T_CLOSE && curr_type != L_BRACKET) \
+		|| (curr_type == L_REDIR && (type_checker(last_type) == L_BRACKET)) || \
+		(curr_type == L_BRACKET && (type_checker(last_type) == L_BRACKET)))
 	{
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), NULL);

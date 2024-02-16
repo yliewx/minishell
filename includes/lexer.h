@@ -32,6 +32,14 @@ typedef enum e_token_type
 	T_NULL
 }	t_token_type;
 
+typedef enum e_lexer_type
+{
+	L_STRING,
+	L_REDIR,
+	L_BRACKET,
+	L_BINOP
+}	t_lexer_type;
+
 typedef struct s_token
 {
 	char			*value;
@@ -47,6 +55,7 @@ t_token			*ft_lexer(t_minishell *minishell, char *line);
 t_token			*sym_handler(t_minishell *minishell, char *line, int *i);
 t_token			*create_symbol(t_minishell *minishell, char *val, \
 	t_token_type sym_type, int *i);
+int				get_curr_type(char *line, int i);
 t_token			*create_sym_token(t_minishell *minishell, char *line, int *i);
 
 // Lexer string functions
@@ -70,8 +79,8 @@ void			token_add_back(t_token **token_list, t_token *new);
 void			skip_spaces(char *line, int *i);
 int				is_symbol(char c);
 t_token_type	get_prev_type(t_token *token_list);
+t_lexer_type	type_checker(t_token_type type);
 int				quote_found(char c);
-int				is_redir_type(char *line, int i);
 /* void			print_token_list(t_token *token_list); */
 
 // Free tokens

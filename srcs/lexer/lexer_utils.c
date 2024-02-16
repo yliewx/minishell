@@ -28,16 +28,12 @@ int	is_symbol(char c)
 	return (0);
 }
 
-int	is_redir_type(char *line, int i)
+t_lexer_type	type_checker(t_token_type type)
 {
-	if (!ft_strncmp(line + i, ">>", 2))
-		return (1);
-	if (!ft_strncmp(line + i, "<<", 2))
-		return (1);
-	if (!ft_strncmp(line + i, ">", 1))
-		return (1);
-	if (!ft_strncmp(line + i, "<", 1))
-		return (1);
+	if (type == T_APPEND || type == T_AND || type == T_OR)
+		return (L_BINOP);
+	if (type == T_OPEN || type == T_CLOSE)
+		return (L_BRACKET);
 	return (0);
 }
 
