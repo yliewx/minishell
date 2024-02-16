@@ -19,8 +19,8 @@ int	redir_iterator(char *line, int *i)
 
 	count = 0;
 	in_quote = 0;
-	while (line[*i] && ((line[*i] != ' ' && !in_quote) || \
-		(line[*i] == ' ' && in_quote) || (line[*i] != ' ' && in_quote)))
+	while (line[*i] && ((line[*i] != ' ' && !in_quote && !is_symbol(line[*i])) \
+		|| (line[*i] == ' ' && in_quote) || (line[*i] != ' ' && in_quote)))
 	{
 		if (quote_found(line[*i]) && !in_quote)
 			in_quote = quote_found(line[*i]);

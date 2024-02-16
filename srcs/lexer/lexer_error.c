@@ -45,7 +45,7 @@ Invalid if:
 - Preceded by symbol that is not a parenthesis
 - Symbol is a redirect and preceded by parenthesis 
 - Symbol is a open parenthesis preceded by string */
-int lexer_error(t_minishell *minishell, int curr_type)
+int	lexer_error(t_minishell *minishell, int curr_type)
 {
 	t_token_type	last_type;
 
@@ -57,8 +57,10 @@ int lexer_error(t_minishell *minishell, int curr_type)
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), -1);
 	}
-	if ((type_checker(curr_type) == L_REDIR && type_checker(last_type) == L_BRACKET) \
-		|| (type_checker(curr_type) == L_BRACKET && type_checker(last_type) == L_BRACKET))
+	if ((type_checker(curr_type) == L_REDIR && \
+		type_checker(last_type) == L_BRACKET) || \
+		(type_checker(curr_type) == L_BRACKET && \
+		type_checker(last_type) == L_BRACKET))
 	{
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), -1);
