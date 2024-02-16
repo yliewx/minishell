@@ -26,6 +26,12 @@ char	*get_var_name(char *var_start, int *var_len)
 	return (ft_substr(var_start, 0, *var_len));
 }
 
+/* Function to replace the $ variable name with its value
+- Copies the original string up to the "start" position
+(the index of the $ to be replaced)
+- Shifts the position in the original string to the end of the variable name
+- Copies the variable's value into the new string
+- Continues copying from the position in the original string */
 char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 {
 	char	*new_str;

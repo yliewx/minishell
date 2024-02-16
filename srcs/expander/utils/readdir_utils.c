@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+/* Function to read from the current directory and set the value of entry
+- Returns NULL if all entries have been read */
 struct dirent	*ft_readdir(DIR *dir, struct dirent **entry)
 {
 	return (*entry = readdir(dir));

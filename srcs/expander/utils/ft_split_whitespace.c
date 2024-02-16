@@ -74,6 +74,8 @@ static char	**split_str(char **arr, char *str, size_t str_count)
 	return (arr);
 }
 
+/* Function to split a string by whitespaces
+- Does not account for quotes */
 char	**ft_split_whitespace(char const *s)
 {
 	char	**arr;

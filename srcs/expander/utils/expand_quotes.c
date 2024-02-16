@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-/*
-echo '$HOME' -> DOES NOT expand
-echo "$HOME" -> EXPANDS
-
-echo 'hello world "$HOME"' -> DOES NOT expand
-	bash:		hello world "$HOME"
-
-echo 'hello world '$HOME'' -> EXPANDS
-echo "hello world "$HOME"" -> EXPANDS
-	bash:		hello world /home/user
-
-echo "hello world '$HOME'" -> EXPANDS
-	bash:		hello world '/home/user'
-*/
-
 char	*get_start_quote(char *c, int quote)
 {
 	int	i;
@@ -77,8 +62,24 @@ bool	prev_quotes_closed(char *c, char *full_arg, int quote)
 	return (count % 2 == 0);
 }
 
-/*return false = do not skip quote; variable will be expanded
-return true = skip quote; variable will not be expanded*/
+/* Function to check whether the contents of the quoted sequence
+should be expanded
+
+echo '$HOME' -> DOES NOT expand
+echo "$HOME" -> EXPANDS
+
+echo 'hello world "$HOME"' -> DOES NOT expand
+	bash:		hello world "$HOME"
+
+echo 'hello world '$HOME'' -> EXPANDS
+echo "hello world "$HOME"" -> EXPANDS
+	bash:		hello world /home/user
+
+echo "hello world '$HOME'" -> EXPANDS
+	bash:		hello world '/home/user'
+
+- Return false = do not skip quote; variable will be expanded
+- Return true = skip quote; variable will not be expanded */
 bool	skip_quotes(char *c, char *full_arg)
 {
 	char	*prev_double;

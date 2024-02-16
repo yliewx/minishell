@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+/* Function to check if the visibility status of the file/directory
+matches the visibility status specified in the pattern */
 bool	match_visibility(char *pattern, char *name)
 {
 	if (ft_strncmp(pattern, "..", 2) == 0)
@@ -23,12 +25,10 @@ bool	match_visibility(char *pattern, char *name)
 	return (true);
 }
 
-/*
-echo *ft*c | wc -w //c must be the last letter of the name
-49
-echo *ft*c* | wc -w
-63
-*/
+/* Function to check if the last character in the file/directory name
+matches the pattern
+- If the pattern does not end with *, check that the name ends with
+the same character */
 bool	match_pattern_suffix(char *curr_pattern, char *entry, int j)
 {
 	if (curr_pattern[j] != '*'
@@ -37,6 +37,11 @@ bool	match_pattern_suffix(char *curr_pattern, char *entry, int j)
 	return (true);
 }
 
+/* Function to check if the file/directory name matches the pattern
+- If the pattern does not begin with a *, check whether the name
+starts with the same character as the pattern
+- If the end of the pattern has been reached, check if the last character
+in the pattern matches the last character in the name */
 bool	match_pattern(t_pattern *pattern, char *curr_pattern, char *entry)
 {
 	int	i;
@@ -66,6 +71,7 @@ bool	match_pattern(t_pattern *pattern, char *curr_pattern, char *entry)
 	return (false);
 }
 
+/* Function to extract the wildcard pattern from the argument */
 void	extract_pattern(t_pattern *pattern, char *asterisk, char *arg)
 {
 	int		start;

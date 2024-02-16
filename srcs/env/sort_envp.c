@@ -42,6 +42,7 @@ int	partition_array(char **envp, int start, int end)
 	return (start);
 }
 
+/* Function to quicksort the envp array */
 void	sort_envp(char **envp, int start, int end)
 {
 	int	pivot;

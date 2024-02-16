@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/* Function to expand $? to the last exit status
+- If the previous process was interrupted by a signal,
+substitutes $? with 128 + signal number
+- Else substitutes $? with the last exit status
+- Returns the position after the exit status in the newly created string */
 int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 {
 	char	*new_str;
@@ -32,6 +37,8 @@ int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 	return (start + value_len);
 }
 
+/* Function to expand $(varname) to its value in the environment
+- Returns the position after the value in the newly created string */
 int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 {
 	char	*var_name;
@@ -56,6 +63,9 @@ int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 	return (next_start_pos);
 }
 
+/* Function to check if the variable can be expanded
+- If it has been expanded,
+returns the position after the value in the newly created string */
 int	check_if_expanded(t_minishell *minishell, char **arg, char *current)
 {
 	int		next_start_pos;
@@ -68,6 +78,14 @@ int	check_if_expanded(t_minishell *minishell, char **arg, char *current)
 	return (next_start_pos);
 }
 
+/* Function to find the first $ present in the string
+- Skips the contents of single quotes if any
+- Skips consecutive $ symbols until the last $ is reached
+- Checks what comes after the $ and expand if applicable
+- If it has been expanded, continues from the returned position in the
+new string such that the earlier segment of the string that has already
+been checked will not be iterated over again
+- Returns if there are no more variables to be expanded */
 int	check_expandable_var(t_minishell *minishell, char **arg, char *current)
 {
 	int	next_start_pos;

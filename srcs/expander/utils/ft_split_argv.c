@@ -17,8 +17,8 @@ bool	is_quote(int c)
 	return (c == '\'' || c == '\"');
 }
 
-/* Function to split a string by whitespaces, ignoring spaces within quotes
-- If in quote: i++ until the closing quote is reached
+/* Function to count the number of tokens in the string
+- If in quote: increment i until the closing quote is reached
 - Check which comes first after the closing quote: space or new quotes
 - If quotes come first: the next quote is considered to be the same word
 	- (if there are characters been the closing quote and the space,
@@ -45,6 +45,7 @@ int	count_split_tokens(char *arg, int i, int token_count, int delimiter)
 	return (count_split_tokens(arg, i, token_count, delimiter));
 }
 
+/* Function to get the length of the substring to be created */
 int	get_substr_len(char *arg, int i, int delimiter, bool quote_closed)
 {
 	while (arg[i] && !is_whitespace(arg[i]) && !is_quote(arg[i]))
@@ -69,6 +70,7 @@ int	get_substr_len(char *arg, int i, int delimiter, bool quote_closed)
 	return (get_substr_len(arg, i, delimiter, quote_closed));
 }
 
+/* Function to create the substrings pointed to by child_argv */
 void	assign_argv(char *arg, char ***child_argv, int token_count)
 {
 	int	delimiter;
@@ -91,6 +93,7 @@ void	assign_argv(char *arg, char ***child_argv, int token_count)
 	}
 }
 
+/* Function to split a string by whitespaces, ignoring spaces within quote */
 char	**ft_split_argv(char *arg)
 {
 	char	**child_argv;

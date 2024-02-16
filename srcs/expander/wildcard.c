@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+/* Function to iterate through all entries in the current directory
+- Check whether the entry matches the pattern and visibility
+- If it does, append it to the linked list */
 void	find_match_in_dir(t_entry **match_list, t_pattern *pattern)
 {
 	DIR				*dir;
@@ -32,6 +35,7 @@ void	find_match_in_dir(t_entry **match_list, t_pattern *pattern)
 	closedir(dir);
 }
 
+/* Function to combine all the matched entries into 1 string*/
 void	join_entries(t_entry *match_list, char **expanded_value)
 {
 	char	*temp;
@@ -52,6 +56,7 @@ void	join_entries(t_entry *match_list, char **expanded_value)
 	}
 }
 
+/* Function to substitute the wildcard pattern with the matched value */
 int	expand_wildcard(char **expanded_str, t_pattern *pattern, \
 	t_minishell *minishell)
 {
@@ -66,6 +71,13 @@ int	expand_wildcard(char **expanded_str, t_pattern *pattern, \
 	return (0);
 }
 
+/* Function to check whether * wildcards are present in the arg
+- Extract the wildcard pattern if it exists
+- Create a linked list of all entries in directory that match the pattern
+- If more than 1 entry matches and the current arg is a redirect value,
+return amiguous redirect error
+- Sort entries in alphabetical order and combine them into 1 string
+- Expands the pattern in the original string */
 int	check_wildcard(char **expanded_str, int io_type, t_minishell *minishell)
 {
 	t_entry		*match_list;

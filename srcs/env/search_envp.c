@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Function to search envp for a variable and return its index in the array */
 int	search_envp_index(char **envp, char *var, int len)
 {
 	int	i;
@@ -26,6 +27,9 @@ int	search_envp_index(char **envp, char *var, int len)
 	return (-1);
 }
 
+/* Function to return a pointer to the string after the equal sign
+- Return empty string if the equal sign does not exist
+(variable is set but does not have a value) */
 char	*after_equal_sign(char *arg)
 {
 	char	*str;
@@ -36,6 +40,7 @@ char	*after_equal_sign(char *arg)
 	return (str + 1);
 }
 
+/* Function to return the value of a variable in envp */
 char	*value_in_env(char **envp, char *var, int len)
 {
 	int	i;
@@ -50,6 +55,8 @@ char	*value_in_env(char **envp, char *var, int len)
 	return (ft_strdup(""));
 }
 
+/* Function to extract the variable name from the arg
+- Includes the equal sign if it is present */
 char	*extract_var_name(char *arg)
 {
 	char	*var_name;
