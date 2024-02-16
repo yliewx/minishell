@@ -42,6 +42,9 @@ int	print_export(t_minishell *minishell)
 	return (set_exit_success(minishell));
 }
 
+/* Function to check whether the argument to export is valid
+- Returns error if there is an option passed to export
+- Returns error if the variable name contains invalid characters */
 static int	check_valid_arg(char *arg, char *var_name, t_minishell *minishell)
 {
 	int	i;

@@ -18,6 +18,7 @@ bool	is_var_name(int c)
 		|| c == '_');
 }
 
+/* Function to extract the variable name including the preceding $ */
 char	*get_var_name(char *var_start, int *var_len)
 {
 	*var_len = 1;

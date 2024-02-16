@@ -33,6 +33,7 @@ void	update_pwd(t_minishell *minishell, char *oldpwd)
 	free(new_pwd);
 }
 
+/* Function to get the current working directory before changing directory */
 char	*get_oldpwd(void)
 {
 	char	*oldpwd;
@@ -44,6 +45,8 @@ char	*get_oldpwd(void)
 	return (oldpwd);
 }
 
+/* Function to change to home directory
+- Returns error if HOME is not set in envp */
 int	cd_home(t_minishell *minishell, char *oldpwd)
 {
 	char	*home_path;

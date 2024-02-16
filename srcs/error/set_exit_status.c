@@ -25,6 +25,10 @@ int	set_exit_error(t_minishell *minishell, int error, int status)
 	return (0);
 }
 
+/* Function to evaluate the exit status of the child process
+- If the process was terminated by a signal, set the exit status
+to 128 + signal number (to replicate bash behaviour)
+- Else set the exit status to the result of WEXITSTATUS */
 int	ft_exit_status(t_minishell *minishell)
 {
 	if (WIFSIGNALED(minishell->exit_status))

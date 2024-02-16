@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/* Function to return the opening quote if it exists */
 char	*get_start_quote(char *c, int quote)
 {
 	int	i;
@@ -24,6 +25,7 @@ char	*get_start_quote(char *c, int quote)
 	return (c + i);
 }
 
+/* Function to return the closing quote if it exists */
 char	*get_end_quote(char *c, int quote)
 {
 	int	i;
@@ -36,6 +38,7 @@ char	*get_end_quote(char *c, int quote)
 	return (c + i);
 }
 
+/* Function to check whether a character is enclosed by a pair of quotes */
 bool	is_in_quote(char *c, int quote)
 {
 	char	*start_quote;
@@ -48,6 +51,9 @@ bool	is_in_quote(char *c, int quote)
 	return (start_quote && end_quote);
 }
 
+/* Function to check whether the previous quotes are closed
+(to determine if the current quote is part of the previous quoted sequence)
+- Returns true if the previous quote count is divisible by 2 */
 bool	prev_quotes_closed(char *c, char *full_arg, int quote)
 {
 	int	count;

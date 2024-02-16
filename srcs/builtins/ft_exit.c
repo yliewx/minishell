@@ -31,7 +31,7 @@ bool	is_numeric(char *arg)
 /* Function to exit the current process
 - Exits with the arg if it exists and is numeric, otherwise exits with 0
 - Returns error if there is more than 1 arg (does not exit)
-- Returns error if there is a non-numeric arg and exits */
+- Returns error if there is a non-numeric arg (exits) */
 int	ft_exit(t_minishell *minishell, t_node *node)
 {
 	int	exit_code;
