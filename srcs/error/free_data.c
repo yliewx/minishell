@@ -37,6 +37,7 @@ void	free_data_and_exit(t_minishell *minishell)
 	free_arrays(&minishell->env_path);
 	if (minishell->prompt)
 		free(minishell->prompt);
+	rl_clear_history();
 	exit(minishell->exit_status);
 }
 
