@@ -21,14 +21,14 @@ void	update_pwd(t_minishell *minishell, char *oldpwd)
 
 	new_pwd_temp = getcwd(NULL, 0);
 	new_pwd = ft_strjoin("PWD=", new_pwd_temp);
-	if (search_envp_index(minishell->envp, "PWD=", 4) == -1)
-		update_envp(minishell, "PWD=", new_pwd, "export");
+	if (search_envp_index(minishell->envp, "PWD", 3) == -1)
+		update_envp(minishell, "PWD", new_pwd, "export");
 	else
-		update_envp(minishell, "PWD=", new_pwd, "cd");
-	if (search_envp_index(minishell->envp, "OLDPWD=", 7) == -1)
-		update_envp(minishell, "OLDPWD=", oldpwd, "export");
+		update_envp(minishell, "PWD", new_pwd, "cd");
+	if (search_envp_index(minishell->envp, "OLDPWD", 6) == -1)
+		update_envp(minishell, "OLDPWD", oldpwd, "export");
 	else
-		update_envp(minishell, "OLDPWD=", oldpwd, "cd");
+		update_envp(minishell, "OLDPWD", oldpwd, "cd");
 	free(new_pwd_temp);
 	free(new_pwd);
 }
@@ -51,7 +51,7 @@ int	cd_home(t_minishell *minishell, char *oldpwd)
 {
 	char	*home_path;
 
-	home_path = value_in_env(minishell->envp, "HOME=", 5);
+	home_path = value_in_env(minishell->envp, "HOME", 4);
 	if (!home_path || !home_path[0])
 	{
 		free(home_path);

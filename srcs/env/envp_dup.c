@@ -49,7 +49,7 @@ void	envp_dup(t_minishell *minishell, char **envp)
 		return ;
 	while (envp[minishell->envp_size])
 		minishell->envp_size++;
-	if (search_envp_index(envp, "OLDPWD=", 7) == -1)
+	if (search_envp_index(envp, "OLDPWD", 6) == -1)
 	{
 		minishell->envp_size++;
 		minishell->envp = get_new_envp(envp, minishell->envp_size,

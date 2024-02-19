@@ -20,7 +20,8 @@ int	search_envp_index(char **envp, char *var, int len)
 	i = 0;
 	while (envp && envp[i])
 	{
-		if (ft_strncmp(envp[i], var, len) == 0)
+		if (ft_strncmp(envp[i], var, len) == 0
+			&& (!envp[i][len] || (envp[i][len] && envp[i][len] == '=')))
 			return (i);
 		i++;
 	}
