@@ -37,7 +37,7 @@ int	exec_fork_builtin(t_node *node, int builtin_type, int pid, \
 	if (pid == 0)
 	{
 		exec_builtin_type(node, builtin_type, parent_type);
-		exit(node->minishell->exit_status);
+		free_data_and_exit(node->minishell);
 	}
 	else
 	{
