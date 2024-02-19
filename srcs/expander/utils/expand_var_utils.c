@@ -15,7 +15,7 @@
 bool	is_var_name(int c)
 {
 	return (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		|| c == '_');
+		|| c == '_' || (c >= '0' && c <= '9'));
 }
 
 /* Function to extract the variable name including the preceding $ */
