@@ -24,8 +24,8 @@ t_node	*traverse_tree(t_node *ast, t_minishell *minishell, \
 	if (is_binop_node(ast))
 	{
 		traverse_tree(ast->left, minishell, ast->type);
-		if ((!WEXITSTATUS(minishell->exit_status) && ast->type == T_AND) \
-			|| (WEXITSTATUS(minishell->exit_status) && ast->type == T_OR)
+		if ((!minishell->exit_status && ast->type == T_AND) \
+			|| (minishell->exit_status && ast->type == T_OR)
 			|| ast->type == T_PIPE)
 			traverse_tree(ast->right, minishell, ast->type);
 	}
