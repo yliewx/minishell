@@ -37,6 +37,8 @@ t_token	*get_curr_cmd(t_minishell *minishell)
 	while (ret_token && is_redir(ret_token))
 	{
 		ret_token = ret_token->next;
+		if (!ret_token)
+			return (NULL);
 		if (ret_token->next && is_redir(ret_token->next))
 			ret_token = ret_token->next;
 	}
