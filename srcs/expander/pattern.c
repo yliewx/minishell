@@ -16,9 +16,7 @@
 matches the visibility status specified in the pattern */
 bool	match_visibility(char *pattern, char *name)
 {
-	if (ft_strncmp(pattern, "..", 2) == 0)
-		return (ft_strncmp(name, "..", 2) == 0);
-	else if (pattern[0] == '.')
+	if (pattern[0] == '.')
 		return (name[0] == '.');
 	else if (name[0] == '.')
 		return (false);
