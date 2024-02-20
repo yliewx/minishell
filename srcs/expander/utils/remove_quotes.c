@@ -40,27 +40,36 @@ int	check_if_is_quote(char *arg, int *len, int *i)
 char	*remove_quotes(char *arg)
 {
 	char	*new_str;
+	char	*end_quote;
 	int		quote;
 	int		i;
-	int		j;
-	int		len;
 
-	new_str = malloc(ft_strlen(arg) * sizeof(char));
+	new_str = ft_calloc(ft_strlen(arg), sizeof(char));
 	if (!new_str)
 		return (NULL);
 	i = 0;
-	j = 0;
-	while (arg[i])
+	while (*arg)
 	{
-		len = i;
-		quote = check_if_is_quote(arg, &len, &i);
-		while (until_next_quote(arg, len, quote))
-			len++;
-		while (i < len)
-			new_str[j++] = arg[i++];
-		i++;
+		quote = 0;
+		while (*arg && !is_quote(*arg))
+		{
+			new_str[i++] = *arg;
+			arg++;
+		}
+		if (*arg && is_quote(*arg))
+		{
+			quote = *arg;
+			arg++;
+			end_quote = get_end_quote(arg, quote);
+			while (*arg && arg != end_quote)
+			{
+				new_str[i++] = *arg;
+				arg++;
+			}
+			arg++;
+		}
 	}
-	new_str[j] = '\0';
+	new_str[i] = '\0';
 	return (new_str);
 }
 

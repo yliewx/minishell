@@ -17,6 +17,8 @@ char	*get_start_quote(char *c, int quote)
 {
 	int	i;
 
+	if (!c)
+		return (NULL);
 	i = 0;
 	while (c[i] && c[i] != quote)
 		i--;
@@ -30,6 +32,8 @@ char	*get_end_quote(char *c, int quote)
 {
 	int	i;
 
+	if (!c)
+		return (NULL);
 	i = 0;
 	while (c[i] && c[i] != quote)
 		i++;
