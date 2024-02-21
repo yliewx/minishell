@@ -40,13 +40,13 @@ bool	match_pattern_suffix(char *curr_pattern, char *entry, int j)
 starts with the same character as the pattern
 - If the end of the pattern has been reached, check if the last character
 in the pattern matches the last character in the name */
-bool	match_pattern(t_pattern *pattern, char *curr_pattern, char *entry)
+bool	match_pattern(t_node_arg *node_arg, char *curr_pattern, char *entry)
 {
 	int	i;
 	int	j;
 
-	if (pattern->start == curr_pattern && *pattern->start != '*'
-		&& *pattern->start != *entry)
+	if (node_arg->pattern == curr_pattern && *node_arg->pattern != '*'
+		&& *node_arg->pattern != *entry)
 		return (false);
 	while (curr_pattern && *curr_pattern == '*')
 		curr_pattern++;
@@ -63,26 +63,28 @@ bool	match_pattern(t_pattern *pattern, char *curr_pattern, char *entry)
 		if (!curr_pattern[j])
 			return (match_pattern_suffix(curr_pattern, entry, j - 1));
 		else if (curr_pattern[j] == '*')
-			return (match_pattern(pattern, curr_pattern + j, entry + i));
+			return (match_pattern(node_arg, curr_pattern + j, entry + i));
 		i++;
 	}
 	return (false);
 }
 
 /* Function to extract the wildcard pattern from the argument */
-void	extract_pattern(t_pattern *pattern, char *asterisk, char *arg)
+void	extract_pattern(char *arg, char *asterisk, t_node_arg *node_arg)
 {
 	int		start;
 	int		end;
 
 	start = asterisk - arg;
 	end = start;
-	while (arg[start - 1] && arg[start - 1] != ' ')
+	while (arg[start - 1] && !is_whitespace(arg[start - 1])
+		&& !is_quote(arg[start - 1]))
 		start--;
-	while (arg[end + 1] && arg[end + 1] != ' ')
+	while (arg[end + 1] && !is_whitespace(arg[end + 1])
+		&& !is_quote(arg[end + 1]))
 		end++;
 	if (!arg[start - 1])
 		end++;
-	pattern->start = ft_substr(arg, start, end);
-	pattern->start_index = start;
+	node_arg->pattern = ft_substr(arg, start, end - start + 1);
+	node_arg->pattern_start = start;
 }

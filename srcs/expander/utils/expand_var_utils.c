@@ -68,24 +68,3 @@ char	*replace_var_with_value(char *arg, char *value, int start, int var_len)
 	new_str_len = ft_strlen(arg) - var_len + ft_strlen(value);
 	return (copy_and_replace(arg, value, start, new_str_len));
 }
-/*
-char	*ft_strjoin_argv(char **argv)
-{
-	char	*new_str;
-	char	*temp;
-	int		i;
-
-	i = 0;
-	new_str = ft_calloc(1, sizeof(char));
-	while (argv[i])
-	{
-		temp = new_str;
-		new_str = ft_strjoin(temp, argv[i]);
-		free(temp);
-		if (argv[i + 1])
-		{
-			temp = new_str;
-			new_str = ft_strjoin(temp, " ");
-		}
-	}
-}*/

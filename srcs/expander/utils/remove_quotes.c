@@ -12,31 +12,27 @@
 
 #include "minishell.h"
 
+/* Function to return the closing quote if it exists */
+char	*get_end_quote(char *c, int quote)
+{
+	int	i;
+
+	if (!c)
+		return (NULL);
+	i = 0;
+	if (c[i] == quote)
+		i++;
+	while (c[i] && c[i] != quote)
+		i++;
+	if (!c[i])
+		return (NULL);
+	return (c + i);
+}
+
 /* Functions to remove all paired quotes from an arg
 (excluding single quotes that are nested inside double quotes & vice versa)
 - If a quote is found, reads until the end quote, then copies the contents
 of the quoted sequence into the new string */
-
-bool	until_next_quote(char *arg, int len, int quote)
-{
-	return ((quote != 0 && arg[len] && arg[len] != quote)
-		|| (quote == 0 && arg[len] && !is_quote(arg[len])));
-}
-
-int	check_if_is_quote(char *arg, int *len, int *i)
-{
-	int	quote;
-
-	if (is_quote(arg[*len]))
-	{
-		quote = arg[*len];
-		(*len)++;
-		(*i)++;
-		return (quote);
-	}
-	return (0);
-}
-
 char	*remove_quotes(char *arg)
 {
 	char	*new_str;
@@ -59,8 +55,8 @@ char	*remove_quotes(char *arg)
 		if (*arg && is_quote(*arg))
 		{
 			quote = *arg;
-			arg++;
 			end_quote = get_end_quote(arg, quote);
+			arg++;
 			while (*arg && arg != end_quote)
 			{
 				new_str[i++] = *arg;

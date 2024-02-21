@@ -19,14 +19,14 @@ struct dirent	*ft_readdir(DIR *dir, struct dirent **entry)
 	return (*entry = readdir(dir));
 }
 
-t_entry	*create_entry_node(char *name)
+t_entry	*create_entry_node(char *value)
 {
 	t_entry	*new;
 
 	new = malloc(sizeof(t_entry));
 	if (!new)
 		return (NULL);
-	new->name = name;
+	new->value = value;
 	new->next = NULL;
 	return (new);
 }
@@ -59,10 +59,10 @@ void	sort_entries(t_entry **list)
 		temp = current;
 		while (temp && temp->next)
 		{
-			if (ft_strncmp(temp->name, temp->next->name,
-					ft_strlen(temp->name)) > 0)
+			if (ft_strncmp(temp->value, temp->next->value,
+					ft_strlen(temp->value)) > 0)
 			{
-				ft_swap(&temp->name, &temp->next->name);
+				ft_swap(&temp->value, &temp->next->value);
 				temp = *list;
 			}
 			else

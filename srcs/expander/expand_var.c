@@ -17,7 +17,7 @@
 substitutes $? with 128 + signal number
 - Else substitutes $? with the last exit status
 - Returns the position after the exit status in the newly created string */
-int	expand_exit_status(t_minishell *minishell, char **arg, int start)
+int	expand_exit_status(char **arg, int start, t_minishell *minishell)
 {
 	char	*new_str;
 	char	*value;
@@ -39,7 +39,7 @@ int	expand_exit_status(t_minishell *minishell, char **arg, int start)
 
 /* Function to expand $(varname) to its value in the environment
 - Returns the position after the value in the newly created string */
-int	expand_var(t_minishell *minishell, char **arg, char *var_start)
+int	expand_var(char **arg, char *var_start, t_minishell *minishell)
 {
 	char	*var_name;
 	char	*value;
@@ -63,21 +63,6 @@ int	expand_var(t_minishell *minishell, char **arg, char *var_start)
 	return (next_start_pos);
 }
 
-/* Function to check if the variable can be expanded
-- If it has been expanded,
-returns the position after the value in the newly created string */
-int	check_if_expanded(t_minishell *minishell, char **arg, char *current)
-{
-	int		next_start_pos;
-
-	next_start_pos = 0;
-	if (current[1] == '?')
-		next_start_pos = expand_exit_status(minishell, arg, current - *arg);
-	else if (current[1] != ' ' && is_var_name(current[1]))
-		next_start_pos = expand_var(minishell, arg, current);
-	return (next_start_pos);
-}
-
 /* Function to find the first $ present in the string
 - Skips the contents of single quotes if any
 - Skips consecutive $ symbols until the last $ is reached
@@ -86,28 +71,54 @@ int	check_if_expanded(t_minishell *minishell, char **arg, char *current)
 new string such that the earlier segment of the string that has already
 been checked will not be iterated over again
 - Returns if there are no more variables to be expanded */
-int	check_expandable_var(t_minishell *minishell, char **arg, char *current)
+int	ft_expand(char **arg, char **current, t_node_arg *node_arg)
 {
 	int	next_start_pos;
 
-	if (!current || !current[0])
-		return (0);
-	current = ft_strchr(current, '$');
-	if (!current)
-		return (0);
-	if (ft_strchr(current, '\'') && skip_quotes(current, *arg))
-		current = get_end_quote(current + 1, '\'');
-	while (current && current[1] && current[1] == '$')
-		current++;
-	if (current && current[0] == '$')
+	next_start_pos = 0;
+	while (*current && (*current)[1] == '$')
+		(*current)++;
+	if (*current && (*current)[0] == '$')
 	{
-		next_start_pos = check_if_expanded(minishell, arg, current);
-		if (next_start_pos == -1)
-			return (-1);
-		else if (next_start_pos > 0)
-			current = *arg + next_start_pos;
-		else
-			current++;
+		if ((*current)[1] == '?')
+			next_start_pos = expand_exit_status(arg, *current - *arg, node_arg->minishell);
+		else if ((*current)[1] != ' ' && is_var_name((*current)[1]))
+			next_start_pos = expand_var(arg, *current, node_arg->minishell);
+		if (next_start_pos > 0)
+			*current = *arg + next_start_pos;
 	}
-	return (check_expandable_var(minishell, arg, current));
+	else if (*current && (*current)[0] == '*' && node_arg->in_quote == 0)
+	{
+		if (check_wildcard(arg, *current, node_arg) == -1)
+			return (-1);
+	}
+	if (next_start_pos == 0)
+		(*current)++;
+	return (next_start_pos);
+}
+
+int	ft_expand_quote_handler(char **arg, char *current, t_node_arg *node_arg)
+{
+	if (!current || !*current)
+		return (0);
+	while (*current && !is_quote(*current))
+	{
+		if (ft_expand(arg, &current, node_arg) == -1)
+			return (-1);
+	}
+	if (*current == '\'')
+		current = get_end_quote(current, '\'');
+	else if (*current == '\"')
+	{
+		node_arg->in_quote = *current++;
+		while (*current && *current != '\"')
+		{
+			if (ft_expand(arg, &current, node_arg) == -1)
+				return (-1);
+		}
+	}
+	if (current)
+		current++;
+	node_arg->in_quote = 0;
+	return (ft_expand_quote_handler(arg, current, node_arg));
 }
