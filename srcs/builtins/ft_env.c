@@ -22,7 +22,8 @@ int	ft_env(t_minishell *minishell)
 		return (set_exit_success(minishell));
 	while (minishell->envp[i])
 	{
-		printf("%s\n", minishell->envp[i]);
+		if (ft_strchr(minishell->envp[i], '='))
+			printf("%s\n", minishell->envp[i]);
 		i++;
 	}
 	return (set_exit_success(minishell));

@@ -34,6 +34,11 @@
 # include "./env.h"
 # include "./error.h"
 
+/*colours*/
+# define PROMPT_CYAN "\001\033[1;36m\002"
+# define PROMPT_GREEN "@Yash:~\001\033[1;32m~\002"
+# define RESET_PROMPT_COLOUR "$ \001\033[0m\002"
+
 typedef struct s_heredoc
 {
 	char				*delimiter;

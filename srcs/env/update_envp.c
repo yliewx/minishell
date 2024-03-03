@@ -65,10 +65,10 @@ int	update_envp(t_minishell *minishell, char *var, char *value, \
 {
 	int	i;
 
-	i = search_envp_index(minishell->envp, var, ft_strlen(var));
+	i = search_envp_index(minishell->envp, var);
 	if (i >= 0)
 	{
-		if (ft_strncmp(command, "unset", 6) == 0)
+		if (ft_strncmp(command, "unset", 6) == 0 && !ft_strchr(var, '='))
 			return (resize_envp(minishell, minishell->envp_size - 1, i));
 		else if (value && ft_strchr(value, '='))
 		{

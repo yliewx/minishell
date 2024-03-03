@@ -13,19 +13,22 @@
 #include "minishell.h"
 
 /* Function to search envp for a variable and return its index in the array */
-int	search_envp_index(char **envp, char *var, int len)
+int	search_envp_index(char **envp, char *var)
 {
+	int	len;
 	int	i;
 
+	len = ft_strlen(var);
+	if (var[len - 1] == '=')
+		len--;
 	i = 0;
 	while (envp && envp[i])
 	{
 		if (ft_strncmp(envp[i], var, len) == 0)
 		{
-			if (!envp[i][len])
-				return (i);
-			else if ((var[len - 1] == '=' && envp[i][len] != '=')
-				|| (var[len - 1] != '=' && envp[i][len] == '='))
+			if ((!var[len] && !envp[i][len])
+				|| (!var[len] && envp[i][len] == '=')
+				|| (var[len] == '=' && envp[i][len] == '='))
 				return (i);
 		}
 		i++;
@@ -47,17 +50,13 @@ char	*after_equal_sign(char *arg)
 }
 
 /* Function to return the value of a variable in envp */
-char	*value_in_env(char **envp, char *var, int len)
+char	*value_in_env(char **envp, char *var)
 {
 	int	i;
 
-	i = search_envp_index(envp, var, len);
+	i = search_envp_index(envp, var);
 	if (i >= 0)
-	{
-		if (envp[i][len - 1] != '=')
-			return (after_equal_sign(envp[i]));
-		return (envp[i] + len);
-	}
+		return (after_equal_sign(envp[i]));
 	return (NULL);
 }
 

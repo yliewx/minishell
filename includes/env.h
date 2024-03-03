@@ -29,9 +29,9 @@ int		update_envp(t_minishell *minishell, char *var, \
 	char *value, char *command);
 
 /*search envp*/
-int		search_envp_index(char **envp, char *var, int len);
+int		search_envp_index(char **envp, char *var);
 char	*extract_var_name(char *arg);
 char	*after_equal_sign(char *arg);
-char	*value_in_env(char **envp, char *var, int len);
+char	*value_in_env(char **envp, char *var);
 
 #endif

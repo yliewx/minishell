@@ -28,10 +28,12 @@ int	expand_exit_status(char **arg, int start, t_minishell *minishell)
 		value = ft_itoa(minishell->exit_status);
 	value_len = ft_strlen(value);
 	new_str = replace_var_with_value(*arg, value, start, 2);
-	free(value);
+	if (value)
+		free(value);
 	if (!new_str)
 		return (print_str_err(MEM_ERR, NULL, minishell), -1);
-	free(*arg);
+	if (*arg)
+		free(*arg);
 	*arg = new_str;
 	return (start + value_len);
 }
@@ -47,17 +49,19 @@ int	expand_var(char **arg, char *var_start, t_minishell *minishell)
 	int		pos_offset;
 
 	var_name = get_var_name(var_start, &var_len);
-	value = value_in_env(minishell->envp, var_name + 1, var_len - 1);
-	if (!value)
+	value = ft_strdup(value_in_env(minishell->envp, var_name + 1));
+	if (!value || (value && !*value))
 		value = ft_strdup("");
 	new_str = replace_var_with_value(*arg, value, var_start - *arg, var_len);
 	pos_offset = var_start - *arg + ft_strlen(value);
-	if (ft_strlen(value) == 0)
+	if (value)
 		free(value);
-	free(var_name);
+	if (var_len)
+		free(var_name);
 	if (!new_str)
 		return (print_str_err(MEM_ERR, NULL, minishell), -1);
-	free(*arg);
+	if (*arg)
+		free(*arg);
 	*arg = new_str;
 	return (pos_offset);
 }

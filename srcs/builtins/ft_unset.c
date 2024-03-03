@@ -18,7 +18,6 @@
 - Updates envp */
 int	ft_unset(t_minishell *minishell, t_node *node)
 {
-	char	*var_name;
 	int		i;
 
 	if (!node->expanded_arg[1])
@@ -26,11 +25,9 @@ int	ft_unset(t_minishell *minishell, t_node *node)
 	i = 1;
 	while (node->expanded_arg[i])
 	{
-		var_name = extract_var_name(node->expanded_arg[i]);
-		if (update_envp(minishell, var_name, node->expanded_arg[i],
+		if (update_envp(minishell, node->expanded_arg[i], NULL,
 				"unset") == -1)
 			return (minishell->exit_status);
-		free(var_name);
 		i++;
 	}
 	if (minishell->minishell_err != NO_ERR)

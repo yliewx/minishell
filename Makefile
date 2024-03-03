@@ -1,5 +1,6 @@
 # declare makefile variables
 NAME = minishell
+BONUS = minishell_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 RM = rm -f
@@ -48,7 +49,6 @@ EXP = expander.c \
 	expand_var.c \
 	wildcard.c \
 	pattern.c \
-	utils/expand_quotes.c \
 	utils/expand_var_utils.c \
 	utils/ft_split_argv.c \
 	utils/ft_split_whitespace.c \
@@ -64,7 +64,8 @@ EXEC = exec.c \
 	exec_path.c \
 	exec_redir.c \
 	exec_open.c \
-	exec_handler.c
+	exec_handler.c \
+	exec_pipe.c
 EXEC_SRCS = $(addprefix srcs/execution/, $(EXEC))
 
 # builtins
@@ -96,7 +97,9 @@ ERR = set_exit_status.c \
 ERR_SRCS = $(addprefix srcs/error/, $(ERR))
 
 # signals
-SIG_SRCS = srcs/signals/signals.c
+SIG = signals.c \
+	signals_utils.c
+SIG_SRCS = $(addprefix srcs/signals/, $(SIG))
 
 # all srcs
 SRCS = $(INIT_SRCS) $(BUILTIN_SRCS) $(EXP_SRCS) $(ERR_SRCS) \
@@ -119,9 +122,13 @@ END = \033[0m
 
 all: $(LIBFT) $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_FLAGS) $(INC)
 	@echo "\n$(B_GREEN)$(NAME) compiled.$(END)"
+
+bonus: $(LIBFT) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(BONUS) $(LIB_FLAGS) $(INC)
+	@echo "\n$(B_GREEN)$(BONUS) compiled.$(END)"
 
 $(OBJS): %.o: %.c
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
@@ -134,11 +141,12 @@ $(LIBFT):
 
 # remove temporary generated files
 clean:
+	@$(RM) $(OBJS)
 	@make clean -s -C $(LIB_DIR)
 
 # remove library and executable file
 fclean: clean
-	@$(RM) $(NAME) $(OBJS)
+	@$(RM) $(NAME) $(BONUS)
 	@cd $(LIB_DIR) && $(RM) $(LIBFT)
 	@echo "$(B_GREEN)Removed $(NAME) and $(LIBFT).$(END)"
 
@@ -147,4 +155,4 @@ re: fclean all
 #------------------------------------------------------------------------
 
 # declare phony
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re

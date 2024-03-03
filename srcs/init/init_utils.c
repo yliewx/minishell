@@ -28,7 +28,7 @@ char	*ft_clean_cwd(t_minishell *minishell)
 	char	*tmp;
 	char	*home;
 
-	home = value_in_env(minishell->envp, "HOME", 4);
+	home = value_in_env(minishell->envp, "HOME");
 	if (home)
 	{
 		tmp_cwd = getcwd(NULL, 0);
@@ -48,16 +48,16 @@ void	ft_prompt(t_minishell *minishell)
 	char	*tmp_cwd;
 
 	if (minishell->user)
-		tmp = ft_strjoin(minishell->user, "@Yash:~");
+		tmp = ft_strjoin(minishell->user, PROMPT_GREEN);
 	else
-		tmp = ft_strjoin("", "Yash:~");
+		tmp = ft_strjoin("", PROMPT_GREEN);
 	minishell->prompt = NULL;
 	tmp_cwd = ft_clean_cwd(minishell);
 	minishell->prompt = ft_strjoin(tmp, tmp_cwd);
 	free(tmp);
 	free(tmp_cwd);
 	tmp_cwd = minishell->prompt;
-	minishell->prompt = ft_strjoin(minishell->prompt, "$ ");
+	minishell->prompt = ft_strjoin(minishell->prompt, RESET_PROMPT_COLOUR);
 	free(tmp_cwd);
 	if (!minishell->prompt)
 	{
@@ -96,7 +96,10 @@ char	*ft_readline(t_minishell *minishell)
 	char	*command;
 
 	if (minishell->prompt)
+	{
+		printf(PROMPT_CYAN);
 		command = readline(minishell->prompt);
+	}
 	else
 		command = readline("Yash:~$ ");
 	return (command);

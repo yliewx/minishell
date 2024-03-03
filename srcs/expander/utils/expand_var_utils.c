@@ -50,7 +50,7 @@ char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 	else
 	{
 		while (arg[start] && (!is_whitespace(arg[start])
-				&& !is_quote(arg[start])))
+				&& !is_quote(arg[start]) && arg[start] != '='))
 			start++;
 	}
 	j = 0;

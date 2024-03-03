@@ -21,7 +21,7 @@ char	**get_env_path(char **envp, t_minishell *minishell)
 	int		i;
 	int		j;
 
-	i = search_envp_index(envp, "PATH", 4);
+	i = search_envp_index(envp, "PATH");
 	if (i == -1)
 		return (NULL);
 	start_pos = ft_strchr(envp[i], '=') + 1;
