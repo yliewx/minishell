@@ -42,7 +42,7 @@ char	*after_equal_sign(char *arg)
 
 	str = ft_strchr(arg, '=');
 	if (!str)
-		return (ft_strdup(""));
+		return (NULL);
 	return (str + 1);
 }
 
@@ -58,7 +58,7 @@ char	*value_in_env(char **envp, char *var, int len)
 			return (after_equal_sign(envp[i]));
 		return (envp[i] + len);
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 /* Function to extract the variable name from the arg

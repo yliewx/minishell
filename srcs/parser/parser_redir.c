@@ -34,8 +34,8 @@ t_node	*parser_redir(t_minishell *minishell, t_node *node)
 	while (minishell->curr_token && is_redir(minishell->curr_token))
 	{
 		if (minishell->curr_token->type == T_HEREDOC)
-			node->is_heredoc = 1;
-		if (!new_io_node(minishell, &(node->io_list)))
+			node->is_heredoc++;
+		if (!new_io_node(minishell, node, &(node->io_list)))
 			return (NULL);
 		if (minishell->curr_token && minishell->curr_token->type == T_STRING)
 			redir_clean(minishell, node);
@@ -53,11 +53,13 @@ t_node	*ft_redir_helper(t_minishell *minishell, t_node **node)
 
 	curr_cmd = get_curr_cmd(minishell);
 	if (!curr_cmd)
-		return (NULL);
-	*node = ft_new_node(curr_cmd->value, curr_cmd->type, minishell);
+		*node = ft_new_node("NULL", T_NULL, minishell);
+	else
+		*node = ft_new_node(curr_cmd->value, curr_cmd->type, minishell);
 	if (!*node)
 		return (NULL);
-	remove_node(curr_cmd);
+	if (curr_cmd)
+		remove_node(curr_cmd);
 	if (!parser_redir(minishell, *node))
 		return (NULL);
 	return (*node);

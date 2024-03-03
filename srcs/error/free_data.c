@@ -27,7 +27,27 @@ void	free_arrays(char ***array)
 void	free_data(t_minishell *minishell)
 {
 	free_ast(&minishell->ast);
+	free_heredoc(&minishell->heredoc_list);
 	ft_free_token_list(&minishell->tokens);
+}
+
+void	free_heredoc(t_heredoc **lst)
+{
+	t_heredoc	*tmp;
+	t_heredoc	*next;
+
+	tmp = *lst;
+	if (!tmp)
+		return ;
+	while (tmp)
+	{
+		next = tmp->next;
+		if (tmp->delimiter)
+			free(tmp->delimiter);
+		free(tmp);
+		tmp = next;
+	}
+	*lst = NULL;
 }
 
 void	free_data_and_exit(t_minishell *minishell)

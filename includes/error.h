@@ -31,12 +31,13 @@ enum e_minishell_err
 	AMBIG_REDIR_ERR,
 	CMD_NOT_FOUND_ERR,
 	FILE_NOT_FOUND_ERR,
+	DIR_ERR,
 	CHILD_ERR,
 };
 
 enum e_builtin_err
 {
-	EXPORT_OPTION_ERR = 13,
+	EXPORT_OPTION_ERR = 14,
 	EXPORT_ID_ERR,
 	PARAM_ERR,
 	ARG_COUNT_ERR,
@@ -47,6 +48,7 @@ enum e_builtin_err
 /* set exit status */
 int		set_exit_success(t_minishell *minishell);
 int		set_exit_error(t_minishell *minishell, int error, int status);
+int		set_heredoc_sigint(t_minishell *minishell);
 int		ft_exit_status(t_minishell *minishell);
 
 /* print error messages */
@@ -71,6 +73,7 @@ bool	is_ambiguous_redir(int io_type, t_entry **match_list);
 void	free_data(t_minishell *minishell);
 void	free_data_and_exit(t_minishell *minishell);
 void	free_arrays(char ***array);
+void	free_heredoc(t_heredoc **lst);
 
 void	ft_reinit(t_minishell *minishell, char *command);
 

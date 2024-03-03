@@ -34,7 +34,7 @@ int	is_redir(t_token *token)
 // Get curr token prec
 int	get_token_prec(t_token *token)
 {
-	if (token->type == T_AND || token->type == T_OR || token->type == T_PIPE)
+	if (token->type == T_AND || token->type == T_OR)
 		return (0);
 	return (1);
 }

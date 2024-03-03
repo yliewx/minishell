@@ -12,12 +12,11 @@
 
 #include "minishell.h"
 
-int	pipe_handler(int *pipefd, t_node *node, t_minishell *minishell)
+int	pipe_handler(int *pipefd, t_minishell *minishell)
 {
-	if (node->next_binop == T_PIPE)
-		if (pipe(pipefd) == -1)
-			return (print_str_err(PIPE_ERR, "error: pipe() "\
-				"failed\n", minishell), -1);
+	if (pipe(pipefd) == -1)
+		return (print_str_err(PIPE_ERR, "error: pipe() "\
+			"failed\n", minishell), -1);
 	return (0);
 }
 

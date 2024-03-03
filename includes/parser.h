@@ -73,9 +73,10 @@ t_node		*ft_new_node(char *cmd, t_token_type type, t_minishell *minishell);
 void		remove_node(t_token *node);
 
 // io node functions
-int			heredoc_node(t_minishell *minishell, char *delimiter, \
-	t_heredoc **heredoc_list);
-t_io_node	*new_io_node(t_minishell *minishell, t_io_node **list);
+int			heredoc_node(t_minishell *minishell, t_node *ast_node, \
+	char *delimiter, t_heredoc **heredoc_list);
+t_io_node	*new_io_node(t_minishell *minishell, t_node *ast_node, \
+	t_io_node **list);
 
 // free ast functions
 void		ft_free_io_list(t_io_node **list);

@@ -46,19 +46,20 @@ void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 	int		i;
 
 	i = 0;
-	if (!minishell->env_path)
+	if (!minishell->env_path || \
+		ft_strncmp(arg, "/", 1) == 0 || ft_strnstr(arg, "./", 3))
 	{
 		*command_path = arg;
-		if (access(*command_path, X_OK) == -1)
+		if (access(*command_path, F_OK) == -1)
 			exec_error(FILE_NOT_FOUND_ERR, arg, minishell);
+		else if (access(*command_path, F_OK) == 0)
+			if (access(*command_path, X_OK))
+				exec_error(PERM_ERR, arg, minishell);
 		return ;
 	}
 	while (minishell->env_path[i])
 	{
-		if (ft_strncmp(arg, "/", 1) == 0 || ft_strnstr(arg, "./", 3))
-			*command_path = arg;
-		else
-			*command_path = ft_strjoin(minishell->env_path[i], arg);
+		*command_path = ft_strjoin(minishell->env_path[i], arg);
 		if (access(*command_path, X_OK) == 0)
 			return ;
 		free(*command_path);
@@ -66,4 +67,13 @@ void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 	}
 	if (!minishell->env_path[i])
 		exec_error(CMD_NOT_FOUND_ERR, arg, minishell);
+}
+
+/* Checks if the given path is a directory */
+int	is_directory(char *path)
+{
+	struct stat	buffer;
+
+	stat(path, &buffer);
+	return (S_ISDIR(buffer.st_mode));
 }

@@ -80,9 +80,11 @@ return amiguous redirect error
 int	check_wildcard(char **arg, char *asterisk, t_node_arg *node_arg)
 {
 	t_entry		*match_list;
+	int			pos;
 
 	extract_pattern(*arg, asterisk, node_arg);
 	match_list = NULL;
+	pos = 0;
 	find_match_in_dir(&match_list, node_arg);
 	if (match_list)
 	{
@@ -94,11 +96,12 @@ int	check_wildcard(char **arg, char *asterisk, t_node_arg *node_arg)
 		}
 		sort_entries(&match_list);
 		join_entries(match_list, &node_arg->expanded_value);
+		pos = node_arg->pattern_start + ft_strlen(node_arg->expanded_value);
 		if (expand_wildcard(arg, node_arg) == -1)
 			return (free_match_list(&match_list), free(node_arg->pattern),
 				free(node_arg->expanded_value), -1);
 		free(node_arg->expanded_value);
 		free_match_list(&match_list);
 	}
-	return (free(node_arg->pattern), 0);
+	return (free(node_arg->pattern), pos);
 }

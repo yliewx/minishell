@@ -21,7 +21,7 @@ t_node	*ft_ast(t_minishell *minishell, int min_prec)
 {
 	t_node			*left;
 	t_node			*right;
-	t_token_type	op;
+	t_token			*op;
 
 	left = ft_cmd(minishell);
 	if (!left)
@@ -29,14 +29,14 @@ t_node	*ft_ast(t_minishell *minishell, int min_prec)
 	while (minishell->curr_token && is_binop(minishell->curr_token) && \
 		get_token_prec(minishell->curr_token) >= min_prec)
 	{
-		op = minishell->curr_token->type;
+		op = minishell->curr_token;
 		ft_next_token(minishell);
 		if (minishell->curr_token == NULL)
 			return (set_exit_error(minishell, SYNTAX_ERR, 1), left);
-		right = ft_ast(minishell, get_token_prec(minishell->curr_token) + 1);
+		right = ft_ast(minishell, get_token_prec(op) + 1);
 		if (!right)
 			return (left);
-		left = ft_combine(minishell, op, left, right);
+		left = ft_combine(minishell, op->type, left, right);
 		if (!left)
 			return (NULL);
 	}

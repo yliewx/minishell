@@ -21,7 +21,8 @@ int	ft_minishell(t_minishell *minishell)
 		command = ft_readline(minishell);
 		if (!command)
 			return (printf("exit\n"), free_data_and_exit(minishell), 0);
-		add_history(command);
+		if (command[0])
+			add_history(command);
 		ft_lexer(minishell, command);
 		if (minishell->tokens && !minishell->minishell_err)
 		{

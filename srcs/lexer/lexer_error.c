@@ -50,8 +50,9 @@ int	lexer_error(t_minishell *minishell, int curr_type)
 	t_token_type	last_type;
 
 	last_type = get_prev_type(minishell->tokens);
-	if ((last_type != T_STRING && last_type != T_OPEN && \
-		last_type != T_CLOSE && type_checker(curr_type) != L_BRACKET \
+	if ((last_type != T_PIPE && last_type != T_STRING && \
+		last_type != T_OPEN && last_type != T_CLOSE && \
+		type_checker(curr_type) != L_BRACKET \
 		&& last_type != T_NULL))
 	{
 		return (print_str_err(SYNTAX_ERR, \
@@ -59,8 +60,7 @@ int	lexer_error(t_minishell *minishell, int curr_type)
 	}
 	if ((type_checker(curr_type) == L_REDIR && \
 		type_checker(last_type) == L_BRACKET) || \
-		(type_checker(curr_type) == L_BRACKET && \
-		type_checker(last_type) == L_BRACKET))
+		(curr_type == T_OPEN && last_type == T_CLOSE))
 	{
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), -1);

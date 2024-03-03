@@ -12,6 +12,21 @@
 
 #include "minishell.h"
 
+/* Function to check if io node is last heredoc node in io_list */
+int	heredoc_count(t_io_node *io_list)
+{
+	int	i;
+
+	i = 0;
+	while (io_list)
+	{
+		if (io_list->type == T_HEREDOC)
+			i++;
+		io_list = io_list->next;
+	}
+	return (i);
+}
+
 /* Function to remove first node of heredoc list */
 void	remove_heredoc_node(t_heredoc **list)
 {
@@ -55,17 +70,18 @@ void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
 				free(line);
 				break ;
 			}
-			ft_putstr_fd(line, node->pipefd[1]);
-			ft_putstr_fd("\n", node->pipefd[1]);
+			if (node->node->is_heredoc == 1)
+			{
+				ft_putstr_fd(line, node->pipefd[1]);
+				ft_putstr_fd("\n", node->pipefd[1]);
+			}
 			free(line);
 		}
 		free_data_and_exit(shell);
 	}
-	g_signal.is_forked_parent = true;
 	waitpid(pid, &(shell->exit_status), 0);
 	if (ft_exit_status(shell) == SIGINT)
-		shell->exit_status += 128;
-	g_signal.is_forked_parent = false;
+		set_heredoc_sigint(shell);
 }
 
 /* Function to create pipes for each heredoc node
@@ -79,7 +95,7 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 
 	line = NULL;
 	node = list;
-	while (node && !g_signal.sigint_heredoc)
+	while (node && !shell->heredoc_sigint)
 	{
 		if (pipe(node->pipefd) == -1)
 			return (print_str_err(PIPE_ERR, \
@@ -88,9 +104,11 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		if (pid == -1)
 			return (print_str_err(FORK_ERR, \
 				"error: fork() failed\n", shell), -1);
-		g_signal.in_heredoc = true;
+		heredoc_signal_handler(pid);
 		exec_heredoc(shell, pid, node, line);
-		g_signal.in_heredoc = false;
+		close(node->pipefd[1]);
+		if (node->node->is_heredoc > 1)
+			node->node->is_heredoc--;
 		node = node->next;
 	}
 	return (0);

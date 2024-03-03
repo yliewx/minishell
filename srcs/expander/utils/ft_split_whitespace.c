@@ -70,6 +70,8 @@ static char	**split_str(char **arr, char *str, size_t str_count)
 		while (str[i] && !is_whitespace(str[i]))
 			i++;
 	}
+	if (str_count == 0)
+		arr[j++] = ft_strdup("");
 	arr[j] = NULL;
 	return (arr);
 }

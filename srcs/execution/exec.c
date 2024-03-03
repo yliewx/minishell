@@ -17,20 +17,24 @@
 - If exist status fulfilled, traverse right
 - Leaf node -> exec command */
 t_node	*traverse_tree(t_node *ast, t_minishell *minishell, \
-	t_token_type parent_type)
+	t_node *parent_node)
 {
 	if (!ast || minishell->minishell_err)
 		return (ast);
 	if (is_binop_node(ast))
 	{
-		traverse_tree(ast->left, minishell, ast->type);
-		if ((!minishell->exit_status && ast->type == T_AND) \
-			|| (minishell->exit_status && ast->type == T_OR)
-			|| ast->type == T_PIPE)
-			traverse_tree(ast->right, minishell, ast->type);
+		if (ast->type == T_PIPE)
+			traverse_pipe(ast, minishell);
+		else
+		{
+			traverse_tree(ast->left, minishell, ast);
+			if ((!minishell->exit_status && ast->type == T_AND) \
+				|| (minishell->exit_status && ast->type == T_OR))
+				traverse_tree(ast->right, minishell, ast);
+		}
 	}
 	else
-		exec_command(ast, minishell, parent_type);
+		exec_command(ast, minishell, parent_node);
 	return (ast);
 }
 
@@ -39,7 +43,8 @@ t_node	*ft_exec(t_minishell *minishell)
 {
 	if (minishell->heredoc_count >= 1)
 		ft_heredoc(minishell->heredoc_list, minishell);
-	if (minishell->ast && !g_signal.sigint_heredoc && !minishell->minishell_err)
-		traverse_tree(minishell->ast, minishell, minishell->ast->type);
+	if (minishell->ast && !minishell->heredoc_sigint
+		&& !minishell->minishell_err)
+		traverse_tree(minishell->ast, minishell, minishell->ast);
 	return (minishell->ast);
 }

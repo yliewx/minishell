@@ -37,7 +37,6 @@ char	*remove_quotes(char *arg)
 {
 	char	*new_str;
 	char	*end_quote;
-	int		quote;
 	int		i;
 
 	new_str = ft_calloc(ft_strlen(arg), sizeof(char));
@@ -46,22 +45,14 @@ char	*remove_quotes(char *arg)
 	i = 0;
 	while (*arg)
 	{
-		quote = 0;
 		while (*arg && !is_quote(*arg))
-		{
-			new_str[i++] = *arg;
-			arg++;
-		}
+			new_str[i++] = *arg++;
 		if (*arg && is_quote(*arg))
 		{
-			quote = *arg;
-			end_quote = get_end_quote(arg, quote);
+			end_quote = get_end_quote(arg, *arg);
 			arg++;
 			while (*arg && arg != end_quote)
-			{
-				new_str[i++] = *arg;
-				arg++;
-			}
+				new_str[i++] = *arg++;
 			arg++;
 		}
 	}

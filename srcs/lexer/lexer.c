@@ -34,7 +34,8 @@ t_token	*ft_lexer(t_minishell *minishell, char *line)
 		if (find_next_token(minishell, line, &i) == -1)
 			return (NULL);
 	}
-	if (quotes_checker(minishell, minishell->tokens) == -1)
+	if (quotes_checker(minishell, minishell->tokens) == -1 || \
+		redir_checker(minishell, minishell->tokens) == -1)
 		return (NULL);
 	return (minishell->tokens);
 }

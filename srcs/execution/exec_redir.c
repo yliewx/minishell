@@ -15,13 +15,8 @@
 /* Redirect child process
 If pipe -> read dup write pipe to stdout
 Set redirect from io_list nodes */
-int	child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
+int	child_redirect(t_node *node, int *fd, t_io_node *io_list)
 {
-	if (node->next_binop == T_PIPE)
-	{
-		close(pipefd[0]);
-		ft_dup(node->minishell, pipefd[1], STDOUT_FILENO);
-	}
 	while (io_list)
 	{
 		if (open_handler(node->minishell, io_list, fd) == -1)
@@ -34,19 +29,35 @@ int	child_redirect(t_node *node, int *fd, t_io_node *io_list, int *pipefd)
 			ft_dup(node->minishell, *fd, STDOUT_FILENO);
 		else if (io_list->type == T_HEREDOC)
 		{
-			close(node->minishell->heredoc_list->pipefd[1]);
 			ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], \
 				STDIN_FILENO);
+			close(node->minishell->heredoc_list->pipefd[0]);
+			remove_heredoc_node(&(node->minishell->heredoc_list));
 		}
 		io_list = io_list->next;
 	}
 	return (0);
 }
 
+void	parent_redirect(t_node *node)
+{
+	int	count;
+
+	if (node->is_heredoc == 1)
+	{
+		count = heredoc_count(node->io_list);
+		while (count-- > 0)
+		{
+			close(node->minishell->heredoc_list->pipefd[0]);
+			remove_heredoc_node(&(node->minishell->heredoc_list));
+		}
+	}
+}
+
 /* Function to set redirects
 - If forked, run child_redirect for child process
 - For parent/main, redirect pipes and heredoc */
-int	redir_handler(t_node *node, int pid, int *pipefd)
+int	redir_handler(t_node *node, int pid)
 {
 	t_io_node	*io_list;
 	int			fd;
@@ -55,22 +66,10 @@ int	redir_handler(t_node *node, int pid, int *pipefd)
 	io_list = node->io_list;
 	if (pid == 0)
 	{
-		if (child_redirect(node, &fd, io_list, pipefd) == -1)
+		if (child_redirect(node, &fd, io_list) == -1)
 			return (-1);
 	}
 	else
-	{
-		if (node->next_binop == T_PIPE)
-		{
-			close(pipefd[1]);
-			ft_dup(node->minishell, pipefd[0], STDIN_FILENO);
-		}
-		if (node->is_heredoc == 1)
-		{
-			close(node->minishell->heredoc_list->pipefd[1]);
-			close(node->minishell->heredoc_list->pipefd[0]);
-			remove_heredoc_node(&(node->minishell->heredoc_list));
-		}
-	}
+		parent_redirect(node);
 	return (0);
 }

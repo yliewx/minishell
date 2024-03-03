@@ -14,7 +14,8 @@
 
 void	init_minishell(t_minishell *minishell, bool start)
 {
-	init_signals();
+	set_g_signum(0);
+	readline_signal_handler();
 	if (start)
 	{
 		minishell->old_stdin = dup(STDIN_FILENO);
@@ -25,6 +26,7 @@ void	init_minishell(t_minishell *minishell, bool start)
 	minishell->curr_token = NULL;
 	minishell->heredoc_list = NULL;
 	minishell->heredoc_count = 0;
+	minishell->heredoc_sigint = false;
 	minishell->minishell_err = 0;
 	if (minishell->envp)
 		minishell->user = value_in_env(minishell->envp, "USER", 4);

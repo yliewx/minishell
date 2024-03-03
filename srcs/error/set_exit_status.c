@@ -25,6 +25,13 @@ int	set_exit_error(t_minishell *minishell, int error, int status)
 	return (0);
 }
 
+int	set_heredoc_sigint(t_minishell *minishell)
+{
+	minishell->exit_status = 128 + SIGINT;
+	minishell->heredoc_sigint = true;
+	return (0);
+}
+
 /* Function to evaluate the exit status of the child process
 - If the process was terminated by a signal, set the exit status
 to 128 + signal number (to replicate bash behaviour)

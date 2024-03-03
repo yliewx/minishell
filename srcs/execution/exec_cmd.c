@@ -20,6 +20,7 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 	char	*command_path;
 
 	command_path = NULL;
+	exec_signal_handler(pid);
 	if (pid == 0)
 	{
 		get_command_path(&command_path, argv[0], minishell);
@@ -27,16 +28,17 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 			free_data_and_exit(minishell);
 		if (execve(command_path, argv, minishell->envp) == -1)
 		{
-			exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
+			if (is_directory(command_path))
+				exec_error(DIR_ERR, argv[0], minishell);
+			else
+				exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
 			free_data_and_exit(minishell);
 		}
 	}
 	else
 	{
-		g_signal.is_forked_parent = true;
 		waitpid(pid, &(minishell->exit_status), 0);
 		ft_exit_status(minishell);
-		g_signal.is_forked_parent = false;
 	}
 }
 
@@ -45,30 +47,31 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 - Pipe and fork if necessary
 - Exec builtin or simple cmd */
 void	exec_command(t_node *node, t_minishell *minishell, \
-	t_token_type parent_type)
+	t_node *parent_node)
 {
 	int	pid;
-	int	pipefd[2];
 	int	builtin_type;
 
 	pid = -1;
 	builtin_type = -1;
 	if (minishell->minishell_err)
 		return ;
-	get_expanded_arg(node, minishell);
+	if ((get_expanded_arg(node, minishell) == -1)
+		|| (node->expanded_arg[0] && !node->expanded_arg[0][0])
+		|| fork_handler(&pid, minishell) == -1)
+		return ;
 	builtin_type = check_builtin(node);
-	if (pipe_handler(pipefd, node, minishell))
-		return ;
-	if (fork_handler(&pid, minishell))
-		return ;
-	if (minishell->minishell_err || redir_handler(node, pid, pipefd) == -1)
+	if (redir_handler(node, pid) == -1 \
+		|| minishell->minishell_err || node->type == T_NULL)
 	{
 		if (pid == 0)
 			free_data_and_exit(minishell);
+		waitpid(pid, &(minishell->exit_status), 0);
+		ft_exit_status(minishell);
 		return ;
 	}
 	if (builtin_type != CMD_SIMPLE)
-		exec_builtin(node, builtin_type, pid, parent_type);
+		exec_builtin(node, builtin_type, pid, parent_node);
 	else
 		exec_simple_cmd(node->expanded_arg, minishell, pid);
 }

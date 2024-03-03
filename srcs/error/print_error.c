@@ -21,7 +21,7 @@ int	print_char_err(int error, char c, t_minishell *minishell)
 		write(2, &c, 1);
 		ft_putstr_fd("'\n", 2);
 	}
-	return (set_exit_error(minishell, error, EXIT_FAILURE));
+	return (set_exit_error(minishell, error, 2));
 }
 
 void	print_err_helper(int error, char *str)
@@ -61,5 +61,8 @@ int	print_str_err(int error, char *str, t_minishell *minishell)
 		print_err_helper(PERM_ERR, str);
 	else if (error == PIPE_ERR || error == FORK_ERR)
 		ft_putstr_fd(str, 2);
-	return (set_exit_error(minishell, error, EXIT_FAILURE));
+	if (error == SYNTAX_ERR)
+		return (set_exit_error(minishell, error, 2));
+	else
+		return (set_exit_error(minishell, error, EXIT_FAILURE));
 }

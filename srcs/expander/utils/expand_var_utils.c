@@ -49,7 +49,8 @@ char	*copy_and_replace(char *arg, char *value, int start, int total_len)
 		start++;
 	else
 	{
-		while (arg[start] && is_var_name(arg[start]))
+		while (arg[start] && (!is_whitespace(arg[start])
+				&& !is_quote(arg[start])))
 			start++;
 	}
 	j = 0;

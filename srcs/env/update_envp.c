@@ -70,7 +70,7 @@ int	update_envp(t_minishell *minishell, char *var, char *value, \
 	{
 		if (ft_strncmp(command, "unset", 6) == 0)
 			return (resize_envp(minishell, minishell->envp_size - 1, i));
-		else
+		else if (value && ft_strchr(value, '='))
 		{
 			free(minishell->envp[i]);
 			minishell->envp[i] = ft_strdup(value);

@@ -52,11 +52,8 @@ int	cd_home(t_minishell *minishell, char *oldpwd)
 	char	*home_path;
 
 	home_path = value_in_env(minishell->envp, "HOME", 4);
-	if (!home_path || !home_path[0])
-	{
-		free(home_path);
+	if (!home_path)
 		return (cd_error(NOT_SET_ERR, NULL, minishell));
-	}
 	if (chdir(home_path) == -1)
 		return (cd_error(NODIR_ERR, home_path, minishell));
 	update_pwd(minishell, oldpwd);

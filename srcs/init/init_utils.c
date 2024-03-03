@@ -22,26 +22,74 @@ int	arg_checker(int argc, char **argv)
 	return (0);
 }
 
+char	*ft_clean_cwd(t_minishell *minishell)
+{
+	char	*tmp_cwd;
+	char	*tmp;
+	char	*home;
+
+	home = value_in_env(minishell->envp, "HOME", 4);
+	if (home)
+	{
+		tmp_cwd = getcwd(NULL, 0);
+		tmp = tmp_cwd;
+		tmp_cwd = ft_strdup(tmp_cwd + ft_strlen(home));
+		free(tmp);
+	}
+	else
+		tmp_cwd = getcwd(NULL, 0);
+	return (tmp_cwd);
+}
+
 /* Function to create prompt str with $USER@Minishell:~$ */
 void	ft_prompt(t_minishell *minishell)
 {
-	int	len;
+	char	*tmp;
+	char	*tmp_cwd;
 
-	len = 0;
 	if (minishell->user)
-		len = ft_strlen(minishell->user);
+		tmp = ft_strjoin(minishell->user, "@Yash:~");
+	else
+		tmp = ft_strjoin("", "Yash:~");
 	minishell->prompt = NULL;
-	minishell->prompt = malloc(sizeof(char) * (len + 14 + 1));
+	tmp_cwd = ft_clean_cwd(minishell);
+	minishell->prompt = ft_strjoin(tmp, tmp_cwd);
+	free(tmp);
+	free(tmp_cwd);
+	tmp_cwd = minishell->prompt;
+	minishell->prompt = ft_strjoin(minishell->prompt, "$ ");
+	free(tmp_cwd);
 	if (!minishell->prompt)
 	{
 		print_str_err(MEM_ERR, NULL, minishell);
 		return ;
 	}
-	minishell->prompt[len] = '\0';
-	if (minishell->user)
-		ft_strlcpy(minishell->prompt, minishell->user, len + 1);
-	ft_strlcat(minishell->prompt, "@Minishell:~$ ", len + 14 + 1);
 }
+
+// /* Function to create prompt str with $USER@Minishell:~$ */
+// void	ft_prompt(t_minishell *minishell)
+// {
+// 	char	*tmp;
+// 	char	*tmp_cwd;
+
+// 	if (minishell->user)
+// 		tmp = ft_strjoin(minishell->user, "@Yash:\033[1;32m~");
+// 	else
+// 		tmp = ft_strjoin("", "Yash:\033[1;32m~");
+// 	minishell->prompt = NULL;
+// 	tmp_cwd = ft_clean_cwd(minishell);
+// 	minishell->prompt = ft_strjoin(tmp, tmp_cwd);
+// 	free(tmp);
+// 	free(tmp_cwd);
+// 	tmp_cwd = minishell->prompt;
+// 	minishell->prompt = ft_strjoin(minishell->prompt, RESET_PROMPT_COLOR);
+// 	free(tmp_cwd);
+// 	if (!minishell->prompt)
+// 	{
+// 		print_str_err(MEM_ERR, NULL, minishell);
+// 		return ;
+// 	}
+// }
 
 char	*ft_readline(t_minishell *minishell)
 {
@@ -50,6 +98,6 @@ char	*ft_readline(t_minishell *minishell)
 	if (minishell->prompt)
 		command = readline(minishell->prompt);
 	else
-		command = readline("Minishell:~$ ");
+		command = readline("Yash:~$ ");
 	return (command);
 }

@@ -67,6 +67,7 @@ t_token			*create_str_token(t_minishell *minishell, char *line, \
 
 // Lexer helper functions
 int				quotes_checker(t_minishell *minishell, t_token *token_list);
+int				redir_checker(t_minishell *minishell, t_token *token_list);
 
 // Lexer tokens functions
 int				command_iterator(char *line, int *i);
@@ -84,7 +85,7 @@ int				is_symbol(char c);
 t_token_type	get_prev_type(t_token *token_list);
 t_lexer_type	type_checker(t_token_type type);
 int				quote_found(char c);
-void			print_token_list(t_token *token_list); 
+void			print_token_list(t_token *token_list);
 
 // Free tokens
 void			ft_free_token_list(t_token **lst);

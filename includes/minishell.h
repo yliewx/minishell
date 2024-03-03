@@ -34,17 +34,11 @@
 # include "./env.h"
 # include "./error.h"
 
-/*text colour*/
-
-# define BROWN "\033[1;33m"
-# define RED "\033[1;31m"
-# define GREEN "\033[1;32m"
-# define RESET "\033[0m"
-
 typedef struct s_heredoc
 {
 	char				*delimiter;
 	int					pipefd[2];
+	t_node				*node;
 	struct s_heredoc	*next;
 }	t_heredoc;
 
@@ -60,24 +54,26 @@ typedef struct s_minishell
 	char		*prompt;
 	int			envp_size;
 	int			old_stdin;
-	int			heredoc_count;
 	int			minishell_err;
 	int			exit_status;
+	int			heredoc_count;
+	bool		heredoc_sigint;
 }	t_minishell;
 
-typedef struct s_signal
-{
-	int			signum;
-	bool		sigint_heredoc;
-	bool		in_heredoc;
-	bool		is_forked_parent;
-}	t_signal;
-
-extern t_signal	g_signal;
+extern int	g_signum;
 
 /*signals*/
-void	init_signals(void);
-void	sigint_handler(int signum);
+void	readline_signal_handler(void);
+void	ignore_signal_handler(void);
+void	exec_signal_handler(int pid);
+void	heredoc_signal_handler(int pid);
+
+/*signal utils*/
+void	set_g_signum(int signum);
+void	sigint_write_nl(int signum);
+void	sigint_readline(int signum);
+void	sigint_exit(int signum);
+void	sigquit_handler(int signum);
 
 /*utils*/
 int		arg_checker(int argc, char **argv);

@@ -37,7 +37,8 @@ void	io_add_back(t_io_node *node, t_io_node **list)
 }
 
 /* Creates io nodes as a linked list */
-t_io_node	*new_io_node(t_minishell *minishell, t_io_node **list)
+t_io_node	*new_io_node(t_minishell *minishell, t_node *ast_node, \
+	t_io_node **list)
 {
 	t_io_node	*node;
 	t_token		*next_token;
@@ -51,7 +52,7 @@ t_io_node	*new_io_node(t_minishell *minishell, t_io_node **list)
 	io_node_init(minishell, node);
 	if (node->type == T_HEREDOC)
 	{
-		if (heredoc_node(minishell, minishell->curr_token->value, \
+		if (heredoc_node(minishell, ast_node, minishell->curr_token->value, \
 			&minishell->heredoc_list) == -1)
 			return (NULL);
 		minishell->heredoc_count++;
@@ -62,7 +63,7 @@ t_io_node	*new_io_node(t_minishell *minishell, t_io_node **list)
 }
 
 /* Function to create heredoc nodes linked list */
-int	heredoc_node(t_minishell *minishell, char *delimiter, \
+int	heredoc_node(t_minishell *minishell, t_node *ast_node, char *delimiter, \
 t_heredoc **heredoc_list)
 {
 	t_heredoc	*node;
@@ -73,6 +74,7 @@ t_heredoc **heredoc_list)
 		return (print_str_err(MEM_ERR, NULL, minishell), -1);
 	node->delimiter = ft_strdup(delimiter);
 	node->next = NULL;
+	node->node = ast_node;
 	if (!*heredoc_list)
 	{
 		*heredoc_list = node;
