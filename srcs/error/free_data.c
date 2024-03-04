@@ -61,14 +61,3 @@ void	free_data_and_exit(t_minishell *minishell)
 	exit(minishell->exit_status);
 }
 
-void	ft_reinit(t_minishell *minishell, char *command)
-{
-	dup2(minishell->old_stdin, STDIN_FILENO);
-	free(command);
-	free_data(minishell);
-	free_arrays(&minishell->env_path);
-	minishell->env_path = get_env_path(minishell->envp, minishell);
-	if (minishell->prompt)
-		free(minishell->prompt);
-	init_minishell(minishell, false);
-}

@@ -23,6 +23,8 @@ t_token	*create_str_token(t_minishell *minishell, char *line, int i, int j)
 	int		end;
 
 	end = i;
+	if (j == 0)
+		return (NULL);
 	str = malloc(sizeof(char) * (j + 1));
 	if (!str)
 		return (NULL);
