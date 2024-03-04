@@ -12,37 +12,10 @@
 
 #include "minishell.h"
 
-// /* Function to check for unclosed quote in values within token_list */
-// int	quotes_checker(t_minishell *minishell, t_token *token_list)
-// {
-// 	t_token	*lst;
-// 	int		i;
-// 	char	*end_quote;
-
-// 	lst = token_list;
-// 	while (lst)
-// 	{
-// 		i = -1;
-// 		while (lst->value && lst->value[++i])
-// 		{
-// 			if (lst->value[i] == '\'' || lst->value[i] == '\"')
-// 			{
-// 				end_quote = ft_strrchr(&lst->value[i], lst->value[i]);
-// 				if (end_quote == &(lst->value[i]))
-// 					return (print_char_err(SYNTAX_ERR, lst->value[i], \
-// 						minishell), -1);
-// 				else
-// 					i = end_quote - lst->value;
-// 			}
-// 		}
-// 		lst = lst->next;
-// 	}
-// 	return (0);
-// }
-
-void quote_helper(int *unclosed, int *quote, char c, int within_quote)
+/* Function to set unclosed quote and opening quote variables */
+void	quote_helper(int *unclosed, int *quote, char c, int within_quote)
 {
-	if (within_quote)
+	if (!within_quote)
 	{
 		*unclosed = 0;
 		*quote = 0;
@@ -73,7 +46,7 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 			if (quote && quote == quote_found(lst->value[i]))
 				quote_helper(&unclosed, &quote, lst->value[i], 0);
 			else if (!quote && quote_found(lst->value[i]))
-				quote_helper(&unclosed, &quote, lst->value[i], 1);			
+				quote_helper(&unclosed, &quote, lst->value[i], 1);
 		}
 		if (unclosed)
 			return (print_char_err(SYNTAX_ERR, lst->value[i - 1], \

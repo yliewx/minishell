@@ -28,6 +28,7 @@ void	exec_command(t_node *node, t_minishell *minishell, \
 	t_node *parent_node);
 
 // Exec heredoc functions
+void	clean_heredoc(t_node *ast, t_minishell *minishell);
 int		ft_heredoc(t_heredoc *list, t_minishell *minishell);
 void	remove_heredoc_node(t_heredoc **list);
 int		heredoc_count(t_io_node *io_list);
