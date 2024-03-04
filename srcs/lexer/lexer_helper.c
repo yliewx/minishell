@@ -40,6 +40,20 @@
 // 	return (0);
 // }
 
+void quote_helper(int *unclosed, int *quote, char c, int within_quote)
+{
+	if (within_quote)
+	{
+		*unclosed = 0;
+		*quote = 0;
+	}
+	else
+	{
+		*quote = quote_found(c);
+		*unclosed = 1;
+	}
+}
+
 /* Function to check for unclosed quote in values within token_list */
 int	quotes_checker(t_minishell *minishell, t_token *token_list)
 {
@@ -57,15 +71,9 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 		while (lst->value && lst->value[++i])
 		{
 			if (quote && quote == quote_found(lst->value[i]))
-			{
-				unclosed = 0;
-				quote = 0;
-			}
+				quote_helper(&unclosed, &quote, lst->value[i], 0);
 			else if (!quote && quote_found(lst->value[i]))
-			{
-				quote = quote_found(lst->value[i]);
-				unclosed = 1;
-			}					
+				quote_helper(&unclosed, &quote, lst->value[i], 1);			
 		}
 		if (unclosed)
 			return (print_char_err(SYNTAX_ERR, lst->value[i - 1], \
