@@ -29,7 +29,6 @@ int	child_redirect(t_node *node, int *fd, t_io_node *io_list)
 			ft_dup(node->minishell, *fd, STDOUT_FILENO);
 		else if (io_list->type == T_HEREDOC)
 		{
-			printf("heredoc node is %s\n", node->minishell->heredoc_list->delimiter);
 			ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], \
 				STDIN_FILENO);
 			close(node->minishell->heredoc_list->pipefd[0]);
