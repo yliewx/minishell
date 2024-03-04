@@ -137,7 +137,8 @@ int	ft_expand_quote_handler(char **arg, char *current, t_node_arg *node_arg)
 					return (-1);
 			}
 		}
-		current++;
+		if (current)
+			current++;
 	}
 	node_arg->in_quote = 0;
 	return (ft_expand_quote_handler(arg, current, node_arg));
