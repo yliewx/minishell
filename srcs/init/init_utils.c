@@ -50,15 +50,19 @@ void	ft_prompt(t_minishell *minishell)
 	if (minishell->user)
 		tmp = ft_strjoin(minishell->user, PROMPT_GREEN);
 	else
-		tmp = ft_strjoin("", PROMPT_GREEN);
+		tmp = ft_strjoin("", PROMPT_GREEN_NO_USER);
 	minishell->prompt = NULL;
 	tmp_cwd = ft_clean_cwd(minishell);
 	minishell->prompt = ft_strjoin(tmp, tmp_cwd);
 	free(tmp);
 	free(tmp_cwd);
 	tmp_cwd = minishell->prompt;
-	minishell->prompt = ft_strjoin(minishell->prompt, RESET_PROMPT_COLOUR);
+	minishell->prompt = ft_strjoin(minishell->prompt, "$ ");
 	free(tmp_cwd);
+	tmp_cwd = minishell->prompt;
+	minishell->prompt = ft_strjoin(minishell->prompt, RESET_PROMPT_COLOUR);
+	if (tmp_cwd)
+		free(tmp_cwd);
 	if (!minishell->prompt)
 	{
 		print_str_err(MEM_ERR, NULL, minishell);
@@ -101,6 +105,8 @@ char	*ft_readline(t_minishell *minishell)
 		command = readline(minishell->prompt);
 	}
 	else
+	{
 		command = readline("Yash:~$ ");
+	}
 	return (command);
 }
