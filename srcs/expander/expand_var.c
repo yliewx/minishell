@@ -50,7 +50,7 @@ int	expand_var(char **arg, char *var_start, t_minishell *minishell)
 
 	var_name = get_var_name(var_start, &var_len);
 	value = ft_strdup(value_in_env(minishell->envp, var_name + 1));
-	if (!value || (value && !*value))
+	if (!value)
 		value = ft_strdup("");
 	new_str = replace_var_with_value(*arg, value, var_start - *arg, var_len);
 	pos_offset = var_start - *arg + ft_strlen(value);
