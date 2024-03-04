@@ -28,7 +28,7 @@ void	exec_simple_cmd(char **argv, t_minishell *minishell, int pid)
 			free_data_and_exit(minishell);
 		if (execve(command_path, argv, minishell->envp) == -1)
 		{
-			if (is_directory(command_path))
+			if (is_directory(argv[0]))
 				exec_error(DIR_ERR, argv[0], minishell);
 			else
 				exec_error(FILE_NOT_FOUND_ERR, argv[0], minishell);
@@ -57,7 +57,6 @@ void	exec_command(t_node *node, t_minishell *minishell, \
 	if (minishell->minishell_err)
 		return ;
 	if ((get_expanded_arg(node, minishell) == -1)
-		|| (node->expanded_arg[0] && !node->expanded_arg[0][0])
 		|| fork_handler(&pid, minishell) == -1)
 		return ;
 	builtin_type = check_builtin(node);

@@ -47,7 +47,7 @@ void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 
 	i = 0;
 	if (!minishell->env_path || \
-		ft_strncmp(arg, "/", 1) == 0 || ft_strnstr(arg, "./", 3))
+		*arg == '/' || ft_strnstr(arg, "./", 3))
 	{
 		*command_path = arg;
 		if (access(*command_path, F_OK) == -1)
@@ -74,6 +74,10 @@ int	is_directory(char *path)
 {
 	struct stat	buffer;
 
-	stat(path, &buffer);
-	return (S_ISDIR(buffer.st_mode));
+	if (path && (*path == '/' || ft_strnstr(path, "./", 3)))
+	{
+		stat(path, &buffer);
+		return (S_ISDIR(buffer.st_mode));
+	}
+	return (0);
 }

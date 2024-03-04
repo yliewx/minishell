@@ -29,19 +29,22 @@ bool	is_fork_cmd(t_node *node, int type)
 - Return simple command if it is not a builtin*/
 int	check_builtin(t_node *node)
 {
-	if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)
-		return (CMD_ECHO);
-	else if (ft_strncmp(node->expanded_arg[0], "cd", 3) == 0)
-		return (CMD_CD);
-	else if (ft_strncmp(node->expanded_arg[0], "pwd", 4) == 0)
-		return (CMD_PWD);
-	else if (ft_strncmp(node->expanded_arg[0], "export", 7) == 0)
-		return (CMD_EXPORT);
-	else if (ft_strncmp(node->expanded_arg[0], "unset", 6) == 0)
-		return (CMD_UNSET);
-	else if (ft_strncmp(node->expanded_arg[0], "env", 4) == 0)
-		return (CMD_ENV);
-	else if (ft_strncmp(node->expanded_arg[0], "exit", 5) == 0)
-		return (CMD_EXIT);
+	if (node->expanded_arg[0] && node->expanded_arg[0][0])
+	{
+		if (ft_strncmp(node->expanded_arg[0], "echo", 5) == 0)
+			return (CMD_ECHO);
+		else if (ft_strncmp(node->expanded_arg[0], "cd", 3) == 0)
+			return (CMD_CD);
+		else if (ft_strncmp(node->expanded_arg[0], "pwd", 4) == 0)
+			return (CMD_PWD);
+		else if (ft_strncmp(node->expanded_arg[0], "export", 7) == 0)
+			return (CMD_EXPORT);
+		else if (ft_strncmp(node->expanded_arg[0], "unset", 6) == 0)
+			return (CMD_UNSET);
+		else if (ft_strncmp(node->expanded_arg[0], "env", 4) == 0)
+			return (CMD_ENV);
+		else if (ft_strncmp(node->expanded_arg[0], "exit", 5) == 0)
+			return (CMD_EXIT);
+	}
 	return (CMD_SIMPLE);
 }
