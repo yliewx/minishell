@@ -104,7 +104,7 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 		if (pid == -1)
 			return (print_str_err(FORK_ERR, \
 				"error: fork() failed\n", shell), -1);
-		heredoc_signal_handler(pid);
+		heredoc_signal_handler(pid, shell);
 		exec_heredoc(shell, pid, node, line);
 		close(node->pipefd[1]);
 		if (node->node->is_heredoc > 1)

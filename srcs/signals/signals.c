@@ -52,12 +52,15 @@ void	ignore_signal_handler(void)
 	- Parent: Ignores SIGINT and restarts waitpid
 [SIGQUIT]
 	- Both child and parent ignore SIGQUIT */
-void	heredoc_signal_handler(int pid)
+void	heredoc_signal_handler(int pid, t_minishell *minishell)
 {
 	struct sigaction	sa_sigint;
 
 	if (pid == 0)
+	{
 		init_sigaction(&sa_sigint, sigint_exit, 0);
+		minishell->exit_status = 0;
+	}
 	else
 		init_sigaction(&sa_sigint, SIG_IGN, SA_RESTART);
 	sigaction(SIGINT, &sa_sigint, NULL);

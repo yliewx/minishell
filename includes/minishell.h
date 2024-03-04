@@ -66,7 +66,7 @@ extern int	g_signum;
 void	readline_signal_handler(void);
 void	ignore_signal_handler(void);
 void	exec_signal_handler(int pid);
-void	heredoc_signal_handler(int pid);
+void	heredoc_signal_handler(int pid, t_minishell *minishell);
 
 /*signal utils*/
 void	set_g_signum(int signum);
