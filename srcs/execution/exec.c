@@ -34,7 +34,10 @@ t_node	*traverse_tree(t_node *ast, t_minishell *minishell, \
 		}
 	}
 	else
+	{
+		// printf("execing %s\n", ast->value);
 		exec_command(ast, minishell, parent_node);
+	}
 	return (ast);
 }
 

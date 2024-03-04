@@ -38,6 +38,21 @@ void	redir_pipe(int *pipefd, t_minishell *minishell, int node)
 	}
 }
 
+void clean_heredoc(t_node *ast, t_minishell *minishell)
+{
+	int i;
+	int heredoc_counter;
+
+	i = 0;
+	heredoc_counter = heredoc_count(ast->left->io_list) + \
+		heredoc_count(ast->right->io_list);
+	while (i < heredoc_counter)
+	{
+		remove_heredoc_node(&(minishell->heredoc_list));
+		i++;
+	}
+}
+
 /* Function to traverse and exec both left and right nodes of pipe */
 t_node	*traverse_pipe(t_node *ast, t_minishell *minishell)
 {
@@ -64,6 +79,7 @@ t_node	*traverse_pipe(t_node *ast, t_minishell *minishell)
 	redir_pipe(pipefd, minishell, PARENT_NODE);
 	waitpid(pid_l, &minishell->exit_status, 0);
 	waitpid(pid_r, &minishell->exit_status, 0);
+	clean_heredoc(ast, minishell);
 	ft_exit_status(minishell);
 	return (ast);
 }

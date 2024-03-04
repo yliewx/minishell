@@ -66,31 +66,6 @@ void	ft_prompt(t_minishell *minishell)
 	}
 }
 
-// /* Function to create prompt str with $USER@Minishell:~$ */
-// void	ft_prompt(t_minishell *minishell)
-// {
-// 	char	*tmp;
-// 	char	*tmp_cwd;
-
-// 	if (minishell->user)
-// 		tmp = ft_strjoin(minishell->user, "@Yash:\033[1;32m~");
-// 	else
-// 		tmp = ft_strjoin("", "Yash:\033[1;32m~");
-// 	minishell->prompt = NULL;
-// 	tmp_cwd = ft_clean_cwd(minishell);
-// 	minishell->prompt = ft_strjoin(tmp, tmp_cwd);
-// 	free(tmp);
-// 	free(tmp_cwd);
-// 	tmp_cwd = minishell->prompt;
-// 	minishell->prompt = ft_strjoin(minishell->prompt, RESET_PROMPT_COLOR);
-// 	free(tmp_cwd);
-// 	if (!minishell->prompt)
-// 	{
-// 		print_str_err(MEM_ERR, NULL, minishell);
-// 		return ;
-// 	}
-// }
-
 char	*ft_readline(t_minishell *minishell)
 {
 	char	*command;
