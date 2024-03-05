@@ -35,7 +35,6 @@ bool	match_pattern_suffix(char *c_pattern, char *entry, int j)
 	return (true);
 }
 
-
 /* Function to check if the first character in the entry name
 matches the pattern
 - If the pattern does not begin with a *, check whether the name
@@ -92,7 +91,7 @@ void	extract_pattern(char *arg, char *asterisk, t_node_arg *node_arg)
 	end = start;
 	if (start != 0)
 	{
-		while (arg[start] && !is_whitespace(arg[start])
+		while (start >= 0 && arg[start] && !is_whitespace(arg[start])
 			&& !is_quote(arg[start]))
 			start--;
 		start++;
