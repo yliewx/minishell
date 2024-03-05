@@ -22,8 +22,10 @@ int	ft_minishell(t_minishell *minishell)
 		if (!command)
 			return (printf("exit\n"), free_data_and_exit(minishell), 0);
 		if (command[0])
+		{
 			add_history(command);
-		ft_lexer(minishell, command);
+			ft_lexer(minishell, command);
+		}
 		if (minishell->tokens && !minishell->minishell_err)
 		{
 			minishell->curr_token = minishell->tokens;
