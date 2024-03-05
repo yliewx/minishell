@@ -46,6 +46,7 @@ void	get_command_path(char **command_path, char *arg, t_minishell *minishell)
 	int		i;
 
 	i = 0;
+	minishell->env_path = get_env_path(minishell->envp, minishell);
 	if (!minishell->env_path || \
 		*arg == '/' || ft_strnstr(arg, "./", 3))
 	{
