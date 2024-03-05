@@ -56,7 +56,7 @@ int	get_expanded_arg(t_node *node, t_minishell *minishell)
 		if (ft_expand_quote_handler(&node->expanded,
 				node->expanded, &node_arg) == -1)
 			return (-1);
-		if (!node->expanded[0])
+		if (!node->expanded || !node->expanded[0])
 			return (-1);
 		node->expanded_arg = ft_split_argv(node->expanded);
 		if (!node->expanded_arg)
