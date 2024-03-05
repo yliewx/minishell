@@ -74,8 +74,10 @@ new string such that the earlier segment of the string that has already
 been checked will not be iterated over again */
 int	ft_expand(char **arg, char **current, t_node_arg *node_arg)
 {
-	int	pos_offset;
+	char	*original_arg;
+	int		pos_offset;
 
+	original_arg = *arg;
 	pos_offset = 0;
 	while (*current && (*current)[1] == '$')
 		(*current)++;
@@ -89,7 +91,7 @@ int	ft_expand(char **arg, char **current, t_node_arg *node_arg)
 	}
 	else if (*current && (*current)[0] == '*' && node_arg->in_quote == 0)
 		pos_offset = check_wildcard(arg, *current, node_arg);
-	if (pos_offset > 0)
+	if (pos_offset > 0 || *arg != original_arg)
 		*current = *arg + pos_offset;
 	else if (pos_offset == 0)
 		(*current)++;

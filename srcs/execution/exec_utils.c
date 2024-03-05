@@ -27,3 +27,17 @@ int	binop_next_checker(t_token_type type)
 		return (1);
 	return (0);
 }
+
+/* Function to remove first node of heredoc list */
+void	remove_heredoc_node(t_heredoc **list)
+{
+	t_heredoc	*to_free;
+
+	to_free = *list;
+	if (to_free)
+	{
+		*list = (*list)->next;
+		free(to_free->delimiter);
+		free(to_free);
+	}
+}

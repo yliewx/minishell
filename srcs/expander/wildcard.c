@@ -28,7 +28,7 @@ void	find_match_in_dir(t_entry **match_list, t_node_arg *node_arg)
 		if (match_visibility(node_arg->pattern, entry->d_name)
 			&& match_pattern(node_arg, node_arg->pattern, entry->d_name))
 		{
-			new_match = create_entry_node(ft_strdup(entry->d_name));
+			new_match = create_entry_node(entry->d_name);
 			append_entry(match_list, new_match);
 		}
 	}

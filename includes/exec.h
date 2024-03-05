@@ -30,7 +30,6 @@ void	exec_command(t_node *node, t_minishell *minishell, \
 // Exec heredoc functions
 void	clean_heredoc(t_node *ast, t_minishell *minishell);
 int		ft_heredoc(t_heredoc *list, t_minishell *minishell);
-void	remove_heredoc_node(t_heredoc **list);
 int		heredoc_count(t_io_node *io_list);
 
 // Exec path functions
@@ -50,6 +49,7 @@ int		fork_handler(int *pid, t_minishell *minishell);
 // Exec util functions
 int		is_binop_node(t_node *node);
 int		binop_next_checker(t_token_type type);
+void	remove_heredoc_node(t_heredoc **list);
 
 // Open utils
 int		open_handler(t_minishell *minishell, t_io_node *io_node, int *fd);

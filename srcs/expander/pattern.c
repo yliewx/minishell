@@ -77,14 +77,16 @@ void	extract_pattern(char *arg, char *asterisk, t_node_arg *node_arg)
 
 	start = asterisk - arg;
 	end = start;
-	while (arg[start - 1] && !is_whitespace(arg[start - 1])
-		&& !is_quote(arg[start - 1]))
-		start--;
-	while (arg[end + 1] && !is_whitespace(arg[end + 1])
-		&& !is_quote(arg[end + 1]))
+	if (start != 0)
+	{
+		while (arg[start] && !is_whitespace(arg[start])
+			&& !is_quote(arg[start]))
+			start--;
+		start++;
+	}
+	while (arg[end] && !is_whitespace(arg[end])
+		&& !is_quote(arg[end]))
 		end++;
-	if (!arg[start - 1])
-		end++;
-	node_arg->pattern = ft_substr(arg, start, end - start + 1);
+	node_arg->pattern = ft_substr(arg, start, end - start);
 	node_arg->pattern_start = start;
 }

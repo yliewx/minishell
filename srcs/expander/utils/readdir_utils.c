@@ -26,7 +26,7 @@ t_entry	*create_entry_node(char *value)
 	new = malloc(sizeof(t_entry));
 	if (!new)
 		return (NULL);
-	new->value = value;
+	new->value = ft_strdup(value);
 	new->next = NULL;
 	return (new);
 }
@@ -81,8 +81,13 @@ void	free_match_list(t_entry **list)
 	while (current && current->next)
 	{
 		temp = current->next;
+		free(current->value);
 		free(current);
 		current = temp;
 	}
-	free(current);
+	if (current)
+	{
+		free(current->value);
+		free(current);
+	}
 }

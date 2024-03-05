@@ -27,20 +27,6 @@ int	heredoc_count(t_io_node *io_list)
 	return (i);
 }
 
-/* Function to remove first node of heredoc list */
-void	remove_heredoc_node(t_heredoc **list)
-{
-	t_heredoc	*to_free;
-
-	to_free = *list;
-	if (to_free)
-	{
-		*list = (*list)->next;
-		free(to_free->delimiter);
-		free(to_free);
-	}
-}
-
 int	heredoc_warning(char *line, char *delimiter)
 {
 	if (!line)
