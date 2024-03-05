@@ -67,7 +67,7 @@ t_token			*create_str_token(t_minishell *minishell, char *line, \
 
 // Lexer helper functions
 int				quotes_checker(t_minishell *minishell, t_token *token_list);
-int				redir_checker(t_minishell *minishell, t_token *token_list);
+int				syntax_checker(t_minishell *minishell, t_token *token_list);
 
 // Lexer tokens functions
 int				command_iterator(char *line, int *i);

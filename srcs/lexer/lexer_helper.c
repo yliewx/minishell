@@ -57,9 +57,10 @@ int	quotes_checker(t_minishell *minishell, t_token *token_list)
 }
 
 /* Function to check if there is a redir value */
-int	redir_checker(t_minishell *minishell, t_token *token_list)
+int	syntax_checker(t_minishell *minishell, t_token *token_list)
 {
 	t_token	*lst;
+	t_token	*last;
 
 	lst = token_list;
 	while (lst)
@@ -69,5 +70,8 @@ int	redir_checker(t_minishell *minishell, t_token *token_list)
 				return (print_str_err(SYNTAX_ERR, "newline", minishell), -1);
 		lst = lst->next;
 	}
+	last = token_last(token_list);
+	if (is_binop(last) || is_redir(last))
+		return (print_str_err(SYNTAX_ERR, "newline", minishell), -1);
 	return (0);
 }

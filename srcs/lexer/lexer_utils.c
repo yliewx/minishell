@@ -67,8 +67,7 @@ int	quote_found(char c)
 // {
 // 	while (token_list)
 // 	{
-// 		printf("%s\n", token_list->value);
-// 		printf("%i\n", token_list->type);
+// 		printf("token-> %s, type-> %i\n", token_list->value, token_list->type);
 // 		token_list = token_list->next;
 // 	}
 // }

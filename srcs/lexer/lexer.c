@@ -35,7 +35,7 @@ t_token	*ft_lexer(t_minishell *minishell, char *line)
 			return (NULL);
 	}
 	if (quotes_checker(minishell, minishell->tokens) == -1 || \
-		redir_checker(minishell, minishell->tokens) == -1)
+		syntax_checker(minishell, minishell->tokens) == -1)
 		return (NULL);
 	return (minishell->tokens);
 }

@@ -60,4 +60,3 @@ void	free_data_and_exit(t_minishell *minishell)
 	rl_clear_history();
 	exit(minishell->exit_status);
 }
-
