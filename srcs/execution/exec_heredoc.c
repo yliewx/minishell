@@ -55,33 +55,37 @@ int	heredoc_warning(char *line, char *delimiter)
 }
 
 /* Reads heredoc input and writes to heredoc pipe */
-void	exec_heredoc(t_minishell *shell, int pid, t_heredoc *node, char *line)
+void	child_heredoc(t_minishell *shell, t_heredoc *node, char *line)
 {
-	if (pid == 0)
+	close(node->pipefd[0]);
+	while (1)
 	{
-		while (1)
+		line = readline("> ");
+		if (heredoc_warning(line, node->delimiter))
+			break ;
+		if (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
+			&& (ft_strlen(line) == ft_strlen(node->delimiter)))
 		{
-			line = readline("> ");
-			if (heredoc_warning(line, node->delimiter))
-				break ;
-			if (!ft_strncmp(line, node->delimiter, ft_strlen(line)) \
-				&& (ft_strlen(line) == ft_strlen(node->delimiter)))
-			{
-				free(line);
-				break ;
-			}
-			if (node->node->is_heredoc == 1)
-			{
-				ft_putstr_fd(line, node->pipefd[1]);
-				ft_putstr_fd("\n", node->pipefd[1]);
-			}
 			free(line);
+			break ;
 		}
-		free_data_and_exit(shell);
+		if (node->node->is_heredoc == 1)
+		{
+			ft_putstr_fd(line, node->pipefd[1]);
+			ft_putstr_fd("\n", node->pipefd[1]);
+		}
+		free(line);
 	}
+	close(node->pipefd[1]);
+	free_data_and_exit(shell);
+}
+
+void	parent_heredoc(t_minishell *shell, int pid, t_heredoc *node)
+{
 	waitpid(pid, &(shell->exit_status), 0);
 	if (ft_exit_status(shell) == SIGINT)
 		set_heredoc_sigint(shell);
+	close(node->pipefd[1]);
 }
 
 /* Function to create pipes for each heredoc node
@@ -105,30 +109,13 @@ int	ft_heredoc(t_heredoc *list, t_minishell *shell)
 			return (print_str_err(FORK_ERR, \
 				"error: fork() failed\n", shell), -1);
 		heredoc_signal_handler(pid, shell);
-		exec_heredoc(shell, pid, node, line);
-		close(node->pipefd[1]);
+		if (!pid)
+			child_heredoc(shell, node, line);
+		else
+			parent_heredoc(shell, pid, node);
 		if (node->node->is_heredoc > 1)
 			node->node->is_heredoc--;
 		node = node->next;
 	}
 	return (0);
 }
-
-// /* Function to pipe heredoc input */
-// int	ft_heredoc(t_heredoc *list, t_minishell *shell)
-// {
-// 	int			pid;
-
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (print_str_err(FORK_ERR, "error: fork() failed\n", shell), -1);
-// 	if (pid == 0)
-// 	{
-// 		g_signal.in_heredoc = true;
-// 		exec_heredoc(list, shell);
-// 		exit(0);
-// 	}
-// 	waitpid(pid, &(shell->exit_status), 0);
-// 	shell->exit_status = WEXITSTATUS(shell->exit_status);
-// 	return (0);
-// }

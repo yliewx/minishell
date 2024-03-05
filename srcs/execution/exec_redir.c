@@ -17,16 +17,19 @@ If pipe -> read dup write pipe to stdout
 Set redirect from io_list nodes */
 int	child_redirect(t_node *node, int *fd, t_io_node *io_list)
 {
+	int	res;
+
 	while (io_list)
 	{
+		res = -1;
 		if (open_handler(node->minishell, io_list, fd) == -1)
 			return (-1);
 		if (io_list->type == T_REDIR_L)
-			ft_dup(node->minishell, *fd, STDIN_FILENO);
+			res = ft_dup(node->minishell, *fd, STDIN_FILENO);
 		else if (io_list->type == T_REDIR_R)
-			ft_dup(node->minishell, *fd, STDOUT_FILENO);
+			res = ft_dup(node->minishell, *fd, STDOUT_FILENO);
 		else if (io_list->type == T_APPEND)
-			ft_dup(node->minishell, *fd, STDOUT_FILENO);
+			res = ft_dup(node->minishell, *fd, STDOUT_FILENO);
 		else if (io_list->type == T_HEREDOC)
 		{
 			ft_dup(node->minishell, node->minishell->heredoc_list->pipefd[0], \
@@ -34,6 +37,8 @@ int	child_redirect(t_node *node, int *fd, t_io_node *io_list)
 			close(node->minishell->heredoc_list->pipefd[0]);
 			remove_heredoc_node(&(node->minishell->heredoc_list));
 		}
+		if (io_list->type != T_HEREDOC && res != -1)
+			close(*fd);
 		io_list = io_list->next;
 	}
 	return (0);
