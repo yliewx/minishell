@@ -23,30 +23,32 @@ void	redir_pipe(int *pipefd, t_minishell *minishell, int node, t_node *ast)
 		close(pipefd[0]);
 		ft_dup(minishell, pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
+		traverse_tree(ast->left, minishell, ast);
 	}
 	else if (node == RIGHT_NODE)
 	{
 		close(pipefd[1]);
 		ft_dup(minishell, pipefd[0], STDIN_FILENO);
 		close(pipefd[0]);
+		traverse_tree(ast->right, minishell, ast);
 	}
 	else if (node == PARENT_NODE)
 	{
 		ignore_signal_handler();
+		clean_heredoc(ast->right, minishell);
 		close(pipefd[0]);
 		close(pipefd[1]);
-		clean_heredoc(ast, minishell);
 	}
 }
 
+/* Function to remove heredoc node from main process for piped processes */
 void	clean_heredoc(t_node *ast, t_minishell *minishell)
 {
 	int	i;
 	int	heredoc_counter;
 
 	i = 0;
-	heredoc_counter = heredoc_count(ast->left->io_list) + \
-		heredoc_count(ast->right->io_list);
+	heredoc_counter = heredoc_count(ast->io_list);
 	while (i < heredoc_counter)
 	{
 		remove_heredoc_node(&(minishell->heredoc_list));
@@ -67,14 +69,13 @@ t_node	*traverse_pipe(t_node *ast, t_minishell *minishell)
 	if (!pid_l)
 	{
 		redir_pipe(pipefd, minishell, LEFT_NODE, ast);
-		traverse_tree(ast->left, minishell, ast);
 		free_data_and_exit(minishell);
 	}
 	fork_handler(&pid_r, minishell);
+	clean_heredoc(ast->left, minishell);
 	if (!pid_r)
 	{
 		redir_pipe(pipefd, minishell, RIGHT_NODE, ast);
-		traverse_tree(ast->right, minishell, ast);
 		free_data_and_exit(minishell);
 	}
 	redir_pipe(pipefd, minishell, PARENT_NODE, ast);
