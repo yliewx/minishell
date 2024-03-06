@@ -21,7 +21,9 @@ void	free_arrays(char ***array)
 		return ;
 	while ((*array)[i])
 		free((*array)[i++]);
-	free(*array);
+	if (*array)
+		free(*array);
+	*array = NULL;
 }
 
 void	free_data(t_minishell *minishell)

@@ -39,5 +39,6 @@ void	remove_heredoc_node(t_heredoc **list)
 		*list = (*list)->next;
 		free(to_free->delimiter);
 		free(to_free);
+		to_free = NULL;
 	}
 }

@@ -31,6 +31,9 @@ t_node	*traverse_tree(t_node *ast, t_minishell *minishell, \
 			if ((!minishell->exit_status && ast->type == T_AND) \
 				|| (minishell->exit_status && ast->type == T_OR))
 				traverse_tree(ast->right, minishell, ast);
+			else if (ast->right && !minishell->exit_status && \
+				ast->type == T_OR)
+				clean_heredoc(ast->right, minishell);
 		}
 	}
 	else

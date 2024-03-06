@@ -21,6 +21,8 @@ char	**get_env_path(char **envp, t_minishell *minishell)
 	int		i;
 	int		j;
 
+	if (minishell->env_path)
+		free_arrays(&minishell->env_path);
 	i = search_envp_index(envp, "PATH");
 	if (i == -1)
 		return (NULL);

@@ -55,6 +55,7 @@ void	free_ast_nodes(t_node *node)
 		ft_free_io_list(&node->io_list);
 	free_node_value(node);
 	free(node);
+	node = NULL;
 }
 
 // Functions to free ast

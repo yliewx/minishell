@@ -67,7 +67,8 @@ int	lexer_error(t_minishell *minishell, int curr_type)
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), -1);
 	}
-	if (curr_type == T_OPEN && last_type == T_STRING)
+	if ((curr_type == T_OPEN && last_type == T_STRING) || \
+		(curr_type == T_CLOSE && last_type == T_OPEN))
 		return (print_str_err(SYNTAX_ERR, \
 			token_last(minishell->tokens)->value, minishell), -1);
 	return (0);
