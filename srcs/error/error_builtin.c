@@ -48,7 +48,7 @@ int	export_error(int error, char *arg, t_minishell *minishell)
 	{
 		ft_putstr_fd("`", 2);
 		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
 	}
 	else if (error == EXPORT_OPTION_ERR)
 	{
