@@ -32,40 +32,27 @@ char	*get_var_name(char *var_start, int *var_len)
 (the index of the $ to be replaced)
 - Shifts the position in the original string to the end of the variable name
 - Copies the variable's value into the new string
-- Continues copying from the position in the original string */
-char	*copy_and_replace(char *arg, char *value, int start, int total_len)
+- Resumes copying from the position in the original string */
+char	*replace_var_with_value(char *arg, char *value, int start, int var_len)
 {
 	char	*new_str;
+	int		new_str_len;
 	int		i;
 	int		j;
 
-	new_str = ft_calloc(total_len + 1, sizeof(char));
+	new_str_len = ft_strlen(arg) - var_len + ft_strlen(value);
+	new_str = ft_calloc(new_str_len + 1, sizeof(char));
 	if (!new_str)
 		return (NULL);
 	i = -1;
 	while (++i < start)
 		new_str[i] = arg[i];
-	if (arg[++start] == '?')
-		start++;
-	else
-	{
-		while (arg[start] && (!is_whitespace(arg[start])
-				&& !is_quote(arg[start]) && arg[start] != '='))
-			start++;
-	}
+	start += var_len;
 	j = 0;
 	while (value[j])
 		new_str[i++] = value[j++];
-	while (i < total_len)
+	while (i < new_str_len)
 		new_str[i++] = arg[start++];
 	new_str[i] = '\0';
 	return (new_str);
-}
-
-char	*replace_var_with_value(char *arg, char *value, int start, int var_len)
-{
-	int	new_str_len;
-
-	new_str_len = ft_strlen(arg) - var_len + ft_strlen(value);
-	return (copy_and_replace(arg, value, start, new_str_len));
 }
